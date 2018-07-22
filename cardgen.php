@@ -7,7 +7,7 @@
 	define('CARD_ART_W', 238);
 	define('CARD_ART_H', 120);
 
-	//Ajouter ontrole de saisie type d'upgrade
+	//Ajouter controle de saisie type d'upgrade
 
 	$cardName = strtoupper((isset($_POST['card-name']) && $_POST['card-name'] != '' ? $_POST['card-name'] : ''));
 	$limited = isset($_POST['limited']) && $_POST['limited'] != '' && $_POST['limited'] != 'no'? true : false;
@@ -74,6 +74,10 @@
 	//changer les 2 premiers 0 plutot que les derniers chiffres? -> oui vu que c'est la taille les 2 derniers chiffres et pas des positions
 
 	imagecopyresampled($im, $imCardArt, 167, 1, 0, 0, CARD_ART_W, CARD_ART_H, $resizeW, $resizeH);
+
+	if($limited){
+		imagecopyresampled($im, $imLimited, 182, 129, 0, 0, 8, 8, 8, 8);
+	}
 
 	if($cardType == 'cannon' || $cardType == 'torpedoes' || $cardType == 'missiles' || $cardType == 'turret'){
 		imagecopyresampled($im, $imSecondaryWeapondBackground, 342, 147, 0, 0, 58, 52, 58, 52);
