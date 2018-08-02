@@ -42,6 +42,11 @@
 			<input name="card-image" id="card-image" type="file"/>
 			<hr/>
 			<div id="secondary-weapon-stats" hidden>
+				<label for="require">Required</label>
+				<input type="radio" name="require" value="nothing" checked> nothing
+				<input type="radio" name="require" value="target-lock"> targe lock
+				<input type="radio" name="require" value="focus"> focus
+				<br/>
 				<label for="dice-number">Dices</label>
 				<input type="range" id="dice-number" name="min-range" min="1" max="9" value="3"/>
 				<span id="dice-number-visualizer"></span>
@@ -73,13 +78,26 @@
 			<input type="radio" name="charge-regenerate" value="yes"> yes
 			<input type="radio" name="charge-regenerate" value="no" checked> no
 			<hr/>
+			<!--
+				!bo			boost
+				!ch			charge
+				!cr			critical hit
+				!ev			evade
+				!fo			focus
+				!hi			hit
+				!re			reinforce
+				!tl			target lock
+			-->
 			<label for="card-text">Card text</label>
 			<textarea rows="4" cols="50" name="card-text"></textarea>
-			<input type="submit" value="Create">
+			<p>!bo (boost), !ch (charge), !cr (critical hit), !ev (evade), !fo (focus), !hi (hit), !re (reinforce), !tl (target lock)</p>
 			<hr/>
 			Restrictions
 			<hr/>
+			<input type="submit" value="Create">
 		</form>
+
+		<br/>
 
 		<div id="outputImageContainer">
 			<img src="">
@@ -89,6 +107,8 @@
 
 		<script>
 			var form = $("form#form-main");
+			var cardgenOutput;
+			var logOutput = false;
 
 			$(document).ready(function(){
 				$('input[type=range]#dice-number').trigger('change');
@@ -131,6 +151,32 @@
 					$('div#secondary-weapon-stats').hide();
 
 					$('form#form-main input[name=card-text_size][value=large').prop('disabled', false);
+				}
+			});
+
+			$('select[name=card-type], form#form-main input[name=require], form#form-main input[type=range]#charge-number').change(function(e){
+				var cardType = $('select[name=card-type] option:selected').val();
+				if(cardType == 'torpedoes' || cardType == 'missiles' || cardType == 'cannon' || cardType == 'turret'){
+					var oldText = $('textarea[name=card-text]').html();
+					var text = '';
+					var require = $('form#form-main input[name=require]:checked').val();
+					var charges = $('form#form-main input[type=range]#charge-number').val()
+
+					text += 'Attack';
+					if(require != 'nothing'){
+						if(require == 'target-lock'){
+							text += ' (!tl)';
+						}else{
+							text += ' (!fo)';
+						}
+					}
+					text += ': ';
+
+					if(charges != '0'){
+						text += 'Spend 1 !ch.'
+					}
+
+					$('textarea[name=card-text]').val(text);
 				}
 			});
 
@@ -186,16 +232,25 @@
 
 				formData.append('charge-number', $('form#form-main input[type=range]#charge-number').val());
 
+				formData.append('card-text', $('textarea[name=card-text]').val());
+
 				$.ajax({
 					url: 'cardgen.php',
 					type: 'POST',
 					data: formData,
 					success: function (data) {
 
-						console.log(data);
+						cardgenOutput = data;
 
-						$("div#outputImageContainer img").attr('src', data);
-						$("div#outputImageContainer a").attr('href', data);
+						if(logOutput){
+							console.log(data);
+						}
+
+						data = JSON.parse(data);
+
+						var dataUri = data.dataUri;
+						$("div#outputImageContainer img").attr('src', dataUri);
+						$("div#outputImageContainer a").attr('href', dataUri);
 						$("div#outputImageContainer a").attr('download', $('form#form-main input#card-name').val().replace(/ /g,"_"));
 						$("div#outputImageContainer a").html('Download');
 
