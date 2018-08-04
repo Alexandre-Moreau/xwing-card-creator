@@ -79,18 +79,18 @@
 			<input type="radio" name="charge-regenerate" value="no" checked> no
 			<hr/>
 			<!--
-				!bo			boost
-				!ch			charge
-				!cr			critical hit
-				!ev			evade
-				!fo			focus
-				!hi			hit
-				!re			reinforce
-				!tl			target lock
+				!boo		boost
+				!cha		charge
+				!crh		critical hit
+				!evd		evade
+				!foc		focus
+				!hit		hit
+				!rei		reinforce
+				!tlk		target lock
 			-->
 			<label for="card-text">Card text</label>
 			<textarea rows="4" cols="50" name="card-text"></textarea>
-			<p>!bo (boost), !ch (charge), !cr (critical hit), !ev (evade), !fo (focus), !hi (hit), !re (reinforce), !tl (target lock)</p>
+			<p>!boo (boost), !cha (charge), !crh (critical hit), !eva (evade), !foc (focus), !hit (hit), !rei (reinforce), !tlk (target lock)</p>
 			<hr/>
 			Restrictions
 			<hr/>
@@ -247,6 +247,14 @@
 						}
 
 						data = JSON.parse(data);
+
+						data.log.forEach(function(element) {
+						  console.log(element);
+						});
+
+						data.errors.forEach(function(element) {
+						  console.log('Error: ' + element);
+						});
 
 						var dataUri = data.dataUri;
 						$("div#outputImageContainer img").attr('src', dataUri);

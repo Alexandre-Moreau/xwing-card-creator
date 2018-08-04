@@ -9,6 +9,7 @@
 
 	$outPutData;
 	$outPutData['errors'] = [];
+	$outPutData['log'] = [];
 
 	//Ajouter controle de saisie type d'upgrade
 
@@ -70,27 +71,29 @@
 
 	imagecopyresampled($im, $imTextBackground, 0, 0, 0, 0, CARD_W, CARD_H, CARD_W, CARD_H);
 
-	$resizeW = CARD_ART_W;
-	$resizeH = CARD_ART_H;
-
-	/*if( imagesx($imCardArt)>=CARD_ART_W && imagesy($imCardArt)>=CARD_ART_H ){
-
-		if( imagesx($imCardArt)/imagesy($imCardArt) > CARD_ART_W/CARD_ART_H ){
-			$resizeW = (imagesx($imCardArt)-CARD_ART_W)/2;
-		}else{
-			$resizeH = (imagesy($imCardArt)-CARD_ART_H)/2;
-		}
-
-	}*/
-
-	//changer les 2 premiers 0 plutot que les derniers chiffres? -> oui vu que c'est la taille les 2 derniers chiffres et pas des positions
+	// ----------------------------------- Card art
 
 	//imagecopyresampled ($dst_image, $src_image, $dst_x, $dst_y, $src_x , $src_y, $dst_w, $dst_h, $src_w, $src_h)
-	imagecopyresampled($im, $imCardArt, 167, 1, 0, 0, CARD_ART_W, CARD_ART_H, $resizeW, $resizeH);
+
+	//copy src ->dst
+
+	array_push($outPutData['log'], CARD_ART_W/CARD_ART_H);
+	array_push($outPutData['log'], imagesx($imCardArt)/imagesy($imCardArt));
 
 	if($limited){
 		imagecopyresampled($im, $imLimited, 182, 129, 0, 0, 8, 8, 8, 8);
 	}
+
+	$src_w = imagesx($imCardArt);
+	$src_h = imagesy($imCardArt);
+
+	if(imagesx($imCardArt)/imagesy($imCardArt) < CARD_ART_W/CARD_ART_H){
+		$src_h = $src_h/ ((CARD_ART_W/CARD_ART_H) / (imagesx($imCardArt)/imagesy($imCardArt)));
+	}else{
+		$src_w = $src_w* ((CARD_ART_W/CARD_ART_H) / (imagesx($imCardArt)/imagesy($imCardArt)));
+	}
+
+	imagecopyresampled($im, $imCardArt, 167, 1, 0, 0, CARD_ART_W, CARD_ART_H,  $src_w, $src_h);
 
 	// ----------------------------------- Secondary weapons (right part)
 
@@ -122,13 +125,18 @@
 	$cardText_fontSize = 9;
 
 	$i = 0;
+
+	$cardText = preg_replace("/![^\s]{3}/", "!xx", $cardText);
 	$cardTextArray = explode(' ', $cardText);
+	foreach($cardTextArray as $key=>$value){
+		$cardTextArray[$key] = preg_replace("/!xx/", "     ", $value);
+	}
+
 	$textProccessed = '';
 
 	if($textSize == 'large'){
 		$x_right = 392;
 	}else{
-		// less
 		$x_right = 331;
 	}
 
@@ -142,7 +150,7 @@
 
 		// First word is larger than the line
 		if($x_left + imagettfbbox($cardText_fontSize, 0, $mainFont, $textProccessed.' '.$cardTextArray[0])[2] > $x_right){
-			array_push($outPutData['errors'], 'A word is larger than the line');
+			array_push($outPutData['errors'], 'One of the words is larger than the line');
 			break;
 		}
 
