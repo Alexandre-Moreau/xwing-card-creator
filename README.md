@@ -1,1 +1,1 @@
-# xwing-card-genenerator
+# xwing-card-creator
