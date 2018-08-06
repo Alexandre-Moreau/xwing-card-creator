@@ -6,104 +6,168 @@
 		<title>Card generator</title>
 		<meta charset="UTF-8">
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.2/css/materialize.min.css">
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.2/js/materialize.min.js"></script>
+		<link rel="stylesheet" href="src/style.css">
 	</head>
 	<body>
-		<form id="form-main">
-			<label for="card-name">Card name</label>
-			<input type="text" id="card-name">
-			<br/>
-			<label for="limited">Limited</label>
-			<input type="radio" name="limited" value="yes"> yes
-			<input type="radio" name="limited" value="no" checked> no
-			<br/>
-			<label for="card-type">Card type</label>
-			<select name="card-type">
-				<option value="ept" selected>EPT</option>
-				<option value="force">Force</option>
-				<option value="astromech">Astromech</option>
-				<option value="torpedoes">Torpedoes</option>
-				<option value="missiles">Missiles</option>
-				<option value="cannon">Cannon</option>
-				<option value="turret">Turret</option>
-				<option value="device">Device</option>
-				<option value="crew">Crew</option>
-				<option value="gunner">Gunner</option>
-				<option value="system">System</option>
-				<option value="illicit">Illicit</option>
-				<option value="title">Title</option>
-				<option value="modification">Modification</option>
-			</select>
-			<br/>
-			<label for="slots-numbers">Slots</label>
-			<input type="radio" name="lots-numbers" value="1" checked> 1
-			<input type="radio" name="lots-numbers" value="2"> 2
-			<br/>
-			<label for="card-image">Card image</label>
-			<input name="card-image" id="card-image" type="file"/>
-			<hr/>
-			<div id="secondary-weapon-stats" hidden>
-				<label for="require">Required</label>
-				<input type="radio" name="require" value="nothing" checked> nothing
-				<input type="radio" name="require" value="target-lock"> targe lock
-				<input type="radio" name="require" value="focus"> focus
-				<br/>
-				<label for="dice-number">Dices</label>
-				<input type="range" id="dice-number" name="min-range" min="1" max="9" value="3"/>
-				<span id="dice-number-visualizer"></span>
-				<br/>
-				<label for="range-bonus">Range bonus</label>
-				<input type="radio" name="range-bonus" value="yes" checked> yes
-				<input type="radio" name="range-bonus" value="no"> no
-				<br/>
-				<label for="arc-type">Firing arc type</label>
-				<input type="radio" name="arc-type" value="classic" checked> classic
-				<input type="radio" name="arc-type" value="bullseye"> bullseye
-				<input type="radio" name="arc-type" value="single-rotating"> single rotating
-				<input type="radio" name="arc-type" value="double-rotating"> double rotating
-				<br/>
-				<label for="min-range">Minimum range</label>
-				<input type="range" id="min-range" name="min-range" min="1" max="5" value="1"/>
-				<span id="min-range-visualizer"></span>
-				<br/>
-				<label for="max-range">Maximum range</label>
-				<input type="range" id="max-range" name="max-range" min="1" max="5" value="3"/>
-				<span id="max-range-visualizer"></span>
-				<hr/>
+		<div class="row">
+			<div class="col s8">
+				<form id="form-main">
+					<label for="card-name">Card name</label>
+					<input type="text" name="card-name">
+					<br/>
+					<label for="limited">Limited</label>
+					<div class="switch">
+						<label>No<input type="checkbox" name="limited"><span class="lever"></span>Yes</label>
+					</div>
+					<br/>
+					<div class="input-field col s12">
+						<select name="card-type">
+							<option value="ept" selected>EPT</option>
+							<option value="force">Force</option>
+							<option value="astromech">Astromech</option>
+							<option value="torpedoes">Torpedoes</option>
+							<option value="missiles">Missiles</option>
+							<option value="cannon">Cannon</option>
+							<option value="turret">Turret</option>
+							<option value="device">Device</option>
+							<option value="crew">Crew</option>
+							<option value="gunner">Gunner</option>
+							<option value="system">System</option>
+							<option value="illicit">Illicit</option>
+							<option value="title">Title</option>
+							<option value="modification">Modification</option>
+						</select>
+						<label for="card-type">Card type</label>
+					</div>
+					<br/>
+					<label for="slots-number">Slots number</label>
+					<div class="switch">
+						<label>1<input type="checkbox" name="slots-number"><span class="lever"></span>2</label>
+					</div>
+					<br/>
+
+					<label for="card-image">Card image</label>
+					<div class="file-field input-field">
+						<div class="btn">
+							<span>Browse</span>
+							<input type="file" />
+						</div>
+
+						<div class="file-path-wrapper">
+							<input name="card-image" class="file-path validate" type="text" placeholder="Upload file"/>
+						</div>
+					</div>
+
+					<hr/>
+					<div id="grant-attack">
+						<label for="limited">grant-attack</label>
+						<div class="switch">
+							<label>No<input type="checkbox" name="grant-attack"><span class="lever"></span>Yes</label>
+						</div>
+						<hr/>
+					</div>
+					<div id="secondary-weapon-stats" hidden>
+						<label for="require">Require</label>						
+						<div class="inputContainer">
+							<label><input type="radio" name="require" value="nothing" checked><span>nothing</span></label>
+							<label><input type="radio" name="require" value="target-lock"><span>target lock</span></label>
+							<label><input type="radio" name="require" value="focus"><span>focus</span></label>
+						</div>
+						<label for="arc-type">Firing arc type</label>
+						<div class="inputContainer">
+							<label><input type="radio" name="arc-type" value="classic" checked><span>classic</span></label>
+							<label><input type="radio" name="arc-type" value="rear-classic"><span>rear facing</span></label>
+							<label><input type="radio" name="arc-type" value="bullseye"><span>bullseye</span></label>
+							<label><input type="radio" name="arc-type" value="rear-bullseye"><span>rear bullseye</span></label>
+							<label><input type="radio" name="arc-type" value="single-rotating"><span>single rotating</span></label>
+							<label><input type="radio" name="arc-type" value="double-rotating"><span>double rotating</span></label>
+						</div>
+						<br/>
+						<div class="row">
+							<div class="col s6">
+								<label for="dice-number">Number of dices</label>
+								<input type="range" id="dice-number" name="min-range" min="1" max="9" value="3"/>
+								<span id="dice-number-visualizer"></span>
+							</div>
+							<div class="col s6">
+								<label for="range-bonus">Range bonus</label>
+								<div class="switch">
+									<label>No<input type="checkbox" name="range-bonus"><span class="lever"></span>Yes</label>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col s6">
+								<label for="min-range">Minimum range</label>
+								<input type="range" id="min-range" name="min-range" min="0" max="5" value="1"/>
+								<span id="min-range-visualizer"></span>
+							</div>
+							<div class="col s6">
+								<label for="max-range">Maximum range</label>
+								<input type="range" id="max-range" name="max-range" min="0" max="5" value="3"/>
+								<span id="max-range-visualizer"></span>
+							</div>
+						</div>
+						<hr/>
+					</div>
+					<label for="charge-number">Charges</label>
+					<input type="range" id="charge-number" name="charge-number" min="0" max="9" value="0"/>
+					<span id="charge-number-visualizer"></span>
+					<br/>
+					<label for="regenerate">Regenerate</label>
+						<div class="switch">
+							<label>No<input type="checkbox" name="regenerate"><span class="lever"></span>Yes</label>
+						</div>
+					<hr/>
+					<!--
+						!boo		boost
+						!cha		charge
+						!crh		critical hit
+						!evd		evade
+						!foc		focus
+						!hit		hit
+						!rei		reinforce
+						!tlk		target lock
+					-->
+					<label for="card-text">Card text</label>
+					<textarea rows="4" cols="50" name="card-text"></textarea>
+					<p>!boo (boost), !cha (charge), !crh (critical hit), !eva (evade), !foc (focus), !hit (hit), !rei (reinforce), !tlk (target lock)</p>
+					<hr/>
+					Restrictions
+					<br/>
+					<label for="restrictions-ship-size">Ship size</label>
+					<div class="inputContainer">
+						<label><input type="checkbox" name="restrictions-ship-size" value="small" class="filled-in"><span>small</span></label>
+						<label><input type="checkbox" name="restrictions-ship-size" value="medium" class="filled-in"><span>medium</span></label>
+						<label><input type="checkbox" name="restrictions-ship-size" value="large" class="filled-in"><span>large</span></label>
+						<label><input type="checkbox" name="restrictions-ship-size" value="huge" class="filled-in"><span>huge</span></label>
+					</div>
+					<label for="restrictions-faction">Faction</label>
+					<div class="inputContainer">
+						<label><input type="checkbox" name="restrictions-faction" value="empire" class="filled-in"><span>galactic empire</span></label>
+						<label><input type="checkbox" name="restrictions-faction" value="rebels" class="filled-in"><span>rebel alliance</span></label>
+						<label><input type="checkbox" name="restrictions-faction" value="scums" class="filled-in"><span>scum and villainy</span></label>
+						<label><input type="checkbox" name="restrictions-faction" value="resistance" class="filled-in"><span>resistance</span></label>
+						<label><input type="checkbox" name="restrictions-faction" value="first-order" class="filled-in"><span>first order</span></label>
+					</div>
+					<hr/>
+				</form>
 			</div>
-			<label for="charge-number">Charges</label>
-			<input type="range" id="charge-number" name="charge-number" min="0" max="9" value="0"/>
-			<span id="charge-number-visualizer"></span>
-			<br/>
-			<label for="charge-regenerate">Regenerate</label>
-			<input type="radio" name="charge-regenerate" value="yes"> yes
-			<input type="radio" name="charge-regenerate" value="no" checked> no
-			<hr/>
-			<!--
-				!boo		boost
-				!cha		charge
-				!crh		critical hit
-				!evd		evade
-				!foc		focus
-				!hit		hit
-				!rei		reinforce
-				!tlk		target lock
-			-->
-			<label for="card-text">Card text</label>
-			<textarea rows="4" cols="50" name="card-text"></textarea>
-			<p>!boo (boost), !cha (charge), !crh (critical hit), !eva (evade), !foc (focus), !hit (hit), !rei (reinforce), !tlk (target lock)</p>
-			<hr/>
-			Restrictions
-			<hr/>
-			<input type="submit" value="Create">
-		</form>
-
-		<br/>
-
-		<div id="outputImageContainer">
-			<img src="">
-			<br/>
-			<a download="" href="">
+			<div class="col s4">
+				<input type="submit" value="Create">
+				<div id="outputImageContainer">
+					<img src="">
+					<br/>
+					<a download="" href=""></a>
+				</div>
+			</div>
 		</div>
+		<footer>
+			<p>&copy; Alexandre Moreau 2018</p>
+			<p><a href="https://github.com/Alexandre-Moreau/xwing-card-creator" target="blank"><img src="img/GitHub-Mark-32px"> Code</a></p>
+		</footer>
 
 		<script>
 			var form = $("form#form-main");
@@ -111,20 +175,30 @@
 			var logOutput = false;
 
 			$(document).ready(function(){
+				$('select').formSelect();
 				$('input[type=range]#dice-number').trigger('change');
 				$('input[type=range]#min-range').trigger('change');
 				$('input[type=range]#max-range').trigger('change');
 				$('input[type=range]#charge-number').trigger('change');
 			});
 
-			$('select[name=card-type]').change(function(e){
+			$('input[type=submit]').click(function(e){
+				form.submit();
+			});
+
+			// ----------------------------------- Show or hide secondary weapon div
+
+			$('select[name=card-type], input[name=grant-attack]').change(function(e){
 
 				var cardType = $('select[name=card-type] option:selected').val();
+				var grantAttack = $('form#form-main input[name=grant-attack]:checked').val();
 
 				$('form#form-main input').prop('disabled', false);
 
 				if(cardType == 'torpedoes' || cardType == 'missiles' || cardType == 'cannon' || cardType == 'turret'){
+
 					$('div#secondary-weapon-stats').show();
+					$('div#grant-attack').hide();
 
 					if(cardType == 'torpedoes' || cardType == 'missiles'){
 						$('form#form-main input[name=charge-regenerate][value=yes]').prop('disabled', true);
@@ -135,11 +209,13 @@
 
 					if(cardType == 'turret'){
 						$('form#form-main input[name=arc-type][value=classic]').prop('disabled', true);
+						$('form#form-main input[name=arc-type][value=rear-classic]').prop('disabled', true);
 						$('form#form-main input[name=arc-type][value=bullseye]').prop('disabled', true);
-						if(selectedArc == 'classic' || selectedArc == 'bullseye'){
+						$('form#form-main input[name=arc-type][value=rear-bullseye]').prop('disabled', true);
+						if(selectedArc == 'classic' || selectedArc == 'bullseye' || selectedArc == 'rear-classic' || selectedArc == 'rear-bullseye'){
 							$('form#form-main input[name=arc-type][value=single-rotating]').prop('checked', true);
 						}
-					}else{
+					}else if(cardType == 'torpedoes' || cardType == 'missiles' || cardType == 'cannon'){
 						$('form#form-main input[name=arc-type][value=single-rotating]').prop('disabled', true);
 						$('form#form-main input[name=arc-type][value=double-rotating]').prop('disabled', true);
 						if(selectedArc == 'single-rotating' || selectedArc == 'double-rotating'){
@@ -147,12 +223,21 @@
 						}
 					}
 
-				}else{
-					$('div#secondary-weapon-stats').hide();
+				}else if(grantAttack == 'yes'){
 
+					$('div#secondary-weapon-stats').show();
+					$('form#form-main input[name=arc-type][value=classic]').prop('checked', true);
+
+				}else{
+
+					$('div#secondary-weapon-stats').hide();
+					$('div#grant-attack').show();
 					$('form#form-main input[name=card-text_size][value=large').prop('disabled', false);
+
 				}
 			});
+
+			// ----------------------------------- Create attack text
 
 			$('select[name=card-type], form#form-main input[name=require], form#form-main input[type=range]#charge-number').change(function(e){
 				var cardType = $('select[name=card-type] option:selected').val();
@@ -165,9 +250,9 @@
 					text += 'Attack';
 					if(require != 'nothing'){
 						if(require == 'target-lock'){
-							text += ' (!tl)';
+							text += ' (!tlk)';
 						}else{
-							text += ' (!fo)';
+							text += ' (!foc)';
 						}
 					}
 					text += ': ';
@@ -179,6 +264,8 @@
 					$('textarea[name=card-text]').val(text);
 				}
 			});
+
+			// ----------------------------------- Visualisers
 
 			$('input[type=range]#dice-number').change(function(e){
 				$('span#dice-number-visualizer').html( $('input[type=range]#dice-number').val() );
@@ -204,19 +291,16 @@
 				$('span#charge-number-visualizer').html( $('input[type=range]#charge-number').val() );
 			});
 
+			// ----------------------------------- Form submit
+
 			form.submit(function(e){
 				e.preventDefault();
 
 				var formData = new FormData();
 
-				$('form#form-main input').each(function(){
-					if( $(this).attr('type') == 'text'){
-						//console.log($(this).val());
-						formData.append( $(this).attr('id') , $(this).val() )
-					}
-				});
+				formData.append('card-name', $('form#form-main input[name=card-name]').val());
 
-				formData.append('limited', $('form#form-main input[name=limited]:checked').val());
+				formData.append('limited', $('input[type=checkbox][name=limited]').prop('checked'));
 
 				formData.append('image', $('form#form-main input[type=file]')[0].files[0]);
 
@@ -259,7 +343,7 @@
 						var dataUri = data.dataUri;
 						$("div#outputImageContainer img").attr('src', dataUri);
 						$("div#outputImageContainer a").attr('href', dataUri);
-						$("div#outputImageContainer a").attr('download', $('form#form-main input#card-name').val().replace(/ /g,"_"));
+						$("div#outputImageContainer a").attr('download', $('form#form-main input[name=card-name]').val().replace(/ /g,"_"));
 						$("div#outputImageContainer a").html('Download');
 
 					},

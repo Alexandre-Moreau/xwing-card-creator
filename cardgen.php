@@ -11,10 +11,13 @@
 	$outPutData['errors'] = [];
 	$outPutData['log'] = [];
 
+
+
 	//Ajouter controle de saisie type d'upgrade
 
 	$cardName = strtoupper((isset($_POST['card-name']) && $_POST['card-name'] != '' ? $_POST['card-name'] : ''));
-	$limited = isset($_POST['limited']) && $_POST['limited'] != '' && $_POST['limited'] != 'no'? true : false;
+	$limited = isset($_POST['limited']) && $_POST['limited'] != '' && $_POST['limited'] != 'false' ? true : false;
+
 	$imgArt = (isset($_FILES['image']['tmp_name']) ? $_FILES['image']['tmp_name'] : './img/blank-image.png');
 	$cardType = isset($_POST['card-type']) && $_POST['card-type'] != '' ? $_POST['card-type'] : 'ept';
 	$arcType = isset($_POST['arc-type']) && $_POST['arc-type'] != '' ? $_POST['arc-type'] : 'classic';
@@ -26,17 +29,17 @@
 	$rangeBonus = isset($_POST['range-bonus']) && $_POST['range-bonus'] != '' && $_POST['range-bonus'] != 'no'? true : false;
 	
 	$minRange = isset($_POST['min-range']) && $_POST['min-range'] != '' ? $_POST['min-range'] : '';
-	$minRange = $minRange < 9 ? $minRange : 9;
-	$minRange = $minRange > 0  ? $minRange : 0;
+	$minRange = $minRange < 5 ? $minRange : 5;
+	$minRange = $minRange >= 0  ? $minRange : 0;
 	$maxRange = isset($_POST['max-range']) && $_POST['max-range'] != '' ? $_POST['max-range'] : '';
-	$maxRange = $maxRange < 9 ? $maxRange : 9;
-	$maxRange = $maxRange > 0  ? $maxRange : 0;
+	$maxRange = $maxRange < 5 ? $maxRange : 5;
+	$maxRange = $maxRange >= 0  ? $maxRange : 0;
 	
 	$chargeNumber = isset($_POST['charge-number']) && $_POST['charge-number'] != '' ? $_POST['charge-number'] : '';
 	$chargeNumber = $chargeNumber < 9 ? $chargeNumber : 9;
 	$chargeNumber = $chargeNumber > 0  ? $chargeNumber : 0;
 
-	$cardText = strtoupper((isset($_POST['card-text']) && $_POST['card-text'] != '' ? $_POST['card-text'] : ''));
+	$cardText = (isset($_POST['card-text']) && $_POST['card-text'] != '' ? $_POST['card-text'] : '');
 
 
 
@@ -67,22 +70,17 @@
 	$color_white = imagecolorallocate($im, 255, 255, 255);
 	$color_black = imagecolorallocate($im, 46, 46, 46);
 
-	imagettftext($im, 12, 0, 194, 139, $color_white, $mainFont, $cardName);
+	
 
-	imagecopyresampled($im, $imTextBackground, 0, 0, 0, 0, CARD_W, CARD_H, CARD_W, CARD_H);
-
-	// ----------------------------------- Card art
-
-	//imagecopyresampled ($dst_image, $src_image, $dst_x, $dst_y, $src_x , $src_y, $dst_w, $dst_h, $src_w, $src_h)
-
-	//copy src ->dst
-
-	array_push($outPutData['log'], CARD_ART_W/CARD_ART_H);
-	array_push($outPutData['log'], imagesx($imCardArt)/imagesy($imCardArt));
+	// ----------------------------------- Card name
 
 	if($limited){
 		imagecopyresampled($im, $imLimited, 182, 129, 0, 0, 8, 8, 8, 8);
 	}
+
+	imagettftext($im, 11, 0, 193, 139, $color_white, $mainFont, $cardName);
+
+	// ----------------------------------- Card art
 
 	$src_w = imagesx($imCardArt);
 	$src_h = imagesy($imCardArt);
@@ -118,9 +116,11 @@
 
 	// ----------------------------------- Main text
 
-	$x_left = 186;
-	$y_line = 159;
-	$y_max = 285;
+	imagecopyresampled($im, $imTextBackground, 0, 0, 0, 0, CARD_W, CARD_H, CARD_W, CARD_H);
+
+	$x_left = 183;
+	$y_line = 164;
+	$y_max = 284;
 	$y_newLine = 14;
 	$cardText_fontSize = 9;
 
@@ -166,6 +166,8 @@
 	}
 
 	// ----------------------------------- Charges
+
+	//392,152
 
 	if($chargeNumber != 0){
 		imagecopyresampled($im, $imCharges, 343, 220, 0, 0, 29, 33, 29, 33);
