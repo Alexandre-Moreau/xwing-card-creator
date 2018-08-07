@@ -87,9 +87,8 @@
 						<br/>
 						<div class="row">
 							<div class="col s6">
-								<label for="dice-number">Number of dices</label>
+								<label for="dice-number">Number of dices <span id="dice-number-visualizer" class="badge" title="Number of dices"></span></label>
 								<input type="range" id="dice-number" name="min-range" min="1" max="9" value="3"/>
-								<span id="dice-number-visualizer"></span>
 							</div>
 							<div class="col s6">
 								<label for="range-bonus">Range bonus</label>
@@ -100,43 +99,37 @@
 						</div>
 						<div class="row">
 							<div class="col s6">
-								<label for="min-range">Minimum range</label>
+								<label for="min-range">Minimum range <span id="min-range-visualizer" class="badge" title="Minimum range"></span></label>
 								<input type="range" id="min-range" name="min-range" min="0" max="5" value="1"/>
-								<span id="min-range-visualizer"></span>
 							</div>
 							<div class="col s6">
-								<label for="max-range">Maximum range</label>
+								<label for="max-range">Maximum range <span id="max-range-visualizer" class="badge" title="Maximum range"></span></label>
 								<input type="range" id="max-range" name="max-range" min="0" max="5" value="3"/>
-								<span id="max-range-visualizer"></span>
 							</div>
 						</div>
 						<hr/>
 					</div>
-					<label for="charge-number">Charges</label>
-					<input type="range" id="charge-number" name="charge-number" min="0" max="9" value="0"/>
-					<span id="charge-number-visualizer"></span>
-					<br/>
-					<label for="regenerate">Regenerate</label>
-						<div class="switch">
-							<label>No<input type="checkbox" name="regenerate"><span class="lever"></span>Yes</label>
+					<div class="row">
+						<div class="col s6">
+							<label for="charge-number">Charges <span id="charge-number-visualizer" class="badge" title="Charges"></span></label>
+							<input type="range" id="charge-number" name="charge-number" min="0" max="9" value="0"/>
 						</div>
+						<div class="col s6">
+							<label for="regenerate">Regenerate</label>
+							<div class="switch">
+								<label>No<input type="checkbox" name="regenerate"><span class="lever"></span>Yes</label>
+							</div>
+						</div>
+					</div>
 					<hr/>
-					<!--
-						!boo		boost
-						!cha		charge
-						!crh		critical hit
-						!evd		evade
-						!foc		focus
-						!hit		hit
-						!rei		reinforce
-						!tlk		target lock
-					-->
 					<label for="card-text">Card text</label>
 					<textarea rows="4" cols="50" name="card-text"></textarea>
-					<p>!boo (boost), !cha (charge), !crh (critical hit), !eva (evade), !foc (focus), !hit (hit), !rei (reinforce), !tlk (target lock)</p>
+					<p>!boo (boost), !cha (charge), !crh (critical hit), !dev (device), !eva (evade), !foc (focus), !hit (hit), !rei (reinforce), !tlk (target lock)</p>
 					<hr/>
 					Restrictions
 					<br/>
+					<label for="card-text">Restriction text</label>
+					<textarea rows="4" cols="50" name="restrictions-text"></textarea>
 					<label for="restrictions-ship-size">Ship size</label>
 					<div class="inputContainer">
 						<label><input type="checkbox" name="restrictions-ship-size" value="small" class="filled-in"><span>small</span></label>
@@ -152,11 +145,15 @@
 						<label><input type="checkbox" name="restrictions-faction" value="resistance" class="filled-in"><span>resistance</span></label>
 						<label><input type="checkbox" name="restrictions-faction" value="first-order" class="filled-in"><span>first order</span></label>
 					</div>
-					<hr/>
+					<div class="btn create">
+						<span>Create</span>
+					</div>
 				</form>
 			</div>
 			<div class="col s4">
-				<input type="submit" value="Create">
+				<div class="btn create">
+					<span>Create</span>
+				</div>
 				<div id="outputImageContainer">
 					<img src="">
 					<br/>
@@ -182,7 +179,7 @@
 				$('input[type=range]#charge-number').trigger('change');
 			});
 
-			$('input[type=submit]').click(function(e){
+			$('div.btn.create').click(function(e){
 				form.submit();
 			});
 
@@ -258,7 +255,7 @@
 					text += ': ';
 
 					if(charges != '0'){
-						text += 'Spend 1 !ch.'
+						text += 'Spend 1 !cha'
 					}
 
 					$('textarea[name=card-text]').val(text);

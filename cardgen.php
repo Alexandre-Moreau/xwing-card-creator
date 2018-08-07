@@ -12,6 +12,12 @@
 	$outPutData['log'] = [];
 
 
+	foreach($_POST as $key => $value){
+		if($_POST[$key] == ''){
+			//array_push($outPutData['log'], '$_POST[\''.$key.'\']==\'\'');
+		}
+	}
+
 
 	//Ajouter controle de saisie type d'upgrade
 
@@ -55,17 +61,28 @@
 	$im = @imagecreatefrompng('img/base.png') or die("Error base image");
 	$imLimited = @imagecreatefrompng('img/limited.png') or die("Error limited image");
 	$imTextBackground = @imagecreatefrompng('img/' . $textSize .'_text.png') or die("Error text image");
+
 	if(isset($_FILES['image']['type']) && $_FILES['image']['type'] == 'image/jpeg'){
 		$imCardArt = @imagecreatefromjpeg($imgArt) or die("Error card art image");
 	}else{
 		$imCardArt = @imagecreatefrompng($imgArt) or die("Error card art image");
 	}
+
 	$imCardType = @imagecreatefrompng('img/upgrade-' . $cardType .'.png') or die('Error type image');
 	$imSecondaryWeapondBackground = @imagecreatefrompng('img/secondary-weapon-background.png') or die('Error SecWeapBackground image');
 	$imSecondaryWeapondArc = @imagecreatefrompng('img/secondary-arc-' . $arcType . '.png') or die('Error SecWeapArc image');
 	$imSecondaryWeapondRange = @imagecreatefrompng('img/secondary-range-bonus.png') or die('Error SecWeapRange image');
 	$imCharges = @imagecreatefrompng('img/charges.png') or die('Error charges image');
-
+	
+	$imTextBoost = @imagecreatefrompng('img/text-boost.png') or die('Error text charge image');
+	$imTextCharge = @imagecreatefrompng('img/text-charge.png') or die('Error text charge image');
+	$imTextCriticalHit = @imagecreatefrompng('img/text-criticalHit.png') or die('Error text focus image');
+	$imTextDevice = @imagecreatefrompng('img/text-device.png') or die('Error text device image');
+	$imTextEvade = @imagecreatefrompng('img/text-evade.png') or die('Error text focus image');
+	$imTextFocus = @imagecreatefrompng('img/text-focus.png') or die('Error text focus image');
+	$imTextHit = @imagecreatefrompng('img/text-hit.png') or die('Error text focus image');
+	$imTextTargetLock = @imagecreatefrompng('img/text-targetLock.png') or die('Error text target lock image');
+	
 	$background_color = imagecolorallocate($im, 0, 0, 0);
 	$color_white = imagecolorallocate($im, 255, 255, 255);
 	$color_black = imagecolorallocate($im, 46, 46, 46);
@@ -78,7 +95,7 @@
 		imagecopyresampled($im, $imLimited, 182, 129, 0, 0, 8, 8, 8, 8);
 	}
 
-	imagettftext($im, 11, 0, 193, 139, $color_white, $mainFont, $cardName);
+	imagettftext($im, 10, 0, 193, 139, $color_white, $boldFont, $cardName);
 
 	// ----------------------------------- Card art
 
@@ -119,28 +136,24 @@
 	imagecopyresampled($im, $imTextBackground, 0, 0, 0, 0, CARD_W, CARD_H, CARD_W, CARD_H);
 
 	$x_left = 183;
+	$x_right = $textSize == 'large' ? 392 : 331;
+
 	$y_line = 164;
 	$y_max = 284;
 	$y_newLine = 14;
+
 	$cardText_fontSize = 9;
 
-	$i = 0;
-
-	$cardText = preg_replace("/![^\s]{3}/", "!xx", $cardText);
+	//$cardText = preg_replace("/![^\s]{3}/", "!xx", $cardText);
 	$cardTextArray = explode(' ', $cardText);
-	foreach($cardTextArray as $key=>$value){
-		$cardTextArray[$key] = preg_replace("/!xx/", "     ", $value);
-	}
 
-	$textProccessed = '';
-
-	if($textSize == 'large'){
-		$x_right = 392;
-	}else{
-		$x_right = 331;
-	}
-
+	
 	while($cardTextArray != []){
+
+		$x_current = $x_left;
+		$lineTextProcessed = '';
+		// [ [name, y], [name, y], [name, y] ]
+		$symbols = [];
 
 		// Tests if the text is too long
 		if($y_line > $y_max){
@@ -149,21 +162,64 @@
 		}
 
 		// First word is larger than the line
-		if($x_left + imagettfbbox($cardText_fontSize, 0, $mainFont, $textProccessed.' '.$cardTextArray[0])[2] > $x_right){
+		if($x_left + imagettfbbox($cardText_fontSize, 0, $mainFont, $cardTextArray[0])[2] > $x_right){
 			array_push($outPutData['errors'], 'One of the words is larger than the line');
 			break;
 		}
-
 		// Tests if text + next world will fit
-		while($cardTextArray != [] && $x_left + imagettfbbox($cardText_fontSize, 0, $mainFont, $textProccessed.' '.$cardTextArray[0])[2] < $x_right){
-			$textProccessed .= ' '.array_shift($cardTextArray);
+		// If the word is a symbol ( /![^\s]{3}/ ), tests if the spaces will fit
+		while($cardTextArray != [] && $x_left + imagettfbbox($cardText_fontSize, 0, $mainFont, $lineTextProcessed.' '.preg_replace("/![^\s]{3}/", "     ", $cardTextArray[0]))[2] < $x_right){
+			// Tests if line contains a symbol and store position
+			$match;
+			// TODO Gerer les symboles collés
+			if(preg_match("/![^\s]{3}/", $cardTextArray[0], $match)){
+				$x_offset = $x_left + imagettfbbox($cardText_fontSize, 0, $mainFont, $lineTextProcessed)[2] + 2;
+				array_push($symbols, [$match[0], $x_offset+0]);
+			}
+			preg_match("/![^\s]{3}/", $cardTextArray[0], $a);
+			$lineTextProcessed .= ' '.preg_replace("/![^\s]{3}/", '     ', array_shift($cardTextArray));
 		}
 
+		// Draw symbols
+		foreach($symbols as $s){
+			array_push($outPutData['log'], $s[0]);
+			switch($s[0]){
+				case '!boo':
+					imagecopyresampled($im, $imTextBoost, $s[1], $y_line-$cardText_fontSize-2, 0, 0, 18, 13, 18, 13);
+					break;
+				case '!cha':
+					imagecopyresampled($im, $imTextCharge, $s[1], $y_line-$cardText_fontSize-2, 0, 0, 18, 13, 18, 13);
+					break;
+				case '!crh':
+					imagecopyresampled($im, $imTextCriticalHit, $s[1], $y_line-$cardText_fontSize-2, 0, 0, 18, 13, 18, 13);
+					break;
+				case '!dev':
+					imagecopyresampled($im, $imTextDevice, $s[1], $y_line-$cardText_fontSize-2, 0, 0, 18, 13, 18, 13);
+					break;
+				case '!eva':
+					imagecopyresampled($im, $imTextEvade, $s[1], $y_line-$cardText_fontSize-2, 0, 0, 18, 13, 18, 13);
+					break;
+				case '!foc':
+					imagecopyresampled($im, $imTextFocus, $s[1], $y_line-$cardText_fontSize-2, 0, 0, 18, 13, 18, 13);
+					break;
+				case '!hit':
+					imagecopyresampled($im, $imTextHit, $s[1], $y_line-$cardText_fontSize-2, 0, 0, 18, 13, 18, 13);
+					break;
+				case '!tlk':
+					imagecopyresampled($im, $imTextTargetLock, $s[1], $y_line-$cardText_fontSize-2, 0, 0, 18, 13, 18, 13);
+					break;
+				default:
+			}
+		}
+
+
 		// Write the largest line possibleee
-		imagettftext($im, $cardText_fontSize, 0, $x_left, $y_line, $color_black, $mainFont, $textProccessed);
-		$textProccessed = '';
+		imagettftext($im, $cardText_fontSize, 0, $x_left, $y_line, $color_black, $mainFont, $lineTextProcessed);
 		$y_line += $y_newLine;
 	}
+	
+
+	//imagecopyresampled($im, $imTextFocus, 150, 250, 0, 0, 19, 13, 19, 13);
 
 	// ----------------------------------- Charges
 

@@ -48,6 +48,13 @@ input[type="radio"].with-gap:checked+span:after, input[type="radio"]:checked+spa
     background-color: var(--main-dark-color);
 }
 
+span.badge{
+	background-color: var(--main-dark-color);
+	color: white;
+	border: 1px;
+	border-radius: 4px;
+}
+
 div.inputContainer{
 	text-align-last:justify;
 }
