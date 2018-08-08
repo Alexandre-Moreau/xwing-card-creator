@@ -48,6 +48,10 @@ input[type="radio"].with-gap:checked+span:after, input[type="radio"]:checked+spa
     background-color: var(--main-dark-color);
 }
 
+.select-wrapper input.select-dropdown:focus {
+    border-bottom: 1px solid var(--main-dark-color);
+}
+
 span.badge{
 	background-color: var(--main-dark-color);
 	color: white;

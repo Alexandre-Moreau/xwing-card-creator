@@ -42,11 +42,11 @@
 						<label for="card-type">Card type</label>
 					</div>
 					<br/>
-					<label for="slots-number">Slots number</label>
+					<!--<label for="slots-number">Slots number</label>
 					<div class="switch">
 						<label>1<input type="checkbox" name="slots-number"><span class="lever"></span>2</label>
 					</div>
-					<br/>
+					<br/>-->
 
 					<label for="card-image">Card image</label>
 					<div class="file-field input-field">
@@ -59,15 +59,28 @@
 							<input name="card-image" class="file-path validate" type="text" placeholder="Upload file"/>
 						</div>
 					</div>
-
 					<hr/>
-					<div id="grant-attack">
-						<label for="limited">grant-attack</label>
-						<div class="switch">
-							<label>No<input type="checkbox" name="grant-attack"><span class="lever"></span>Yes</label>
+					<div class="row">
+						<div class="col s6">
+							<label for="limited">Grant attack</label>
+							<div class="switch">
+								<label>No<input type="checkbox" name="grant-attack"><span class="lever"></span>Yes</label>
+							</div>
 						</div>
-						<hr/>
+						<div class="input-field col s6">
+							<select name="grant-action">
+								<option value="none" selected>none</option>
+								<!--<option value="calculate">Calculate</option>
+								<option value="focus">Focus</option>
+								<option value="evade">Evade</option>-->
+								<option value="reload">Reload</option>
+								<option value="rotate-arc">Rotate arc</option>
+								<option value="target-lock">Target Lock</option>
+							</select>
+							<label for="grant-action">Grant action</label>
+						</div>
 					</div>
+					<hr/>
 					<div id="secondary-weapon-stats" hidden>
 						<label for="require">Require</label>						
 						<div class="inputContainer">
@@ -115,35 +128,37 @@
 							<input type="range" id="charge-number" name="charge-number" min="0" max="9" value="0"/>
 						</div>
 						<div class="col s6">
-							<label for="regenerate">Regenerate</label>
+							<label for="charge-regenerate">Regenerate</label>
 							<div class="switch">
-								<label>No<input type="checkbox" name="regenerate"><span class="lever"></span>Yes</label>
+								<label>No<input type="checkbox" name="charge-regenerate"><span class="lever"></span>Yes</label>
 							</div>
 						</div>
 					</div>
 					<hr/>
 					<label for="card-text">Card text</label>
 					<textarea rows="4" cols="50" name="card-text"></textarea>
-					<p>!boo (boost), !cha (charge), !crh (critical hit), !dev (device), !eva (evade), !foc (focus), !hit (hit), !rei (reinforce), !tlk (target lock)</p>
+					<p id="cardTextSymbols"><span symbolText="!boo">!boo (<img src="img/text-boost.png" symbolText="!boo">)</span>, <span symbolText="!cha">!cha (<img src="img/text-charge.png" symbolText="!cha">)</span>, <span symbolText="!crh">!crh (<img src="img/text-criticalHit.png" symbolText="!crh">)</span>, <span symbolText="!dev">!dev (<img src="img/text-device.png" symbolText="!dev">)</span>, <span symbolText="!eva">!eva (<img src="img/text-evade.png" symbolText="!eva">)</span>, <span symbolText="!foc">!foc (<img src="img/text-focus.png" symbolText="!foc">)</span>, <span symbolText="!hit">!hit (<img src="img/text-hit.png" symbolText="!hit">)</span>, <span symbolText="!tlk">!tlk (<img src="img/text-targetLock.png" symbolText="!tlk">)</span></p>
 					<hr/>
 					Restrictions
 					<br/>
 					<label for="card-text">Restriction text</label>
 					<textarea rows="4" cols="50" name="restrictions-text"></textarea>
-					<label for="restrictions-ship-size">Ship size</label>
-					<div class="inputContainer">
-						<label><input type="checkbox" name="restrictions-ship-size" value="small" class="filled-in"><span>small</span></label>
-						<label><input type="checkbox" name="restrictions-ship-size" value="medium" class="filled-in"><span>medium</span></label>
-						<label><input type="checkbox" name="restrictions-ship-size" value="large" class="filled-in"><span>large</span></label>
-						<label><input type="checkbox" name="restrictions-ship-size" value="huge" class="filled-in"><span>huge</span></label>
-					</div>
-					<label for="restrictions-faction">Faction</label>
-					<div class="inputContainer">
-						<label><input type="checkbox" name="restrictions-faction" value="empire" class="filled-in"><span>galactic empire</span></label>
-						<label><input type="checkbox" name="restrictions-faction" value="rebels" class="filled-in"><span>rebel alliance</span></label>
-						<label><input type="checkbox" name="restrictions-faction" value="scums" class="filled-in"><span>scum and villainy</span></label>
-						<label><input type="checkbox" name="restrictions-faction" value="resistance" class="filled-in"><span>resistance</span></label>
-						<label><input type="checkbox" name="restrictions-faction" value="first-order" class="filled-in"><span>first order</span></label>
+					<div id="restrictionsInput">
+						<label for="restrictions-faction">Faction</label>
+						<div class="inputContainer">
+							<label><input type="checkbox" name="restrictions-faction" value="empire" class="filled-in"><span>galactic empire</span></label>
+							<label><input type="checkbox" name="restrictions-faction" value="rebel" class="filled-in"><span>rebel alliance</span></label>
+							<label><input type="checkbox" name="restrictions-faction" value="scum" class="filled-in"><span>scum and villainy</span></label>
+							<label><input type="checkbox" name="restrictions-faction" value="resistance" class="filled-in"><span>resistance</span></label>
+							<label><input type="checkbox" name="restrictions-faction" value="first-order" class="filled-in"><span>first order</span></label>
+						</div>
+						<label for="restrictions-ship-size">Ship size</label>
+						<div class="inputContainer">
+							<label><input type="checkbox" name="restrictions-ship-size" value="small" class="filled-in"><span>small</span></label>
+							<label><input type="checkbox" name="restrictions-ship-size" value="medium" class="filled-in"><span>medium</span></label>
+							<label><input type="checkbox" name="restrictions-ship-size" value="large" class="filled-in"><span>large</span></label>
+							<label><input type="checkbox" name="restrictions-ship-size" value="huge" class="filled-in"><span>huge</span></label>
+						</div>
 					</div>
 					<div class="btn create">
 						<span>Create</span>
@@ -183,19 +198,69 @@
 				form.submit();
 			});
 
+			// ----------------------------------- Write symbols on click
+
+			$('p#cardTextSymbols span').click(function(e){
+
+				$('textarea[name=card-text]').val( $('textarea[name=card-text]').val() + $(e.target).attr('symbolText') + ' ' );
+
+			});
+
 			// ----------------------------------- Show or hide secondary weapon div
 
-			$('select[name=card-type], input[name=grant-attack]').change(function(e){
+			$('select[name=card-type], input[type=checkbox][name=grant-attack]').change(function(e){
 
 				var cardType = $('select[name=card-type] option:selected').val();
-				var grantAttack = $('form#form-main input[name=grant-attack]:checked').val();
+				var grantAttack = $('input[type=checkbox][name=grant-attack]').prop('checked');
+
+				//$('input[type=checkbox][name=grant-attack]').prop('checked', true);
 
 				$('form#form-main input').prop('disabled', false);
 
+				console.log();
+
+				if(e.target.name == 'card-type'){
+					if(cardType == 'torpedoes' || cardType == 'missiles' || cardType == 'cannon' || cardType == 'turret'){
+						$('input[type=checkbox][name=grant-attack]').prop('checked', true);
+						$('div#secondary-weapon-stats').show();
+					}else{
+						$('input[type=checkbox][name=grant-attack]').prop('checked', false);
+						$('div#secondary-weapon-stats').hide();
+					}
+				}else if(e.target.name == 'grant-attack'){
+					if(grantAttack == true){
+						$('div#secondary-weapon-stats').show();
+					}else{
+						$('div#secondary-weapon-stats').hide();
+					}
+				}
+
+				// ------------------------------- Automatically changes "grant action" input
+
+				if(cardType == 'turret'){
+
+					$('select[name=grant-action] option[value=rotate-arc]').prop('selected', true);
+					$('select[name=grant-action]').formSelect();
+
+				}else if(cardType == 'torpedoes' || cardType == 'missiles' || cardType == 'cannon'){
+
+					if($('select[name=grant-action] option:selected').val() == 'rotate-arc' && $('select[name=grant-action] option:selected').val() == 'reload'){
+						$('select[name=grant-action] option[value=none]').prop('selected', true);
+						$('select[name=grant-action]').formSelect();
+					}
+
+				}else if(cardType == 'device'){
+
+					$('select[name=grant-action] option[value=reload]').prop('selected', true);
+					$('select[name=grant-action]').formSelect();
+
+				}
+
+				/*
+				
 				if(cardType == 'torpedoes' || cardType == 'missiles' || cardType == 'cannon' || cardType == 'turret'){
 
-					$('div#secondary-weapon-stats').show();
-					$('div#grant-attack').hide();
+					
 
 					if(cardType == 'torpedoes' || cardType == 'missiles'){
 						$('form#form-main input[name=charge-regenerate][value=yes]').prop('disabled', true);
@@ -220,7 +285,7 @@
 						}
 					}
 
-				}else if(grantAttack == 'yes'){
+				}else if(grantAttack == true){
 
 					$('div#secondary-weapon-stats').show();
 					$('form#form-main input[name=arc-type][value=classic]').prop('checked', true);
@@ -232,6 +297,7 @@
 					$('form#form-main input[name=card-text_size][value=large').prop('disabled', false);
 
 				}
+				*/
 			});
 
 			// ----------------------------------- Create attack text
@@ -258,8 +324,40 @@
 						text += 'Spend 1 !cha'
 					}
 
-					$('textarea[name=card-text]').val(text);
+					//$('textarea[name=card-text]').val(text);
 				}
+			});
+
+			// ----------------------------------- Create restrictions text
+
+			$('div#restrictionsInput div label input').change(function(){
+				restrictionText = '';				
+
+				$('div#restrictionsInput input[name=restrictions-faction]:checked').each(function(i, e){
+					// Last element
+					if(i == $('div#restrictionsInput input[name=restrictions-faction]:checked').length-1){
+						// If there are restriction on ship size
+						if($('div#restrictionsInput input[name=restrictions-ship-size]:checked').length > 0){
+							restrictionText += e.value.toUpperCase() + ', ';
+						}else{
+							restrictionText += e.value.toUpperCase();
+						}
+					// Not last element
+					}else{
+						restrictionText += e.value.toUpperCase() + ' OR ';
+					}
+				});
+
+				$('div#restrictionsInput input[name=restrictions-ship-size]:checked').each(function(i, e){
+					if(i == $('div#restrictionsInput input[name=restrictions-ship-size]:checked').length-1){
+						restrictionText += e.value.toUpperCase() + ' SHIP';
+					}else{
+						restrictionText += e.value.toUpperCase() + ' OR ';
+					}
+				});
+
+				$('form#form-main textarea[name=restrictions-text]').val(restrictionText);
+
 			});
 
 			// ----------------------------------- Visualisers
@@ -296,24 +394,28 @@
 				var formData = new FormData();
 
 				formData.append('card-name', $('form#form-main input[name=card-name]').val());
-
 				formData.append('limited', $('input[type=checkbox][name=limited]').prop('checked'));
 
 				formData.append('image', $('form#form-main input[type=file]')[0].files[0]);
 
 				formData.append('card-type', $('form#form-main select[name=card-type] option:selected').val());
 
+				formData.append('grant-attack', $('form#form-main input[type=checkbox][name=grant-attack]').prop('checked'));
+
 				if(true){
 					formData.append('arc-type', $('form#form-main input[name=arc-type]:checked').val());
 					formData.append('dice-number', $('form#form-main input#dice-number').val());
-					formData.append('range-bonus', $('form#form-main input[name=range-bonus]:checked').val());
+					formData.append('range-bonus', $('form#form-main input[type=checkbox][name=range-bonus]').prop('checked'));
 					formData.append('min-range', $('form#form-main input#min-range').val());
 					formData.append('max-range', $('form#form-main input#max-range').val());
 				}
 
 				formData.append('charge-number', $('form#form-main input[type=range]#charge-number').val());
+				formData.append('charge-regenerate', $('input[type=checkbox][name=charge-regenerate]').prop('checked'));
 
-				formData.append('card-text', $('textarea[name=card-text]').val());
+				formData.append('card-text', $('form#form-main textarea[name=card-text]').val());
+
+				formData.append('restrictions-text', $('form#form-main textarea[name=restrictions-text]').val());
 
 				$.ajax({
 					url: 'cardgen.php',
@@ -321,13 +423,13 @@
 					data: formData,
 					success: function (data) {
 
-						cardgenOutput = data;
-
 						if(logOutput){
 							console.log(data);
 						}
 
 						data = JSON.parse(data);
+
+						cardgenOutput = data;
 
 						data.log.forEach(function(element) {
 						  console.log(element);

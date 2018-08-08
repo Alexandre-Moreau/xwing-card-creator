@@ -9,6 +9,7 @@
 
 	$outPutData;
 	$outPutData['errors'] = [];
+	$outPutData['post'] = $_POST;
 	$outPutData['log'] = [];
 
 
@@ -17,6 +18,9 @@
 			//array_push($outPutData['log'], '$_POST[\''.$key.'\']==\'\'');
 		}
 	}
+
+	$mainFont = 'src/xwing-miniatures-ships.ttf';
+	$boldFont = 'src/Orbitron-Bold.ttf';
 
 
 	//Ajouter controle de saisie type d'upgrade
@@ -27,12 +31,14 @@
 	$imgArt = (isset($_FILES['image']['tmp_name']) ? $_FILES['image']['tmp_name'] : './img/blank-image.png');
 	$cardType = isset($_POST['card-type']) && $_POST['card-type'] != '' ? $_POST['card-type'] : 'ept';
 	$arcType = isset($_POST['arc-type']) && $_POST['arc-type'] != '' ? $_POST['arc-type'] : 'classic';
+
+	$grantAttack = isset($_POST['grant-attack']) && $_POST['grant-attack'] != '' && $_POST['grant-attack'] != 'false'? true : false;
 	
 	$diceNumber = isset($_POST['dice-number']) && $_POST['dice-number'] != '' ? $_POST['dice-number'] : '';
 	$diceNumber = $diceNumber < 9 ? $diceNumber : 9;
 	$diceNumber = $diceNumber > 0  ? $diceNumber : 0;
 	
-	$rangeBonus = isset($_POST['range-bonus']) && $_POST['range-bonus'] != '' && $_POST['range-bonus'] != 'no'? true : false;
+	$rangeBonus = isset($_POST['range-bonus']) && $_POST['range-bonus'] != '' && $_POST['range-bonus'] != 'false'? true : false;
 	
 	$minRange = isset($_POST['min-range']) && $_POST['min-range'] != '' ? $_POST['min-range'] : '';
 	$minRange = $minRange < 5 ? $minRange : 5;
@@ -44,15 +50,14 @@
 	$chargeNumber = isset($_POST['charge-number']) && $_POST['charge-number'] != '' ? $_POST['charge-number'] : '';
 	$chargeNumber = $chargeNumber < 9 ? $chargeNumber : 9;
 	$chargeNumber = $chargeNumber > 0  ? $chargeNumber : 0;
+	$chargeRegen = isset($_POST['charge-regenerate']) && $_POST['charge-regenerate'] != '' && $_POST['charge-regenerate'] != 'false' ? true : false;
+
 
 	$cardText = (isset($_POST['card-text']) && $_POST['card-text'] != '' ? $_POST['card-text'] : '');
 
+	$restrictionsText = (isset($_POST['restrictions-text']) && $_POST['restrictions-text'] != '' ? $_POST['restrictions-text'] : '');
 
-
-	$mainFont = 'src/Orbitron-Regular.ttf';
-	$boldFont = 'src/Orbitron-Bold.ttf';
-
-	if($cardType == 'cannon' || $cardType == 'torpedoes' || $cardType == 'missiles' || $cardType == 'turret' || $cardType == 'device' || $chargeNumber > 0){
+	if($grantAttack || $chargeNumber > 0){
 		$textSize = 'small';
 	}else{
 		$textSize = 'large';
@@ -60,7 +65,7 @@
 
 	$im = @imagecreatefrompng('img/base.png') or die("Error base image");
 	$imLimited = @imagecreatefrompng('img/limited.png') or die("Error limited image");
-	$imTextBackground = @imagecreatefrompng('img/' . $textSize .'_text.png') or die("Error text image");
+	$imTextBackground = @imagecreatefrompng('img/' . $textSize .'_text.png') or die("Error text background image");
 
 	if(isset($_FILES['image']['type']) && $_FILES['image']['type'] == 'image/jpeg'){
 		$imCardArt = @imagecreatefromjpeg($imgArt) or die("Error card art image");
@@ -73,6 +78,7 @@
 	$imSecondaryWeapondArc = @imagecreatefrompng('img/secondary-arc-' . $arcType . '.png') or die('Error SecWeapArc image');
 	$imSecondaryWeapondRange = @imagecreatefrompng('img/secondary-range-bonus.png') or die('Error SecWeapRange image');
 	$imCharges = @imagecreatefrompng('img/charges.png') or die('Error charges image');
+	$imChargesRegen =  @imagecreatefrompng('img/charge-regen.png') or die('Error charges image regenerate');
 	
 	$imTextBoost = @imagecreatefrompng('img/text-boost.png') or die('Error text charge image');
 	$imTextCharge = @imagecreatefrompng('img/text-charge.png') or die('Error text charge image');
@@ -82,9 +88,12 @@
 	$imTextFocus = @imagecreatefrompng('img/text-focus.png') or die('Error text focus image');
 	$imTextHit = @imagecreatefrompng('img/text-hit.png') or die('Error text focus image');
 	$imTextTargetLock = @imagecreatefrompng('img/text-targetLock.png') or die('Error text target lock image');
+
+	$imRestrictionsText = @imagecreatefrompng('img/restrictions_text.png') or die('Error restrictions background image');
 	
 	$background_color = imagecolorallocate($im, 0, 0, 0);
 	$color_white = imagecolorallocate($im, 255, 255, 255);
+	$color_darkGrey = imagecolorallocate($im, 70, 70, 70);
 	$color_black = imagecolorallocate($im, 46, 46, 46);
 
 	
@@ -112,14 +121,14 @@
 
 	// ----------------------------------- Secondary weapons (right part)
 
-	if($cardType == 'cannon' || $cardType == 'torpedoes' || $cardType == 'missiles' || $cardType == 'turret'){
+	if($grantAttack){
 		imagecopyresampled($im, $imSecondaryWeapondBackground, 342, 147, 0, 0, 58, 52, 58, 52);
 		imagecopyresampled($im, $imSecondaryWeapondArc, 349, 153, 0, 0, 19, 19, 19, 19);
 
 		$text_color = imagecolorallocate($im, 238, 32, 36);
 		imagettftext($im, 17, 0, 374, 171, $text_color, $boldFont, $diceNumber);
 
-		if($rangeBonus){
+		if(!$rangeBonus){
 			imagecopyresampled($im, $imSecondaryWeapondRange, 345, 182, 0, 0, 18, 8, 18, 8);
 		}
 
@@ -144,9 +153,7 @@
 
 	$cardText_fontSize = 9;
 
-	//$cardText = preg_replace("/![^\s]{3}/", "!xx", $cardText);
 	$cardTextArray = explode(' ', $cardText);
-
 	
 	while($cardTextArray != []){
 
@@ -182,7 +189,6 @@
 
 		// Draw symbols
 		foreach($symbols as $s){
-			array_push($outPutData['log'], $s[0]);
 			switch($s[0]){
 				case '!boo':
 					imagecopyresampled($im, $imTextBoost, $s[1], $y_line-$cardText_fontSize-2, 0, 0, 18, 13, 18, 13);
@@ -217,19 +223,77 @@
 		imagettftext($im, $cardText_fontSize, 0, $x_left, $y_line, $color_black, $mainFont, $lineTextProcessed);
 		$y_line += $y_newLine;
 	}
-	
 
-	//imagecopyresampled($im, $imTextFocus, 150, 250, 0, 0, 19, 13, 19, 13);
+	// ----------------------------------- Granted actions
+
+	//340, 199
 
 	// ----------------------------------- Charges
 
 	//392,152
 
 	if($chargeNumber != 0){
-		imagecopyresampled($im, $imCharges, 343, 220, 0, 0, 29, 33, 29, 33);
+		if($grantAttack){
+			$y_charge = 220;
+		}else{
+			$y_charge = 147;
+		}
+		imagecopyresampled($im, $imCharges, 343, $y_charge, 0, 0, 29, 33, 29, 33);
 		$text_color = imagecolorallocate($im, 229, 185, 34);
-		imagettftext($im, 17, 0, 375, 245, $text_color, $boldFont, $chargeNumber);
+		imagettftext($im, 17, 0, 375, $y_charge+25, $text_color, $boldFont, $chargeNumber);
+		if($chargeRegen){
+			imagecopyresampled($im, $imChargesRegen, 395, $y_charge+5, 0, 0, 7, 8, 7, 8);
+		}
 	}
+
+	// ----------------------------------- Rstrictions text
+
+
+
+	if($restrictionsText !=''){
+		imagecopyresampled($im, $imRestrictionsText, 17, 246, 0, 0, 129, 53, 129, 53);
+
+		$x_left = 25;
+		$x_right = 135;
+
+		$y_line = 262;
+		$y_max = 290;
+		$y_newLine = 14;
+
+		$restrictionText_fontSize = 9;
+
+		$restrictionsTextArray = explode(' ', $restrictionsText);
+
+		while($restrictionsTextArray != []){
+
+			$x_current = $x_left;
+			$lineTextProcessed = '';
+
+			// Tests if the text is too long
+			if($y_line > $y_max){
+				array_push($outPutData['errors'], 'The text is too long');
+				break;
+			}
+
+			// First word is larger than the line
+			if($x_left + imagettfbbox($restrictionText_fontSize, 0, $mainFont, $restrictionsTextArray[0])[2] > $x_right){
+				array_push($outPutData['errors'], 'One of the words is larger than the line');
+				break;
+			}
+
+			while($restrictionsTextArray != [] && $x_left + imagettfbbox($restrictionText_fontSize, 0, $mainFont, $lineTextProcessed.' '.$restrictionsTextArray[0])[2] < $x_right){
+
+				$lineTextProcessed .= ' '.array_shift($restrictionsTextArray);
+
+			}
+
+			imagettftext($im, $restrictionText_fontSize, 0, $x_left, $y_line, $color_darkGrey, $mainFont, $lineTextProcessed);
+		$y_line += $y_newLine;
+	}
+
+	}
+
+	// ----------------------------------- Output
 
 	imagecopyresampled($im, $imCardType, 30, 28, 0, 0, 102, 103, 102, 103);
 	
