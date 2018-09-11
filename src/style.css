@@ -1,11 +1,80 @@
 :root{
 	--main-dark-color: #2666a6;
 	--main-light-color: #85a6c7;
+	--main-attack-color: #ee2024;
+	--main-charge-color: #85a6c7;
+	--main-force-color: #85a6c7;
 }
 
 #form-main{
 	padding: 15px;
 	margin: 0px;
+}
+
+.page-footer, nav{
+	background-color: var(--main-dark-color);
+}
+
+nav div#breadcrumb{
+	margin-left: 10px;
+}
+
+h1, h2, h3{
+	color: var(--main-dark-color);
+}
+
+button a{
+	color: #ffffff;
+}
+
+.tabs .tab a{
+	color: var(--main-light-color);
+}
+
+.tabs .tab a:hover, .tabs .tab a.active{
+	color: var(--main-dark-color);
+}
+
+.tabs .tab a:focus, .tabs .tab a:focus.active {
+	background-color: rgba(133, 166, 199, 0.2);
+}
+
+.tabs .indicator {
+	background-color: var(--main-light-color);
+}
+
+.xwingFont{
+	font-family: XWing;
+	font-style: normal;
+	font-size: 1.5em;
+	color: black;
+}
+
+.hidden{
+	visibility: hidden;
+}
+
+div.actionSelectRow div{
+	
+}
+
+div.actionSelectRow{
+	display: flex;
+	align-items: center;
+}
+
+div#selectIcons .col, div#selectCardType .col{
+	margin: 1px 0;
+	text-align: center;
+	cursor:pointer;
+}
+
+div#selectCardType .col.selected{
+	color: var(--main-dark-color);
+}
+
+div.disabledText{
+	color: #c0c0c0;
 }
 
 .switch label input[type=checkbox]:checked+.lever {
@@ -44,8 +113,8 @@ input[type=range]::-ms-thumb {
 }
 
 input[type="radio"].with-gap:checked+span:after, input[type="radio"]:checked+span:after, [type="radio"].with-gap:checked+span:before, [type="radio"].with-gap:checked+span:after, input[type="checkbox"].filled-in:checked+span:not(.lever):after {
-    border: 2px solid var(--main-dark-color);
-    background-color: var(--main-dark-color);
+	border: 2px solid var(--main-dark-color);
+	background-color: var(--main-dark-color);
 }
 
 .select-wrapper input.select-dropdown:focus {
@@ -57,6 +126,12 @@ span.badge{
 	color: white;
 	border: 1px;
 	border-radius: 4px;
+}
+
+div.inputAttackColor span.badge{
+	/*
+	background-color: var(--main-attack-color);
+	*/
 }
 
 div.inputContainer{
