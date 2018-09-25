@@ -16,6 +16,7 @@
 	$boldFont = ROOT_DIR.'src/arialbd.ttf';
 	$italicFont = ROOT_DIR.'src/ariali.ttf';
 	$symbolFont1 = ROOT_DIR.'src/xwing-miniatures-modified.ttf';
+	$shipFont = ROOT_DIR.'src/xwing-miniatures-ships.ttf';
 
 	// ----------------------------------- 
 
@@ -24,6 +25,28 @@
 	$limited = isset($_POST['limited']) && $_POST['limited'] != '' && $_POST['limited'] != 'false' ? true : false;
 	$faction = isset($_POST['faction']) && $_POST['faction'] != '' ? $_POST['faction'] : '';
 	$ship = isset($_POST['ship']) && $_POST['ship'] != '' ? $_POST['ship'] : '';
+
+	$stats = [];
+
+	$stats['attackFront'] = isset($_POST['attack-front']) && $_POST['attack-front'] != '' ? $_POST['attack-front'] : '';
+	$stats['attackFront'] = checkMinMax($stats['attackFront'], 0, 5);
+	$stats['attackRear'] = isset($_POST['attack-rear']) && $_POST['attack-rear'] != '' ? $_POST['attack-rear'] : '';
+	$stats['attackRear'] = checkMinMax($stats['attackRear'], 0, 5);
+	$stats['attackSingleTurret'] = isset($_POST['attack-singleTurret']) && $_POST['attack-singleTurret'] != '' ? $_POST['attack-singleTurret'] : '';
+	$stats['attackSingleTurret'] = checkMinMax($stats['attackSingleTurret'], 0, 5);
+	$stats['attackDoubleTurret'] = isset($_POST['attack-doubleTurret']) && $_POST['attack-doubleTurret'] != '' ? $_POST['attack-doubleTurret'] : '';
+	$stats['attackDoubleTurret'] = checkMinMax($stats['attackDoubleTurret'], 0, 5);
+
+	$stats['agility'] = isset($_POST['agility']) && $_POST['agility'] != '' ? $_POST['agility'] : '';
+	$stats['agility'] = checkMinMax($stats['agility'], 0, 5);
+	$stats['hull'] = isset($_POST['hull']) && $_POST['hull'] != '' ? $_POST['hull'] : '';
+	$stats['hull'] = checkMinMax($stats['hull'], 1, 15);
+	$stats['shield'] = isset($_POST['shield']) && $_POST['shield'] != '' ? $_POST['shield'] : '';
+	$stats['shield'] = checkMinMax($stats['shield'], 1, 10);
+	$stats['force'] = isset($_POST['force']) && $_POST['force'] != '' ? $_POST['force'] : '';
+	$stats['force'] = checkMinMax($stats['force'], 1, 10);
+	$stats['charges'] = isset($_POST['charges']) && $_POST['charges'] != '' ? $_POST['charges'] : '';
+	$stats['charges'] = checkMinMax($stats['charges'], 1, 10);
 
 	$actions = isset($_POST['actions']) && $_POST['actions'] != '' ? $_POST['actions'] : 'focus,none,none,none,none';
 	$actionsRed = isset($_POST['actions-red']) && $_POST['actions-red'] != '' ? $_POST['actions-red'] : 'none,none,none,none,none';
@@ -35,11 +58,14 @@
 
 	$imgArt = (isset($_FILES['image']['tmp_name']) ? $_FILES['image']['tmp_name'] : IM_DIR.'blank-image.png');
 
+
 	// ----------------------------------- Image loading
 
-	$im = @imagecreatefrompng(IM_DIR.'base-pilots-'.$faction.'.png') or usr_error("Error base image ".$faction);
-	$imSeparator = @imagecreatefrompng(IM_DIR.'pilot-action-separator-'.$faction.'.png') or usr_error("Error separator image ".$faction);
-	$imbaseLinkedActions = @imagecreatefrompng(IM_DIR.'base-linked-actions-'.$faction.'.png') or usr_error("Error baseLinkedActions image ".$faction);
+	$im = @imagecreatefrompng(IM_DIR.'base-pilots-'.$faction.'.png') or usr_error('Error base image '.$faction);
+	$imSeparator = @imagecreatefrompng(IM_DIR.'pilot-action-separator-'.$faction.'.png') or usr_error('Error separator image '.$faction);
+	$imBaseLinkedActions = @imagecreatefrompng(IM_DIR.'base-linked-actions-'.$faction.'.png') or usr_error('Error baseLinkedActions image '.$faction);
+
+	$imFrontArc = @imagecreatefrompng(IM_DIR.'s_frontArc.png') or usr_error('Error frontArc image');
 
 	// ----------------------------------- Color creation
 
@@ -62,6 +88,13 @@
 
 	writeTextCenter($im, 8, 35, 133, 167, 18, $color_orange, $titleFont, $initiative);
 
+	// ----------------------------------- Ship image and name
+
+	writeTextCenter($im, 57, 243, 390, 406, 7, $color_white, $titleFont, strtoupper($_shipNames[ $ship ]));
+	writeTextCenter($im, 8, 37, 388, 413, 19, $color_white, $shipFont, $_shipSymbols[ $ship ]);
+
+
+
 	// ----------------------------------- Actions
 
 	$actionsRow = 0;
@@ -76,7 +109,7 @@
 	}
 
 	if($linkedActions == true){
-		imagecopyresampled($im, $imbaseLinkedActions, 203, 177, 0, 0, 95, 203, 95, 203);
+		imagecopyresampled($im, $imBaseLinkedActions, 203, 177, 0, 0, 95, 203, 95, 203);
 	}
 
 	$y_top = 180;
@@ -116,6 +149,19 @@
 			$j ++;
 		}
 	}
+
+	// ----------------------------------- Stats
+
+	$x_right = $linkedActions ? 217 : 250;
+
+	foreach($stats as $s){
+		if($s != 0){
+
+		}
+	}
+
+	drawImageCenter($im, 0, $x_right, 325, 380, 32, 32, $imFrontArc);
+	writeTextCenter($im, 0, $x_right, 338, 393, 16, $color_red, $titleFont, $stats['attackFront']);
 
 	// ----------------------------------- Output
 

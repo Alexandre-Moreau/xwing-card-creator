@@ -29,10 +29,12 @@ button a{
 
 .tabs .tab a{
 	color: var(--main-light-color);
+	padding: 0px;
 }
 
 .tabs .tab a:hover, .tabs .tab a.active{
 	color: var(--main-dark-color);
+	padding: 0px;
 }
 
 .tabs .tab a:focus, .tabs .tab a:focus.active {
@@ -41,6 +43,11 @@ button a{
 
 .tabs .indicator {
 	background-color: var(--main-light-color);
+}
+
+.tabs .tab a i{
+	vertical-align: text-bottom;
+	padding: 0px;
 }
 
 .xwingFont{

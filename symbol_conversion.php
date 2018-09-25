@@ -73,9 +73,9 @@
 		/* arcs */
 		'a01' => '{',
 		'a02' => '|',
-		'a03' => '}',
-		'a04' => '~',
-		'a05' => '¡',
+		'a03' => '~',
+		'a04' => '¡',
+		'a05' => '}',
 		'a06' => 'p',
 		'a07' => 'q',
 		'a08' => '£',
@@ -83,5 +83,37 @@
 		'a10' => '¤',
 		/* others */
 		'LIMITED' => 'u'
+	];
+	$_shipSymbols = [
+		/* -------------------- empire */
+		'tiefighter' => 'F',
+		'tieinterceptor' => 'I',
+		'tieadvanced' => 'A',
+		/* -------------------- rebel */
+		'xwing' => 'x',
+		'ywing' => 'y',
+		/* -------------------- scum */
+		'protectoratestarfighter' => 'M',
+		'firespray31' => 'f',
+		/* -------------------- firstorder */
+		'tiefofighter' => 'O',
+		/* -------------------- resistance */
+		't70xwing' => 'w'
+	];
+	$_shipNames = [
+		/* -------------------- empire */
+		'tiefighter' => 'TIE/LN Fghter',
+		'tieinterceptor' => 'TIE Interceptor',
+		'tieadvanced' => 'TIE Advanced x1',
+		/* -------------------- rebel */
+		'xwing' => 'T-65 X-Wing',
+		'ywing' => 'BTL-A4 Y-Wing',
+		/* -------------------- scum */
+		'protectoratestarfighter' => 'Fang Fighter',
+		'firespray31' => 'Firespray-class Patrol Craft',
+		/* -------------------- firstorder */
+		'tiefofighter' => 'TIE/fo Fighter',
+		/* -------------------- resistance */
+		't70xwing' => 'T-70 X-Wing'
 	];
 ?>

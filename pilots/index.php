@@ -46,16 +46,16 @@
 					<br/>
 
 					<label for="card-image">Card image</label>
-						<div class="file-field input-field">
-							<div class="btn">
-								<span>Browse</span>
-								<input type="file" />
-							</div>
-
-							<div class="file-path-wrapper">
-								<input name="card-image" class="file-path validate" type="text" placeholder="Upload file"/>
-							</div>
+					<div class="file-field input-field">
+						<div class="btn">
+							<span>Browse</span>
+							<input type="file" />
 						</div>
+
+						<div class="file-path-wrapper">
+							<input name="card-image" class="file-path validate" type="text" placeholder="Upload file"/>
+						</div>
+					</div>
 					<br/>
 
 					<label for="initiative">Initiative <span id="initiative-visualizer" class="badge" title="Initiative"></span></label>
@@ -70,6 +70,7 @@
 								<li class="tab col s2"><a href="#shipsScum"><i class="xwing-miniatures-font xwing-miniatures-font-scum"></i></a></li>
 								<li class="tab col s2"><a href="#shipsFirstorder"><i class="xwing-miniatures-font xwing-miniatures-font-firstorder"></i></a></li>
 								<li class="tab col s2"><a href="#shipsResistance"><i class="xwing-miniatures-font xwing-miniatures-font-rebel-outline"></i></a></li>
+								<li class="tab col s2"><a href="#shipsCustom"><i class="material-icons dp48">edit</i></a></li>
 							</ul>
 						</div>
 
@@ -78,15 +79,38 @@
 							<div id="shipsEmpire" class="row col s12">
 								<div class="col s1 selectableClick" symbolText="tiefighter"><i class="xwing-miniatures-ship xwing-miniatures-ship-tiefighter" symbolText="tiefighter"></i></div>
 								<div class="col s1 selectableClick" symbolText="tieinterceptor"><i class="xwing-miniatures-ship xwing-miniatures-ship-tieinterceptor" symbolText="tieinterceptor"></i></div>
-								<div class="col s1 selectableClick" symbolText="tieadvancedx1"><i class="xwing-miniatures-ship xwing-miniatures-ship-tieadvanced" symbolText="tieadvancedx1"></i></div>
+								<div class="col s1 selectableClick" symbolText="tieadvanced"><i class="xwing-miniatures-ship xwing-miniatures-ship-tieadvanced" symbolText="tieadvanced"></i></div>
 							</div>
 							<div id="shipsRebel" class="row col s12">
+								<div class="col s1 selectableClick" symbolText="xwing"><i class="xwing-miniatures-ship xwing-miniatures-ship-xwing" symbolText="xwing"></i></div>
+								<div class="col s1 selectableClick" symbolText="ywing"><i class="xwing-miniatures-ship xwing-miniatures-ship-ywing" symbolText="ywing"></i></div>
 							</div>
 							<div id="shipsScum" class="row col s12">
+								<div class="col s1 selectableClick" symbolText="firespray31"><i class="xwing-miniatures-ship xwing-miniatures-ship-firespray31" symbolText="firespray31"></i></div>
+								<div class="col s1 selectableClick" symbolText="protectoratestarfighter"><i class="xwing-miniatures-ship xwing-miniatures-ship-protectoratestarfighter" symbolText="protectoratestarfighter"></i></div>
 							</div>
 							<div id="shipsFirstorder" class="row col s12">
+								<div class="col s1 selectableClick" symbolText="tiefofighter"><i class="xwing-miniatures-ship xwing-miniatures-ship-tiefofighter" symbolText="tiefofighter"></i></div>
 							</div>
 							<div id="shipsResistance" class="row col s12">
+								<div class="col s1 selectableClick" symbolText="t70xwing"><i class="xwing-miniatures-ship xwing-miniatures-ship-t70xwing" symbolText="t70xwing"></i></div>
+							</div>
+							<div id="shipsCustom" class="row col s12">
+								<div class="col s12">
+									<label for="ship-name-custom">Ship name</label>
+									<input type="text" name="ship-name-custom">
+								</div>
+								<label for="ship-image-custom">Ship logo</label>
+								<div class="col s12 file-field input-field">
+									<div class="btn">
+										<span>Browse</span>
+										<input type="file" />
+									</div>
+
+									<div class="file-path-wrapper">
+										<input name="ship-image-custom" class="file-path validate" type="text" placeholder="Upload file"/>
+									</div>
+								</div>
 							</div>
 						</div>
 						
@@ -102,7 +126,7 @@
 							<br/>
 						</div>
 						<div class="center">
-							<div class="btn" title="Download">
+							<div class="btn download" title="Download">
 								<a download="" href="" style="color: #ffffff;"><i class="material-icons">file_download</i></a>
 							</div>
 
@@ -110,7 +134,7 @@
 								<i class="material-icons">clear</i>
 							</div>
 
-							<div class="btn reset" title="Publish">
+							<div class="btn publish" title="Publish">
 								<i class="material-icons">publish</i>
 							</div>
 						</div>
@@ -303,8 +327,20 @@
 					</div>
 					<div class="row">
 						<div class="col s6">
-							<label for="attack">Primary attack<span id="attack-visualizer" class="badge" title="Primary attack"></span></label>
-							<input type="range" name="attack" id="attack" min="0" max="5" value="3"/>
+							<label for="attack">Primary attack <i class="xwing-miniatures-font xwing-miniatures-font-frontarc"></i><span id="attack-front-visualizer" class="badge" title="Primary front attack"></span></label>
+							<input type="range" name="attack-front" id="attack-front" min="0" max="5" value="3"/>
+						</div>
+						<div class="col s6">
+							<label for="attack">Primary attack <i class="xwing-miniatures-font xwing-miniatures-font-reararc"></i><span id="attack-rear-visualizer" class="badge" title="Primary rear attack"></span></label>
+							<input type="range" name="attack-rear" id="attack-rear" min="0" max="5" value="0"/>
+						</div>
+						<div class="col s6">
+							<label for="attack">Primary attack <i class="xwing-miniatures-font xwing-miniatures-font-singleturretarc"></i><span id="attack-singleTurret-visualizer" class="badge" title="Primary single turret attack"></span></label>
+							<input type="range" name="attack-singleTurret" id="attack-singleTurret" min="0" max="5" value="0"/>
+						</div>
+						<div class="col s6">
+							<label for="attack">Primary attack <i class="xwing-miniatures-font xwing-miniatures-font-doubleturretarc"></i><span id="attack-doubleTurret-visualizer" class="badge" title="Primary double turret attack"></span></label>
+							<input type="range" name="attack-doubleTurret" id="attack-doubleTurret" min="0" max="5" value="0"/>
 						</div>
 						<div class="col s6">
 							<label for="agility">Agility<span id="agility-visualizer" class="badge" title="Agility"></span></label>
@@ -318,17 +354,9 @@
 							<label for="shield">Shield<span id="shield-visualizer" class="badge" title="Shield"></span></label>
 							<input type="range" name="shield" id="shield" min="0" max="10" value="0"/>
 						</div>
-						<div class="row col s12">
-							<div class="col s8">
-								<label for="force">Force<span id="force-visualizer" class="badge" title="Force"></span></label>
-								<input type="range" id="force" name="force" min="0" max="6" value="0"/>
-							</div>
-							<div class="col s4">
-								<label for="force-regenerate">Regenerate</label>
-								<div class="switch">
-									<label>No<input type="checkbox" name="force-regenerate"><span class="lever"></span>Yes</label>
-								</div>
-							</div>
+						<div class="col s6">
+							<label for="force">Force<span id="force-visualizer" class="badge" title="Force"></span></label>
+							<input type="range" id="force" name="force" min="0" max="6" value="0"/>
 						</div>
 						<div class="row col s12">
 							<div class="col s8">
@@ -353,19 +381,22 @@
 		var form = $("form#form-main");
 		var cardgenOutput;
 		var logOutput = false;
-		var autoSubmit = true;
+		var autoSubmit = false;
 		var faction = 'empire';
 		var ship = 'tiefighter';
+		var stats;
+
+		// TODO reparer les selects
 
 		$(document).ready(function(){
-			// 4 prochaines lignes avant en zone A
-			$('select').formSelect();
-			$('div[id^=actionSelect] li span, div[id^=actionSelect] input, div[id^=red-actionSelect] li span, div[id^=red-actionSelect] input').addClass('xwingFont');
-			$('div[id^=actionSelect] li span, div[id^=actionSelect] input, div[id^=red-actionSelect] li span, div[id^=red-actionSelect] input').css('text-align', 'center');
-			$('div[id^=red-actionSelect] input').css('color', 'red');
+			reloadSelect();
 
 			$('.tabs').tabs();
+			//$('div[id^=actionSelect], div[id^=red-actionSelect]').formSelect();
+			setShip('tiefighter');
 			reloadVisualisers();
+			autoSubmit = true;
+			form.submit();
 
 		});		
 
@@ -389,11 +420,6 @@
 			faction = 'empire';
 		});
 
-		// ----------------------------------- ====================================== XXX
-
-		//M.Tabs.getInstance($('.tabs')).select('shipsRebel');
-
-		// ----------------------------------- ====================================== XXX
 
 
 		// ----------------------------------- Action select initialisation
@@ -408,28 +434,61 @@
 			form.trigger('change');
 		});
 
-		// ----------------------------------- Faction select
+		// ----------------------------------- Ship select
 
 		$('div#shipSelect div div').click(function(e){
 			ship = $(e.target).attr('symbolText');
+			setShip(ship);
+		});
+
+		function setShip(){
 			$.get('/cardgen_shipStats.php?ship='+ship, function( data ) {
 				stats = JSON.parse(data);
-				$('input[type=range][name=attack]').val(stats.attack);
+
+				$('input[type=range][name=attack-front]').val(stats.attack_front);
+				$('input[type=range][name=attack-rear]').val(stats.attack_rear);
 				$('input[type=range][name=agility]').val(stats.agility);
 				$('input[type=range][name=hull]').val(stats.hull);
 				$('input[type=range][name=shield]').val(stats.shield);
+
+				for (var i = 0; i < 5; i++) {
+					actionRow = stats.actions[i];
+					$('#actionSelect0'+(i+1)+' option').attr('selected', false);
+					$('#red-actionSelect0'+(i+1)+' option').attr('selected', false);
+					if(actionRow[0]!=''){
+						$('#actionSelect0'+(i+1)+' option[value='+actionRow[0]+']').attr('selected', true);
+					}else{
+						$('#actionSelect0'+(i+1)+' option[value=none]').attr('selected', true);
+					}
+					if(actionRow[1]!=''){
+						$('#red-actionSelect0'+(i+1)+' option[value='+actionRow[1]+']').attr('selected', true);
+					}else{
+						$('#red-actionSelect0'+(i+1)+' option[value=none]').attr('selected', true);
+					}
+				}
+
+				reloadSelect();
 				reloadVisualisers();
+				form.trigger('change');
 			});
-			form.trigger('change');
-		});
+		}
 
 		// ----------------------------------- Visualisers
 
 		$('input[type=range][name=initiative]').change(function(e){
 			$('span#initiative-visualizer').html( $('input[type=range][name=initiative]').val() );
 		});
-		$('input[type=range][name=attack]').change(function(e){
-			$('span#attack-visualizer').html( $('input[type=range][name=attack]').val() );
+		$('input[type=range][name=attack-front]').change(function(e){
+			$('span#attack-front-visualizer').html( $('input[type=range][name=attack-front]').val() );
+		});
+		$('input[type=range][name=attack-rear]').change(function(e){
+			$('span#attack-rear-visualizer').html( $('input[type=range][name=attack-rear]').val() );
+		});
+		$('input[type=range][name=attack-singleTurret]').change(function(e){
+			$('span#attack-singleTurret-visualizer').html( $('input[type=range][name=attack-singleTurret]').val() );
+		});
+		$('input[type=range][name=attack-doubleTurret]').change(function(e){
+			$('span#attack-doubleTurret-visualizer').html( $('input[type=range][name=attack-doubleTurret]').val() );
 		});
 		$('input[type=range][name=agility]').change(function(e){
 			$('span#agility-visualizer').html( $('input[type=range][name=agility]').val() );
@@ -447,14 +506,26 @@
 			$('span#charges-visualizer').html( $('input[type=range][name=charges]').val() );
 		});
 
+		function reloadSelect(){
+			$('select').formSelect();
+			$('div[id^=actionSelect] li span, div[id^=actionSelect] input, div[id^=red-actionSelect] li span, div[id^=red-actionSelect] input').addClass('xwingFont');
+			$('div[id^=actionSelect] li span, div[id^=actionSelect] input, div[id^=red-actionSelect] li span, div[id^=red-actionSelect] input').css('text-align', 'center');
+			$('div[id^=red-actionSelect] input').css('color', 'red');
+		}
+
 		function reloadVisualisers(){
+			autoSubmit = false;
 			$('input[type=range][name=initiative]').trigger('change');
-			$('input[type=range][name=attack]').trigger('change');
+			$('input[type=range][name=attack-front]').trigger('change');
+			$('input[type=range][name=attack-rear]').trigger('change');
+			$('input[type=range][name=attack-singleTurret]').trigger('change');
+			$('input[type=range][name=attack-doubleTurret]').trigger('change');
 			$('input[type=range][name=agility]').trigger('change');
 			$('input[type=range][name=hull]').trigger('change');
 			$('input[type=range][name=shield]').trigger('change');
 			$('input[type=range][name=force]').trigger('change');
 			$('input[type=range][name=charges]').trigger('change');
+			autoSubmit = true;
 		}
 
 		// ----------------------------------- Form submit
@@ -474,7 +545,11 @@
 			formData.append('ship', ship);
 
 			formData.append('initiative', $('input[type=range][name=initiative]').val());
-			formData.append('attack', $('input[type=range][name=attack]').val());
+			formData.append('attack-front', $('input[type=range][name=attack-front]').val());
+			formData.append('attack-rear', $('input[type=range][name=attack-rear]').val());
+			formData.append('attack-singleTurret', $('input[type=range][name=attack-singleTurret]').val());
+			formData.append('attack-doubleTurret', $('input[type=range][name=attack-doubleTurret]').val());
+
 			formData.append('agility', $('input[type=range][name=agility]').val());
 			formData.append('hull', $('input[type=range][name=hull]').val());
 			formData.append('shield', $('input[type=range][name=shield]').val());
@@ -521,12 +596,15 @@
 					var dataUri = data.dataUri;
 					$("div#outputImageContainer img").attr('src', dataUri);
 					$("div#outputImageContainer a").attr('href', dataUri);
-					$("div#outputImageContainer a").attr('download', $('form#form-main input[name=card-name]').val().replace(/ /g,"_"));
+					$("div#outputImageContainer a").attr('download', $('form#form-main input[name=card-name]').val().replace(/ /g,"_")+'-'+ship);
 				},
 				cache: false,
 				contentType: false,
 				processData: false
 			});	
 		});
+		function logOutput(){
+			logOutput = true;
+		}
 	</script>
 </html>

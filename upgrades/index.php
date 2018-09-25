@@ -191,7 +191,7 @@
 								<i class="material-icons">clear</i>
 							</div>
 
-							<div class="btn reset" title="Publish">
+							<div class="btn publish" title="Publish">
 								<i class="material-icons">publish</i>
 							</div>
 						</div>

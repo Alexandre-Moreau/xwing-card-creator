@@ -2,13 +2,13 @@
 <html>
 	<head>
 		<?php
-			include_once '/header.php';
+			include_once './header.php';
 			create_header('Card creator');
 		?>
 	</head>
 	<body>
 		<?php
-			include_once '/nav.php';
+			include_once './nav.php';
 		?>
 
 		<div class="row">
@@ -35,7 +35,7 @@
 		</div>
 
 		<?php
-			include_once '/footer.php';
+			include_once './footer.php';
 		?>
 	</body>
 	<script>

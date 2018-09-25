@@ -36,20 +36,20 @@
 
 	$grantAction = isset($_POST['grant-action']) && $_POST['grant-action'] != '' && $_POST['grant-action'] != ''? $_POST['grant-action'] : 'none';
 	$grantActionRed = isset($_POST['grant-action-red']) && $_POST['grant-action-red'] != '' && $_POST['grant-action-red'] != 'false'? true : false;
-	
+
 	$diceNumber = isset($_POST['dice-number']) && $_POST['dice-number'] != '' ? $_POST['dice-number'] : '';
 	$diceNumber = $diceNumber < 9 ? $diceNumber : 9;
 	$diceNumber = $diceNumber > 0  ? $diceNumber : 0;
-	
+
 	$rangeBonus = isset($_POST['range-bonus']) && $_POST['range-bonus'] != '' && $_POST['range-bonus'] != 'false'? true : false;
-	
+
 	$minRange = isset($_POST['min-range']) && $_POST['min-range'] != '' ? $_POST['min-range'] : '';
 	$minRange = $minRange < 5 ? $minRange : 5;
 	$minRange = $minRange >= 0  ? $minRange : 0;
 	$maxRange = isset($_POST['max-range']) && $_POST['max-range'] != '' ? $_POST['max-range'] : '';
 	$maxRange = $maxRange < 5 ? $maxRange : 5;
 	$maxRange = $maxRange >= 0  ? $maxRange : 0;
-	
+
 	$chargeNumber = isset($_POST['charge-number']) && $_POST['charge-number'] != '' ? $_POST['charge-number'] : '';
 	$chargeNumber = $chargeNumber < 9 ? $chargeNumber : 9;
 	$chargeNumber = $chargeNumber > 0  ? $chargeNumber : 0;
