@@ -32,21 +32,21 @@
 	$stats['attackFront'] = checkMinMax($stats['attackFront'], 0, 5);
 	$stats['attackRear'] = isset($_POST['attack-rear']) && $_POST['attack-rear'] != '' ? $_POST['attack-rear'] : '';
 	$stats['attackRear'] = checkMinMax($stats['attackRear'], 0, 5);
-	$stats['attackSingleTurret'] = isset($_POST['attack-singleTurret']) && $_POST['attack-singleTurret'] != '' ? $_POST['attack-singleTurret'] : '';
-	$stats['attackSingleTurret'] = checkMinMax($stats['attackSingleTurret'], 0, 5);
-	$stats['attackDoubleTurret'] = isset($_POST['attack-doubleTurret']) && $_POST['attack-doubleTurret'] != '' ? $_POST['attack-doubleTurret'] : '';
-	$stats['attackDoubleTurret'] = checkMinMax($stats['attackDoubleTurret'], 0, 5);
+	$stats['attackSingleMobile'] = isset($_POST['attack-singleMobile']) && $_POST['attack-singleMobile'] != '' ? $_POST['attack-singleMobile'] : '';
+	$stats['attackSingleMobile'] = checkMinMax($stats['attackSingleMobile'], 0, 5);
+	$stats['attackDoubleMobile'] = isset($_POST['attack-doubleMobile']) && $_POST['attack-doubleMobile'] != '' ? $_POST['attack-doubleMobile'] : '';
+	$stats['attackDoubleMobile'] = checkMinMax($stats['attackDoubleMobile'], 0, 5);
 
 	$stats['agility'] = isset($_POST['agility']) && $_POST['agility'] != '' ? $_POST['agility'] : '';
 	$stats['agility'] = checkMinMax($stats['agility'], 0, 5);
 	$stats['hull'] = isset($_POST['hull']) && $_POST['hull'] != '' ? $_POST['hull'] : '';
 	$stats['hull'] = checkMinMax($stats['hull'], 1, 15);
 	$stats['shield'] = isset($_POST['shield']) && $_POST['shield'] != '' ? $_POST['shield'] : '';
-	$stats['shield'] = checkMinMax($stats['shield'], 1, 10);
+	$stats['shield'] = checkMinMax($stats['shield'], 0, 10);
 	$stats['force'] = isset($_POST['force']) && $_POST['force'] != '' ? $_POST['force'] : '';
-	$stats['force'] = checkMinMax($stats['force'], 1, 10);
+	$stats['force'] = checkMinMax($stats['force'], 0, 6);
 	$stats['charges'] = isset($_POST['charges']) && $_POST['charges'] != '' ? $_POST['charges'] : '';
-	$stats['charges'] = checkMinMax($stats['charges'], 1, 10);
+	$stats['charges'] = checkMinMax($stats['charges'], 0, 6);
 
 	$actions = isset($_POST['actions']) && $_POST['actions'] != '' ? $_POST['actions'] : 'focus,none,none,none,none';
 	$actionsRed = isset($_POST['actions-red']) && $_POST['actions-red'] != '' ? $_POST['actions-red'] : 'none,none,none,none,none';
@@ -65,16 +65,30 @@
 	$imSeparator = @imagecreatefrompng(IM_DIR.'pilot-action-separator-'.$faction.'.png') or usr_error('Error separator image '.$faction);
 	$imBaseLinkedActions = @imagecreatefrompng(IM_DIR.'base-linked-actions-'.$faction.'.png') or usr_error('Error baseLinkedActions image '.$faction);
 
-	$imFrontArc = @imagecreatefrompng(IM_DIR.'s_frontArc.png') or usr_error('Error frontArc image');
+	$im_attackFront = @imagecreatefrompng(IM_DIR.'s_frontArc.png') or usr_error('Error frontArc image');
+	$im_attackRear = @imagecreatefrompng(IM_DIR.'s_rearArc.png') or usr_error('Error rearArc image');
+	$im_attackSingleMobile = @imagecreatefrompng(IM_DIR.'s_mobileArc.png') or usr_error('Error singleMobileArc image');
+	$im_attackDoubleMobile = @imagecreatefrompng(IM_DIR.'s_dualMobileArc.png') or usr_error('Error doubleMobileARc image');
+	$im_agility = @imagecreatefrompng(IM_DIR.'s_agility.png') or usr_error('Error agility image');
+	$im_hull = @imagecreatefrompng(IM_DIR.'s_hull.png') or usr_error('Error hull image');
+	$im_shield = @imagecreatefrompng(IM_DIR.'s_shield.png') or usr_error('Error shield image');
+	$im_force = @imagecreatefrompng(IM_DIR.'s_force.png') or usr_error('Error force image');
+	$im_charges = @imagecreatefrompng(IM_DIR.'s_charge.png') or usr_error('Error charge image');
 
 	// ----------------------------------- Color creation
 
 	$background_color = imagecolorallocate($im, 0, 0, 0);
-	$color_white = imagecolorallocate($im, 255, 255, 255);
-	$color_darkGrey = imagecolorallocate($im, 70, 70, 70);
 	$color_black = imagecolorallocate($im, 46, 46, 46);
-	$color_red = imagecolorallocate($im, 238, 32, 36);
+	$color_greyDark = imagecolorallocate($im, 70, 70, 70);
 	$color_orange = imagecolorallocate($im, 230, 118, 43);
+	$color_white = imagecolorallocate($im, 255, 255, 255);
+
+	$color_agility = imagecolorallocate($im, 106, 189, 69);
+	$color_attack = imagecolorallocate($im, 238, 32, 36);
+	$color_charges = imagecolorallocate($im, 253, 192, 16);
+	$color_force = imagecolorallocate($im, 195, 157, 201);
+	$color_hull = imagecolorallocate($im, 247, 236, 20);
+	$color_shield = imagecolorallocate($im, 125, 208, 226);
 
 	// ----------------------------------- Card name
 
@@ -137,7 +151,7 @@
 
 		}else if ($actions[$i] == 'none' && $actionsRed[$i] != 'none'){
 
-			writeTextCenter($im, $x_left, 300, $y, $y + ($y_bottom-$y_top)/$actionsRow, 14, $color_red, $symbolFont1, $_symbolConversion[ $actionsRed[$i] ]);
+			writeTextCenter($im, $x_left, 300, $y, $y + ($y_bottom-$y_top)/$actionsRow, 14, $color_attack, $symbolFont1, $_symbolConversion[ $actionsRed[$i] ]);
 			$j ++;
 
 		}else if($actions[$i] != 'none' && $actionsRed[$i] != 'none'){
@@ -145,23 +159,46 @@
 			$x_mid = (300+$x_left)/2;
 			writeTextCenter($im, $x_left, $x_mid, $y, $y + ($y_bottom-$y_top)/$actionsRow, 13, $color_white, $symbolFont1, $_symbolConversion[ $actions[$i] ]);
 			writeTextCenter($im, $x_left, 300, $y, $y + ($y_bottom-$y_top)/$actionsRow, 11, $color_white, $symbolFont1, $_symbolConversion[ 'LINK' ]);
-			writeTextCenter($im, $x_mid, 300, $y, $y + ($y_bottom-$y_top)/$actionsRow, 13, $color_red, $symbolFont1, $_symbolConversion[ $actionsRed[$i] ]);
+			writeTextCenter($im, $x_mid, 300, $y, $y + ($y_bottom-$y_top)/$actionsRow, 13, $color_attack, $symbolFont1, $_symbolConversion[ $actionsRed[$i] ]);
 			$j ++;
 		}
 	}
 
 	// ----------------------------------- Stats
 
-	$x_right = $linkedActions ? 217 : 250;
+	$numberOfStats = 0;
 
-	foreach($stats as $s){
-		if($s != 0){
-
+	foreach($stats as $key => $value){
+		if($value != 0){
+			$numberOfStats++;
 		}
 	}
 
-	drawImageCenter($im, 0, $x_right, 325, 380, 32, 32, $imFrontArc);
-	writeTextCenter($im, 0, $x_right, 338, 393, 16, $color_red, $titleFont, $stats['attackFront']);
+
+	$x_left = 0;
+	$x_right = $linkedActions ? 217 : 250;
+	// Reduction
+	$x_left += (9-$numberOfStats)*0.04*$x_right;
+	$x_right -= (9-$numberOfStats)*0.04*$x_right;
+
+	$width = ($x_right-$x_left)/$numberOfStats;
+
+	$i = 0;
+	foreach($stats as $key => $value){
+		if($value != 0){
+			$imageName = 'im_'.$key;
+			$offset = $i*$width;
+			if (strpos($key, 'attack') !== false) {
+				$color = 'color_attack';
+			}else{
+				$color = 'color_'.$key;
+			}
+
+			drawImageCenter($im, $x_left+$offset, $x_left+$offset+(1*$width), 325, 380, 32, 32, $$imageName);
+			writeTextCenter($im, $x_left+$offset, $x_left+$offset+(1*$width), 338, 393, 16, $$color, $titleFont, $stats[$key]);
+			$i++;
+		}
+	}
 
 	// ----------------------------------- Output
 

@@ -3,6 +3,8 @@
 		'tiefighter' => [
 			'attack_front' => 2,
 			'attack_rear' => 0,
+			'attack_singleMobile' => 0,
+			'attack_doubleMobile' => 0,
 			'agility' => 3,
 			'hull' => 3,
 			'shield' => 0,
@@ -18,6 +20,8 @@
 		'tieinterceptor' => [
 			'attack_front' => 3,
 			'attack_rear' => 0,
+			'attack_singleMobile' => 0,
+			'attack_doubleMobile' => 0,
 			'agility' => 3,
 			'hull' => 3,
 			'shield' => 0,
@@ -33,6 +37,8 @@
 		'tieadvanced' => [
 			'attack_front' => 2,
 			'attack_rear' => 0,
+			'attack_singleMobile' => 0,
+			'attack_doubleMobile' => 0,
 			'agility' => 3,
 			'hull' => 3,
 			'shield' => 2,
@@ -48,7 +54,9 @@
 		'xwing' => [
 			'attack_front' => 3,
 			'attack_rear' => 0,
-			'agility' => 2,
+			'attack_singleMobile' => 0,
+			'attack_doubleMobile' => 0,
+			'agility' => 3,
 			'hull' => 4,
 			'shield' => 2,
 			'actions' => [
@@ -63,7 +71,9 @@
 		'ywing' => [
 			'attack_front' => 2,
 			'attack_rear' => 0,
-			'agility' => 1,
+			'attack_singleMobile' => 0,
+			'attack_doubleMobile' => 0,
+			'agility' => 3,
 			'hull' => 6,
 			'shield' => 2,
 			'actions' => [
@@ -78,6 +88,8 @@
 		'protectoratestarfighter' => [
 			'attack_front' => 3,
 			'attack_rear' => 0,
+			'attack_singleMobile' => 0,
+			'attack_doubleMobile' => 0,
 			'agility' => 3,
 			'hull' => 4,
 			'shield' => 0,
@@ -93,7 +105,9 @@
 		'firespray31' => [
 			'attack_front' => 3,
 			'attack_rear' => 3,
-			'agility' => 2,
+			'attack_singleMobile' => 0,
+			'attack_doubleMobile' => 0,
+			'agility' => 3,
 			'hull' => 6,
 			'shield' => 4,
 			'actions' => [
@@ -108,6 +122,8 @@
 		'tiefofighter' => [
 			'attack_front' => 2,
 			'attack_rear' => 0,
+			'attack_singleMobile' => 0,
+			'attack_doubleMobile' => 0,
 			'agility' => 3,
 			'hull' => 3,
 			'shield' => 1,
@@ -123,7 +139,9 @@
 		't70xwing' => [
 			'attack_front' => 3,
 			'attack_rear' => 0,
-			'agility' => 2,
+			'attack_singleMobile' => 0,
+			'attack_doubleMobile' => 0,
+			'agility' => 3,
 			'hull' => 4,
 			'shield' => 3,
 			'actions' => [

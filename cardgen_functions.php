@@ -38,7 +38,6 @@
 		
 		imagecopyresampled($backGroundImage, $newImage, $areaLeftLimit+$x_offset, $areaTopLimit+$y_offset, 0, 0, $size_h, $size_w, $x_image, $y_image);
 
-
 		return $offsets;
 	}
 

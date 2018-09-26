@@ -335,12 +335,12 @@
 							<input type="range" name="attack-rear" id="attack-rear" min="0" max="5" value="0"/>
 						</div>
 						<div class="col s6">
-							<label for="attack">Primary attack <i class="xwing-miniatures-font xwing-miniatures-font-singleturretarc"></i><span id="attack-singleTurret-visualizer" class="badge" title="Primary single turret attack"></span></label>
-							<input type="range" name="attack-singleTurret" id="attack-singleTurret" min="0" max="5" value="0"/>
+							<label for="attack">Primary attack <i class="xwing-miniatures-font xwing-miniatures-font-singleturretarc"></i><span id="attack-singleMobile-visualizer" class="badge" title="Primary single turret attack"></span></label>
+							<input type="range" name="attack-singleMobile" id="attack-singleMobile" min="0" max="5" value="0"/>
 						</div>
 						<div class="col s6">
-							<label for="attack">Primary attack <i class="xwing-miniatures-font xwing-miniatures-font-doubleturretarc"></i><span id="attack-doubleTurret-visualizer" class="badge" title="Primary double turret attack"></span></label>
-							<input type="range" name="attack-doubleTurret" id="attack-doubleTurret" min="0" max="5" value="0"/>
+							<label for="attack">Primary attack <i class="xwing-miniatures-font xwing-miniatures-font-doubleturretarc"></i><span id="attack-doubleMobile-visualizer" class="badge" title="Primary double turret attack"></span></label>
+							<input type="range" name="attack-doubleMobile" id="attack-doubleMobile" min="0" max="5" value="0"/>
 						</div>
 						<div class="col s6">
 							<label for="agility">Agility<span id="agility-visualizer" class="badge" title="Agility"></span></label>
@@ -447,6 +447,8 @@
 
 				$('input[type=range][name=attack-front]').val(stats.attack_front);
 				$('input[type=range][name=attack-rear]').val(stats.attack_rear);
+				$('input[type=range][name=attack-singleMobile]').val(stats.attack_singleMobile);
+				$('input[type=range][name=attack-doubleMobile]').val(stats.attack_doubleMobile);
 				$('input[type=range][name=agility]').val(stats.agility);
 				$('input[type=range][name=hull]').val(stats.hull);
 				$('input[type=range][name=shield]').val(stats.shield);
@@ -484,11 +486,11 @@
 		$('input[type=range][name=attack-rear]').change(function(e){
 			$('span#attack-rear-visualizer').html( $('input[type=range][name=attack-rear]').val() );
 		});
-		$('input[type=range][name=attack-singleTurret]').change(function(e){
-			$('span#attack-singleTurret-visualizer').html( $('input[type=range][name=attack-singleTurret]').val() );
+		$('input[type=range][name=attack-singleMobile]').change(function(e){
+			$('span#attack-singleMobile-visualizer').html( $('input[type=range][name=attack-singleMobile]').val() );
 		});
-		$('input[type=range][name=attack-doubleTurret]').change(function(e){
-			$('span#attack-doubleTurret-visualizer').html( $('input[type=range][name=attack-doubleTurret]').val() );
+		$('input[type=range][name=attack-doubleMobile]').change(function(e){
+			$('span#attack-doubleMobile-visualizer').html( $('input[type=range][name=attack-doubleMobile]').val() );
 		});
 		$('input[type=range][name=agility]').change(function(e){
 			$('span#agility-visualizer').html( $('input[type=range][name=agility]').val() );
@@ -518,8 +520,8 @@
 			$('input[type=range][name=initiative]').trigger('change');
 			$('input[type=range][name=attack-front]').trigger('change');
 			$('input[type=range][name=attack-rear]').trigger('change');
-			$('input[type=range][name=attack-singleTurret]').trigger('change');
-			$('input[type=range][name=attack-doubleTurret]').trigger('change');
+			$('input[type=range][name=attack-singleMobile]').trigger('change');
+			$('input[type=range][name=attack-doubleMobile]').trigger('change');
 			$('input[type=range][name=agility]').trigger('change');
 			$('input[type=range][name=hull]').trigger('change');
 			$('input[type=range][name=shield]').trigger('change');
@@ -547,8 +549,8 @@
 			formData.append('initiative', $('input[type=range][name=initiative]').val());
 			formData.append('attack-front', $('input[type=range][name=attack-front]').val());
 			formData.append('attack-rear', $('input[type=range][name=attack-rear]').val());
-			formData.append('attack-singleTurret', $('input[type=range][name=attack-singleTurret]').val());
-			formData.append('attack-doubleTurret', $('input[type=range][name=attack-doubleTurret]').val());
+			formData.append('attack-singleMobile', $('input[type=range][name=attack-singleMobile]').val());
+			formData.append('attack-doubleMobile', $('input[type=range][name=attack-doubleMobile]').val());
 
 			formData.append('agility', $('input[type=range][name=agility]').val());
 			formData.append('hull', $('input[type=range][name=hull]').val());
