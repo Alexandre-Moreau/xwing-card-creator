@@ -169,7 +169,7 @@
 	$numberOfStats = 0;
 
 	foreach($stats as $key => $value){
-		if($value != 0){
+		if($value != 0 || $key == 'agility' ){
 			$numberOfStats++;
 		}
 	}
@@ -185,7 +185,7 @@
 
 	$i = 0;
 	foreach($stats as $key => $value){
-		if($value != 0){
+		if($value != 0 || $key == 'agility' ){
 			$imageName = 'im_'.$key;
 			$offset = $i*$width;
 			if (strpos($key, 'attack') !== false) {
