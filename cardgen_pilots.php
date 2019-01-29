@@ -1,8 +1,5 @@
 <?php
 
-	define('ROOT_DIR', './');
-	define('IM_DIR', './img/');
-
 	include_once 'symbol_conversion.php';
 	include_once 'cardgen_functions.php';
 

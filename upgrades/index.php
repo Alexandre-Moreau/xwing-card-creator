@@ -817,6 +817,8 @@
 						console.log(data);
 					}
 
+					output = data;
+
 					data = JSON.parse(data);
 
 					cardgenOutput = data;

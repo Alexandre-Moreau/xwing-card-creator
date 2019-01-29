@@ -1,7 +1,5 @@
 <?php
 
-	define('ROOT_DIR', './');
-
 	define('CARD_W', 418);
 	define('CARD_H', 300);
 	define('CARD_ART_W', 238);
@@ -15,11 +13,11 @@
 	$outPutData['post'] = $_POST;
 	$outPutData['log'] = [];
 
-	$mainFont = ROOT_DIR.'src/arial.ttf';
-	$titleFont = ROOT_DIR.'src/Orbitron-Bold.ttf';
-	$boldFont = ROOT_DIR.'src/arialbd.ttf';
-	$italicFont = ROOT_DIR.'src/ariali.ttf';
-	$symbolFont1 = ROOT_DIR.'src/xwing-miniatures-modified.ttf';
+	$mainFont = loadRessource('arial.ttf');
+	$titleFont = loadRessource('Orbitron-Bold.ttf');
+	$boldFont = loadRessource('arialbd.ttf');
+	$italicFont = loadRessource('ariali.ttf');
+	$symbolFont1 = loadRessource('xwing-miniatures-modified.ttf');
 
 	//Ajouter controle de saisie type d'upgrade
 
@@ -38,26 +36,21 @@
 	$grantActionRed = isset($_POST['grant-action-red']) && $_POST['grant-action-red'] != '' && $_POST['grant-action-red'] != 'false'? true : false;
 
 	$diceNumber = isset($_POST['dice-number']) && $_POST['dice-number'] != '' ? $_POST['dice-number'] : '';
-	$diceNumber = $diceNumber < 9 ? $diceNumber : 9;
-	$diceNumber = $diceNumber > 0  ? $diceNumber : 0;
+	$diceNumber = checkMinMax($diceNumber, 0, 9);
 
 	$rangeBonus = isset($_POST['range-bonus']) && $_POST['range-bonus'] != '' && $_POST['range-bonus'] != 'false'? true : false;
 
 	$minRange = isset($_POST['min-range']) && $_POST['min-range'] != '' ? $_POST['min-range'] : '';
-	$minRange = $minRange < 5 ? $minRange : 5;
-	$minRange = $minRange >= 0  ? $minRange : 0;
+	$minRange = checkMinMax($minRange, 0, 5);
 	$maxRange = isset($_POST['max-range']) && $_POST['max-range'] != '' ? $_POST['max-range'] : '';
-	$maxRange = $maxRange < 5 ? $maxRange : 5;
-	$maxRange = $maxRange >= 0  ? $maxRange : 0;
+	$maxRange = checkMinMax($maxRange, 0, 5);
 
 	$chargeNumber = isset($_POST['charge-number']) && $_POST['charge-number'] != '' ? $_POST['charge-number'] : '';
-	$chargeNumber = $chargeNumber < 9 ? $chargeNumber : 9;
-	$chargeNumber = $chargeNumber > 0  ? $chargeNumber : 0;
+	$chargeNumber = checkMinMax($chargeNumber, 0, 9);
 	$chargeRegen = isset($_POST['charge-regenerate']) && $_POST['charge-regenerate'] != '' && $_POST['charge-regenerate'] != 'false' ? true : false;
 
 	$forceNumber = isset($_POST['force-number']) && $_POST['force-number'] != '' ? $_POST['force-number'] : '';
-	$forceNumber = $forceNumber < 9 ? $forceNumber : 9;
-	$forceNumber = $forceNumber > 0  ? $forceNumber : 0;
+	$forceNumber = checkMinMax($forceNumber, 0, 9);
 	$forceRegen = isset($_POST['force-regenerate']) && $_POST['force-regenerate'] != '' && $_POST['force-regenerate'] != 'false' ? true : false;
 
 	$hullNumber = isset($_POST['hull-number']) && $_POST['hull-number'] != '' ? $_POST['hull-number'] : '';
@@ -79,10 +72,9 @@
 	}
 
 	// ----------------------------------- Image loading
-
-	$im = @imagecreatefrompng(ROOT_DIR.'img/base.png') or usr_error("Error base image");
-	$imLimited = @imagecreatefrompng(ROOT_DIR.'img/limited.png') or usr_error('Error limited image');
-	$imTextBackground = @imagecreatefrompng(ROOT_DIR.'img/' . $textSize .'_text.png') or usr_error('Error text background image');
+	$im = loadImagePng('base.png');
+	$imLimited = loadImagePng('limited.png');
+	$imTextBackground = loadImagePng($textSize .'_text.png');
 
 	if(isset($_FILES['image']['type']) && $_FILES['image']['type'] == 'image/jpeg'){
 		$imCardArt = @imagecreatefromjpeg($imgArt) or usr_error('Error card art image');
@@ -90,22 +82,22 @@
 		$imCardArt = @imagecreatefrompng($imgArt) or usr_error('Error card art image');
 	}
 
-	$imCardType = @imagecreatefrompng(ROOT_DIR.'img/upgrade-' . $cardType .'.png') or usr_error('Error type image');
+	$imCardType = loadImagePng('upgrade-' . $cardType .'.png');
 	
-	$imSecondaryWeapondBackground = @imagecreatefrompng(ROOT_DIR.'img/secondary-weapon-background.png') or usr_error('Error imSecondaryWeapondBackground');
-	$imSecondaryWeapondArc = @imagecreatefrompng(ROOT_DIR.'img/secondary-arc-' . $arcType . '.png') or usr_error('Error imSecondaryWeapondArc ('.$arcType.')');
-	$imSecondaryWeapondRange = @imagecreatefrompng(ROOT_DIR.'img/secondary-range-bonus.png') or usr_error('Error imSecondaryWeapondRange');
+	$imSecondaryWeapondBackground = loadImagePng('secondary-weapon-background.png');
+	$imSecondaryWeapondArc = loadImagePng('secondary-arc-' . $arcType . '.png');
+	$imSecondaryWeapondRange = loadImagePng('secondary-range-bonus.png');
 
-	$imGrantAction = @imagecreatefrompng(ROOT_DIR.'img/grantAction.png') or usr_error('Error imGrantAction');
+	$imGrantAction = loadImagePng('grantAction.png');
 	
-	$imCharges = @imagecreatefrompng(ROOT_DIR.'img/bonus-charges.png') or usr_error('Error imCharges');
-	$imChargesRegen =  @imagecreatefrompng(ROOT_DIR.'img/charge-regen.png') or usr_error('Error imChargesRegen');
-	$imForces = @imagecreatefrompng(ROOT_DIR.'img/bonus-forces.png') or usr_error('Error imForces');
-	$imForcesRegen =  @imagecreatefrompng(ROOT_DIR.'img/force-regen.png') or usr_error('Error imForcesRegen');
-	$imHull = @imagecreatefrompng(ROOT_DIR.'img/bonus-hull.png') or usr_error('Error imHull');
-	$imShield = @imagecreatefrompng(ROOT_DIR.'img/bonus-shield.png') or usr_error('Error imShield');
+	$imCharges = loadImagePng('bonus-charges.png');
+	$imChargesRegen =  loadImagePng('charge-regen.png');
+	$imForces = loadImagePng('bonus-forces.png');
+	$imForcesRegen =  loadImagePng('force-regen.png');
+	$imHull = loadImagePng('bonus-hull.png');
+	$imShield = loadImagePng('bonus-shield.png');
 
-	$imRestrictionsText = @imagecreatefrompng(ROOT_DIR.'img/restrictions_text.png') or usr_error('Error imRestrictionsText');
+	$imRestrictionsText = loadImagePng('restrictions_text.png');
 
 	// ----------------------------------- Color creation
 	

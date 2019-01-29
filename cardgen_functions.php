@@ -1,5 +1,9 @@
 <?php
 
+	define('ROOT_DIR', $_SERVER['DOCUMENT_ROOT'].'/');
+	define('IM_DIR', ROOT_DIR.'img/');
+	define('MISC_DIR', ROOT_DIR.'src/');
+
 	function usr_error($error){
 		$outPutData;
 		$outPutData['errors'] = [];
@@ -48,6 +52,25 @@
 		$v = $val < $max ? $val : $max;
 		$v = $v > $min  ? $v : $min;
 		return $v;
+	}
+
+	function loadImagePng($fileName){
+		try {
+			$im = imagecreatefrompng(IM_DIR.$fileName);
+			return $im;
+		} catch (Exception $e) {
+			usr_error(IM_DIR.$fileName.' : error '.$e->getCode());
+		}
+		
+		return $im;
+	}
+
+	function loadRessource($name){
+		if(file_exists(MISC_DIR.$name)){
+			return MISC_DIR.$name;
+		}else{
+			usr_error('Ressource "'.MISC_DIR.$name.'" not found');
+		}
 	}
 	
 ?>
