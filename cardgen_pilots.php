@@ -1,9 +1,8 @@
 <?php
 
-	include_once 'symbol_conversion.php';
 	include_once 'cardgen_functions.php';
 
-	global $outPutData;
+	$outPutData;
 	$outPutData['errors'] = [];
 	$outPutData['post'] = $_POST;
 	$outPutData['log'] = [];

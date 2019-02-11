@@ -4,27 +4,180 @@
 	define('IM_DIR', ROOT_DIR.'img/');
 	define('MISC_DIR', ROOT_DIR.'src/');
 
+	include_once 'symbol_conversion.php';
+
+	function usr_log($log){
+		global $outPutData;
+		array_push($outPutData['log'], $log);
+	}
+
 	function usr_error($error){
-		$outPutData;
+		global $outPutData;
 		$outPutData['errors'] = [];
-		$outPutData['post'] = $_POST;
-		$outPutData['log'] = [];
 		array_push($outPutData['errors'], $error);
 		echo json_encode($outPutData);
 		die();
 	}
+
+	/*
+		Process text
+	*/
+	function processTextSymbols($textArray, $fontSize, $baseFont=null){
+		$processedOutput = [];
+		global $_symbolConversion;
+		global $mainFont;
+		global $italicFont;
+		global $boldFont;
+		global $symbolFont;
+
+		$bold = false;
+		$italic = false;
+
+		$cardTextArray = explode(' ', $textArray);
+
+		$i = 0;
+
+		foreach($cardTextArray as $word){
+
+			$word = $cardTextArray[$i];
+
+			$currentWord = [];
+
+			// ----------------------------------- Bold/Italic text processing
+
+			if(strlen($word)>0 && substr($word, 0, 1)=='*'){
+				if(strlen($word)>1 && substr($word, 0, 2)=='**'){
+					$bold = !$bold;
+					$word = substr($word, 2);
+				}else{
+					$italic = !$italic;
+					$word = substr($word, 1);
+				}
+			}
+
+			// ----------------------------------- 
+
+			if($word == ''){
+				
+			}else{
+				if(preg_match("/![^\s]{3}$/", $word)){
+					$symbName = substr($word, 1);
+					$currentWord = ['text' => $_symbolConversion[$symbName], 'font' => $symbolFont, 'fontSize' => $fontSize];
+				}else{
+					if($baseFont == null || $baseFont == $mainFont){
+
+						if($bold){
+							$currentWord = ['text' => $word, 'font' => $boldFont, 'fontSize' => $fontSize];
+						}else if($italic){
+							$currentWord = ['text' => $word, 'font' => $italicFont, 'fontSize' => $fontSize];
+						}else{
+							$currentWord = ['text' => $word, 'font' => $mainFont, 'fontSize' => $fontSize];
+						}
+					}else{
+						usr_log('custom');
+						$currentWord = ['text' => $word, 'font' => $baseFont, 'fontSize' => $fontSize];
+					}
+				}
+				/*
+					- no space after [ before !xxx
+					- no space after !xxx before ( ] | ]: | . | , )
+					- after LIMITED, half space
+				*/
+				if($word == '[' && $i+1<sizeof($cardTextArray) && preg_match("/![^\s]{3}$/", $cardTextArray[$i+1]) ){
+					usr_log($word.' x');
+					$currentWord['spaceAfter'] = 0;
+				}else if(preg_match("/![^\s]{3}$/", $word) && $i+1<sizeof($cardTextArray) && in_array($cardTextArray[$i+1], [']', ']:', '.', ','])){
+					$currentWord['spaceAfter'] = 0;
+				}else if($word == '!LIM'){
+					$currentWord['spaceAfter'] = 0.5;
+				}else{
+					$currentWord['spaceAfter'] = 1;
+				}
+				/*
+					carriage return after the word
+				*/
+				if(false){
+					$currentWord['cReturnAfter'] = true;
+				}else{
+					$currentWord['cReturnAfter'] = false;
+				}
+				array_push($processedOutput, $currentWord);
+			}
+
+			$i++;
+		}
+
+		return $processedOutput;
+	}
+
+	function writeTextBlockCenter($backGroundImage, $areaLeftLimit, $areaRightLimit, $areaTopLimit, $areaBottomLimit, $content, $color){
+		
+		$y_newLine = 14;
+		$x_space = 8;
+
+		$lines = [];
+
+		// ----------------------------------- Line by line splitting
+
+		$currentLine = [];
+		$currentWidthOfLine = 0;
+
+		foreach($content as $word){
+
+			$widhtOfNewWord = imagettfbbox($word['fontSize'], 0, $word['font'], $word['text'] )[2] + $x_space;
+
+			if($currentWidthOfLine+$widhtOfNewWord >= $areaRightLimit-$areaLeftLimit){
+				array_push($lines, $currentLine);
+				$currentLine = [];
+				$currentWidthOfLine = 0;
+			}
+
+			array_push($currentLine, $word);
+			$currentWidthOfLine += $widhtOfNewWord;
+
+		}
+
+		if($currentLine != []){
+			array_push($lines, $currentLine);
+		}
+
+
+
+		// ----------------------------------- Calculating the top offset for vertical alignment
+
+		$topOffset = ($areaBottomLimit - $areaTopLimit-sizeof($lines)*$y_newLine)/2;
+
+		// ----------------------------------- Writing text line by line
+
+		foreach($lines as $line){
+			writeLignCenter($backGroundImage, $areaLeftLimit, $areaRightLimit, $areaTopLimit + $topOffset, $areaBottomLimit, $line, $color);
+			$topOffset += $y_newLine;
+		}
+
+	}
 	
 
-	function writeTextCenter($backGroundImage, $areaLeftLimit, $areaRightLimit, $areaTopLimit, $areaBottomLimit, $fontSize, $color, $font, $text){
+	function writeLignCenter($backGroundImage, $areaLeftLimit, $areaRightLimit, $areaTopLimit, $areaBottomLimit, $line, $color){
 
-		$x_offsetCenter = ( $areaRightLimit - ($areaLeftLimit + imagettfbbox($fontSize, 0, $font, $text)[2] ) )/2;
-		$y_offsetCenter = ( $areaBottomLimit - ($areaTopLimit + imagettfbbox($fontSize, 0, $font, $text)[5] ) )/2;
+		$x_space = 8;
+		
+		// ----------------------------------- Left offset calculation
 
-		$offsets = [$x_offsetCenter, $y_offsetCenter];
+		$totalWidth = 0;
+		foreach($line as $word){
+			$totalWidth += imagettfbbox($word['fontSize'], 0, $word['font'], $word['text'] )[2] + $x_space;
+		}
+		$totalWidth -= $x_space;
+		$x_offset = ($areaRightLimit-$areaLeftLimit-$totalWidth)/2;
 
-		imagettftext($backGroundImage, $fontSize, 0, $areaLeftLimit + $x_offsetCenter, $areaTopLimit + $y_offsetCenter, $color, $font, $text );
+		// ----------------------------------- Word by word drawing
 
-		return $offsets;
+		foreach($line as $word){
+			// Draw word and return corners
+			$corners = imagettftext($backGroundImage, $word['fontSize'], 0, $areaLeftLimit + $x_offset, $areaTopLimit, $color, $word['font'], $word['text'] );
+			$x_offset = $corners[2] - $areaLeftLimit;
+			$x_offset += $word['spaceAfter']*$x_space;
+		}
 
 	}
 

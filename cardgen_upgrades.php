@@ -4,8 +4,7 @@
 	define('CARD_H', 300);
 	define('CARD_ART_W', 238);
 	define('CARD_ART_H', 120);
-
-	include_once 'symbol_conversion.php';
+	
 	include_once 'cardgen_functions.php';
 
 	global $outPutData;
@@ -17,14 +16,11 @@
 	$titleFont = loadRessource('Orbitron-Bold.ttf');
 	$boldFont = loadRessource('arialbd.ttf');
 	$italicFont = loadRessource('ariali.ttf');
-	$symbolFont1 = loadRessource('xwing-miniatures-modified.ttf');
-
-	//Ajouter controle de saisie type d'upgrade
+	$symbolFont = loadRessource('xwing-miniatures-modified.ttf');
 
 	// ----------------------------------- 
 
 	$cardName = strtoupper((isset($_POST['card-name']) && $_POST['card-name'] != '' ? $_POST['card-name'] : ''));
-	$limited = isset($_POST['limited']) && $_POST['limited'] != '' && $_POST['limited'] != 'false' ? true : false;
 
 	$imgArt = (isset($_FILES['image']['tmp_name']) ? $_FILES['image']['tmp_name'] : ROOT_DIR.'img/blank-image.png');
 	$cardType = isset($_POST['card-type']) && $_POST['card-type'] != '' ? $_POST['card-type'] : 'ept';
@@ -59,7 +55,6 @@
 	$shieldNumber = isset($_POST['shield-number']) && $_POST['shield-number'] != '' ? $_POST['shield-number'] : '';
 	$shieldNumber = checkMinMax($shieldNumber, 0, 6);
 
-
 	$cardText = (isset($_POST['card-text']) && $_POST['card-text'] != '' ? $_POST['card-text'] : '');
 	$italicText = isset($_POST['italic-text']) && $_POST['italic-text'] != '' && $_POST['italic-text'] != 'false' ? true : false;
 
@@ -73,7 +68,6 @@
 
 	// ----------------------------------- Image loading
 	$im = loadImagePng('base.png');
-	$imLimited = loadImagePng('limited.png');
 	$imTextBackground = loadImagePng($textSize .'_text.png');
 
 	if(isset($_FILES['image']['type']) && $_FILES['image']['type'] == 'image/jpeg'){
@@ -110,16 +104,8 @@
 
 	// ----------------------------------- Card name
 
-	if($limited){
-		//imagecopyresampled($im, $imLimited, 182, 129, 0, 0, 8, 8, 8, 8);
-	}
-
-	//imagettftext($im, 10, 0, 193, 139, $color_white, $titleFont, $cardName);
-
-	$offsets = writeTextCenter($im, 167, 404, 124, 142, 10, $color_white, $titleFont, $cardName);
-	if($limited){
-		writeTextCenter($im, 167+$offsets[0]-10, 167+$offsets[0], 126, 144, 12, $color_white, $symbolFont1, $_symbolConversion[ 'LIMITED' ]);
-	}
+	$processedText = processTextSymbols($cardName, 10, $titleFont);
+	$offsets = writeTextBlockCenter($im, 167, 404, 138, 160, $processedText, $color_white);
 
 	// ----------------------------------- Card art
 
@@ -165,67 +151,68 @@
 	$y_max = 284;
 	$y_newLine = 14;
 
-	$cardText_fontSize = 9;
-
-	$cardTextArray = explode(' ', $cardText);
+	$cardText_fontSize = 10;
 
 	$fontMainText = $italicText ? $italicFont : $mainFont;
-	
-	while($cardTextArray != []){
 
-		$x_current = $x_left;
-		$lineTextProcessed = '';
-		// [ [name, y], [name, y], [name, y] ]
-		$symbols = [];
+	$content = processTextSymbols($cardText, $cardText_fontSize, $fontMainText);
+	writeTextBlockCenter($im, $x_left, $x_right, $y_line, $y_max, $content, $color_black);
 
-		// Tests if the text is too long
-		if($y_line > $y_max){
-			array_push($outPutData['errors'], 'The text is too long');
-			break;
-		}
+	/*
+		writeTextBlockCenter($im, $x_left, $x_right, $y_line, $y_max, $content, $color_black);
+	*/
 
-		// First word is larger than the line
-		if($x_left + imagettfbbox($cardText_fontSize, 0, $fontMainText, $cardTextArray[0])[2] > $x_right){
-			array_push($outPutData['errors'], 'One of the words is larger than the line');
-			break;
-		}
-		// Tests if text + next world will fit
-		// If the word is a symbol ( /![^\s]{3}/ ), tests if the spaces will fit
-		while($cardTextArray != [] && $x_left + imagettfbbox($cardText_fontSize, 0, $fontMainText, $lineTextProcessed.' '.preg_replace("/![^\s]{3}/", "     ", $cardTextArray[0]))[2] < $x_right){
-			// Tests if line contains a symbol and store position
-			$match;
-			if(preg_match("/![^\s]{3}/", $cardTextArray[0], $match, PREG_OFFSET_CAPTURE)){
-				$x_offset = $x_left + imagettfbbox($cardText_fontSize, 0, $fontMainText, $lineTextProcessed)[2] + 2;
-				// $match[0][1] : number of characters before the symbol
-				$x_offset += imagettfbbox( $cardText_fontSize, 0, $fontMainText, substr($cardTextArray[0], 0, $match[0][1]) )[2];
+	// while($cardTextArray != []){
+
+	// 	$x_current = $x_left;
+	// 	$lineTextProcessed = '';
+	// 	// [ [name, y], [name, y], [name, y] ]
+	// 	$symbols = [];
+
+	// 	// Tests if the text is too long
+	// 	if($y_line > $y_max){
+	// 		array_push($outPutData['errors'], 'The text is too long');
+	// 		break;
+	// 	}
+
+	// 	// First word is larger than the line
+	// 	if($x_left + imagettfbbox($cardText_fontSize, 0, $fontMainText, $cardTextArray[0])[2] > $x_right){
+	// 		array_push($outPutData['errors'], 'One of the words is larger than the line');
+	// 		break;
+	// 	}
+	// 	// Tests if text + next world will fit
+	// 	// If the word is a symbol ( /![^\s]{3}/ ), tests if the spaces will fit
+	// 	while($cardTextArray != [] && $x_left + imagettfbbox($cardText_fontSize, 0, $fontMainText, $lineTextProcessed.' '.preg_replace("/![^\s]{3}/", "     ", $cardTextArray[0]))[2] < $x_right){
+	// 		// Tests if line contains a symbol and store position
+	// 		$match;
+	// 		if(preg_match("/![^\s]{3}/", $cardTextArray[0], $match, PREG_OFFSET_CAPTURE)){
+	// 			$x_offset = $x_left + imagettfbbox($cardText_fontSize, 0, $fontMainText, $lineTextProcessed)[2] + 2;
+	// 			// $match[0][1] : number of characters before the symbol
+	// 			$x_offset += imagettfbbox( $cardText_fontSize, 0, $fontMainText, substr($cardTextArray[0], 0, $match[0][1]) )[2];
 				
-				array_push($symbols, [$match[0][0], $x_offset]);
-			}
-			preg_match("/![^\s]{3}/", $cardTextArray[0], $a);
-			$lineTextProcessed .= ' '.preg_replace("/![^\s]{3}/", '     ', array_shift($cardTextArray));
-		}
+	// 			array_push($symbols, [$match[0][0], $x_offset]);
+	// 		}
+	// 		preg_match("/![^\s]{3}/", $cardTextArray[0], $a);
+	// 		$lineTextProcessed .= ' '.preg_replace("/![^\s]{3}/", '     ', array_shift($cardTextArray));
+	// 	}
 
 		
-		$x_offsetCenter = ( $x_right - ($x_left + imagettfbbox($cardText_fontSize, 0, $fontMainText, $lineTextProcessed)[2] ) )/2;
+	// 	$x_offsetCenter = ( $x_right - ($x_left + imagettfbbox($cardText_fontSize, 0, $fontMainText, $lineTextProcessed)[2] ) )/2;
 
-		foreach($symbols as $s){
-			$symbName = substr($s[0], 1);
-			//$x_offsetCenter = ($x_right - ($x_left + $s[1]) ) / 2;
-			//$x_offsetCenter = $s[1]-$x_left;
+	// 	foreach($symbols as $s){
+	// 		$symbName = substr($s[0], 1);
+	// 		//$x_offsetCenter = ($x_right - ($x_left + $s[1]) ) / 2;
+	// 		//$x_offsetCenter = $s[1]-$x_left;
 
-
-
-
-			imagettftext($im, $cardText_fontSize, 0, $s[1]+$x_offsetCenter+1, $y_line, $color_black, $symbolFont1, $_symbolConversion[$symbName]);
-		}
+	// 		imagettftext($im, $cardText_fontSize, 0, $s[1]+$x_offsetCenter+1, $y_line, $color_black, $symbolFont, $_symbolConversion[$symbName]);
+	// 	}
 
 
+	// 	// Write the largest line possible
 
-		// Write the largest line possible
-
-		imagettftext($im, $cardText_fontSize, 0, $x_left+$x_offsetCenter, $y_line, $color_black, $fontMainText, $lineTextProcessed);
-		$y_line += $y_newLine;
-	}
+	// 	imagettftext($im, $cardText_fontSize, 0, $x_left+$x_offsetCenter, $y_line, $color_black, $fontMainText, $lineTextProcessed);
+	// 	$y_line += $y_newLine;
+	//}
 
 	// ----------------------------------- Granted actions
 
@@ -235,10 +222,9 @@
 		imagecopyresampled($im, $imGrantAction, 338, 199, 0, 0, 67, 36, 67, 36);
 		$color = $grantActionRed ? $color_red : $color_white;
 
-		//344, 407
-
-		// writeTextCenter($im, 344, 407, 203, 230, 13, $color, $symbolFont1, $_symbolConversion[strtoupper($grantAction)] );
-		writeTextCenter($im, 344, 407, 203, 230, 13, $color, $symbolFont1, $_symbolConversion[strtoupper($grantAction)] );
+		/*
+			writeTextBlockCenter($im, 344, 407, 203, 230, 13, $color, $symbolFont, $_symbolConversion[strtoupper($grantAction)] );
+		*/
 	}
 
 	// ----------------------------------- Charges
@@ -310,56 +296,9 @@
 
 		$y_line = 262;
 		$y_max = 290;
-		$y_newLine = 14;
 
-		$restrictionText_fontSize = 9;
-
-		$restrictionsTextArray = explode(' ', trim($restrictionsText));
-
-		if( ( isset($_symbolConversion[$restrictionsTextArray[0]]) && count($restrictionsTextArray) == 1 ) ){
-			// Action restriction
-
-			imagettftext($im, $restrictionText_fontSize+4, 0, 71, 276, $color_black, $symbolFont1, $_symbolConversion[$restrictionsTextArray[0]]);
-
-		}else if( ($restrictionsTextArray[0] == 'RED' && isset($_symbolConversion[$restrictionsTextArray[1]]) && count($restrictionsTextArray) == 2 ) ){
-			// Red action restriction
-
-			imagettftext($im, $restrictionText_fontSize+4, 0, 71, 276, $color_red, $symbolFont1, $_symbolConversion[$restrictionsTextArray[1]]);
-
-		}else{
-			// Classic text
-
-			while($restrictionsTextArray != []){
-
-				$x_current = $x_left;
-				$lineTextProcessed = '';
-
-				// Tests if the text is too long
-				if($y_line > $y_max){
-					array_push($outPutData['errors'], 'The text is too long');
-					break;
-				}
-
-				// First word is larger than the line
-				if($x_left + imagettfbbox($restrictionText_fontSize, 0, $italicFont, $restrictionsTextArray[0])[2] > $x_right){
-					array_push($outPutData['errors'], 'One of the words is larger than the line');
-					break;
-				}
-
-				while($restrictionsTextArray != [] && $x_left + imagettfbbox($restrictionText_fontSize, 0, $italicFont, $lineTextProcessed.' '.$restrictionsTextArray[0])[2] < $x_right){
-
-					$lineTextProcessed .= ' '.array_shift($restrictionsTextArray);
-
-				}
-
-				$x_offsetCenter = ( $x_right - ($x_left + imagettfbbox($restrictionText_fontSize, 0, $italicFont, $lineTextProcessed)[2] ) )/2;
-
-				imagettftext($im, $restrictionText_fontSize, 0, $x_left+$x_offsetCenter, $y_line, $color_darkGrey, $italicFont, $lineTextProcessed);
-
-				$y_line += $y_newLine;
-			}
-
-		}
+		$processedText = processTextSymbols($restrictionsText, 9, $italicFont);
+		writeTextBlockCenter($im, $x_left, $x_right, $y_line, $y_max, $processedText, $color_black);
 
 	}
 

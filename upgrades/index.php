@@ -22,10 +22,8 @@
 							<input type="text" name="card-name">
 						</div>
 						<div class="col s6">
-							<label for="limited">Limited</label>
-							<div class="switch">
-								<label>No<input type="checkbox" name="limited"><span class="lever"></span>Yes</label>
-							</div>
+							<label for="limited">Limited <span id="limited-visualizer" class="badge" title="Limited"></span></label>
+								<input type="range" id="limited" name="limited" min="1" max="4" value="4"/>
 						</div>
 					</div>
 					<br/>
@@ -71,7 +69,7 @@
 					<div>
 						<label for="card-text">Card text</label>
 						<textarea rows="4" cols="50" name="card-text"></textarea>
-						<label><input type="checkbox" name="italic-text" value="true" class="filled-in"><span>Italic</span></label><br/>
+						<p>** bold text **, * italic text *</p>
 						<div class="row" id="selectIcons">
 							<div class="col s12">
 								<div class="col s1" symbolText="cha"><i class="xwing-miniatures-font xwing-miniatures-font-charge" symbolText="cha"></i></div>
@@ -209,9 +207,9 @@
 							<div class="inputAttackColor">
 								<label for="require">Require</label>						
 								<div class="inputContainer">
-									<label><input type="radio" name="require" value="nothing" checked><span>nothing</span></label>
-									<label><input type="radio" name="require" value="target-lock"><span>target lock</span></label>
-									<label><input type="radio" name="require" value="focus"><span>focus</span></label>
+									<label><input type="radio" name="require" value="" checked><span>nothing</span></label>
+									<label><input type="radio" name="require" value="!tlk"><span>target lock</span></label>
+									<label><input type="radio" name="require" value="!foc"><span>focus</span></label>
 								</div>
 								<label for="arc-type">Firing arc type</label>
 								<div class="inputContainer">
@@ -382,60 +380,60 @@
 							</div>
 							<label for="restrictions-action">Actions</label>
 							<div class="inputContainer">
-								<label><input type="checkbox" name="restrictions-action" value="red" class="filled-in"><span>red</span></label><br/>
+								<label><input type="checkbox" name="restrictions-action" value="RED" class="filled-in"><span>red</span></label><br/>
 
 								<div class="row">
 									<div class="col s2 m3">
 										<label>
-											<input value="focus" name="restrictions-action" type="radio"/>
+											<input value="foc" name="restrictions-action" type="radio"/>
 											<span><i class="xwing-miniatures-font xwing-miniatures-font-focus"></i></span>
 										</label>
 									</div>
 									<div class="col s2 m3">
 										<label>
-											<input value="calculate" name="restrictions-action" type="radio"/>
+											<input value="cal" name="restrictions-action" type="radio"/>
 											<span><i class="xwing-miniatures-font xwing-miniatures-font-calculate"></i></span>
 										</label>
 									</div>
 									<div class="col s2 m3">
 										<label>
-											<input value="target-lock" name="restrictions-action" type="radio"/>
+											<input value="tlk" name="restrictions-action" type="radio"/>
 											<span><i class="xwing-miniatures-font xwing-miniatures-font-lock"></i></span>
 										</label>
 									</div>
 									<div class="col s2 m3">
 										<label>
-											<input value="boost" name="restrictions-action" type="radio"/>
+											<input value="boo" name="restrictions-action" type="radio"/>
 											<span><i class="xwing-miniatures-font xwing-miniatures-font-boost"></i></span>
 										</label>
 									</div>
 									<div class="col s2 m3">
 										<label>
-											<input value="evade" name="restrictions-action" type="radio"/>
+											<input value="eva" name="restrictions-action" type="radio"/>
 											<span><i class="xwing-miniatures-font xwing-miniatures-font-evade"></i></span>
 										</label>
 									</div>
 									<div class="col s2 m3">
 										<label>
-											<input value="barrel-roll" name="restrictions-action" type="radio"/>
+											<input value="bar" name="restrictions-action" type="radio"/>
 											<span><i class="xwing-miniatures-font xwing-miniatures-font-barrelroll"></i></span>
 										</label>
 									</div>
 									<div class="col s2 m3">
 										<label>
-											<input value="reinforce" name="restrictions-action" type="radio"/>
+											<input value="rei" name="restrictions-action" type="radio"/>
 											<span><i class="xwing-miniatures-font xwing-miniatures-font-reinforce"></i></span>
 										</label>
 									</div>
 									<div class="col s2 m3">
 										<label>
-											<input value="reload" name="restrictions-action" type="radio"/>
+											<input value="rel" name="restrictions-action" type="radio"/>
 											<span><i class="xwing-miniatures-font xwing-miniatures-font-reload"></i></span>
 										</label>
 									</div>
 									<div class="col s2 m3">
 										<label>
-											<input value="rotate-arc" name="restrictions-action" type="radio"/>
+											<input value="rot" name="restrictions-action" type="radio"/>
 											<span><i class="xwing-miniatures-font xwing-miniatures-font-rotatearc"></i></span>
 										</label>
 									</div>
@@ -447,19 +445,19 @@
 									</div>
 									<div class="col s2 m3">
 										<label>
-											<input value="cloak" name="restrictions-action" type="radio"/>
+											<input value="clk" name="restrictions-action" type="radio"/>
 											<span><i class="xwing-miniatures-font xwing-miniatures-font-cloak"></i></span>
 										</label>
 									</div>
 									<div class="col s2 m3">
 										<label>
-											<input value="coordinate" name="restrictions-action" type="radio"/>
+											<input value="coo" name="restrictions-action" type="radio"/>
 											<span><i class="xwing-miniatures-font xwing-miniatures-font-coordinate"></i></span>
 										</label>
 									</div>
 									<div class="col s2 m3">
 										<label>
-											<input value="slam" name="restrictions-action" type="radio"/>
+											<input value="sla" name="restrictions-action" type="radio"/>
 											<span><i class="xwing-miniatures-font xwing-miniatures-font-slam"></i></span>
 										</label>
 									</div>
@@ -540,8 +538,10 @@
 
 			if(selectedcardType == 'torpedoes' || selectedcardType == 'missiles' || selectedcardType == 'cannon' || selectedcardType == 'turret'){
 				$('input[type=checkbox][name=grant-attack]').prop('checked', true);
+				// Erase text if ^ changed
 			}else{
 				$('input[type=checkbox][name=grant-attack]').prop('checked', false);
+				// Erase text if ^ changed
 			}
 
 			form.trigger('change');
@@ -549,7 +549,17 @@
 		});
 
 
-		$('select[name=card-type], input[type=checkbox][name=grant-attack]').change(function(e){
+		$('input[name=require], input[type=checkbox][name=grant-attack]').change(function(e){
+
+			var grantAttack = $('input[type=checkbox][name=grant-attack]').prop('checked');
+			var attackRequire = $('input[name=require]:checked').val();
+			if(grantAttack){
+				$('form#form-main textarea[name=card-text]').val('**ATTACK [ ' + attackRequire + ' ]: **');
+			}else{
+				$('form#form-main textarea[name=card-text]').val('');
+			}
+
+
 
 		/*	var cardType = $('select[name=card-type] option:selected').val();
 			var grantAttack = $('input[type=checkbox][name=grant-attack]').prop('checked');
@@ -677,7 +687,11 @@
 			if( $('div#restrictionsInput input[name=restrictions-action]:checked').length > 0  && $('div#restrictionsInput input[name=restrictions-action][value=none]').prop('checked') != true ){
 
 				$('div#restrictionsInput input[name=restrictions-action]:checked').each(function(i, e){
-					restrictionText += e.value.toUpperCase() + ' ';
+					if(e.value == 'RED'){
+						restrictionText += e.value + ' ';
+					}else{
+						restrictionText += '!' + e.value + ' ';
+					}
 				});
 
 			}else{
@@ -712,6 +726,14 @@
 		});
 
 		// ----------------------------------- Visualisers
+
+		$('input[type=range]#limited').change(function(e){
+			var limited = $('input[type=range]#limited').val();
+			if(limited > 3){
+				limited = 'no';
+			}
+			$('span#limited-visualizer').html( limited );
+		});
 
 		$('input[type=range]#dice-number').change(function(e){
 			$('span#dice-number-visualizer').html( $('input[type=range]#dice-number').val() );
@@ -749,7 +771,8 @@
 			$('span#shield-number-visualizer').html( $('input[type=range][name=shield-number]').val() );
 		});
 
-		function reloadVisualisers(){
+		function reloadVisualisers(){			
+			$('span#limited-visualizer').html('no');
 			$('span#dice-number-visualizer').html( $('input[type=range]#dice-number').val() );
 			$('span#min-range-visualizer').html( $('input[type=range]#min-range').val() );
 			if( $('input[type=range]#min-range').val() > $('input[type=range]#max-range').val() ){
@@ -774,8 +797,17 @@
 
 			var formData = new FormData();
 
-			formData.append('card-name', $('form#form-main input[name=card-name]').val());
-			formData.append('limited', $('input[type=checkbox][name=limited]').prop('checked'));
+			var cardName = '';
+			var i = 0;
+			if( $('form#form-main input#limited').val() < $('form#form-main input#limited').attr("max") ){
+				while (i < $('form#form-main input#limited').val()) {
+					cardName += '!lim ';
+					i++;
+				}
+			}
+			cardName += $('form#form-main input[name=card-name]').val();
+
+			formData.append('card-name', cardName);
 
 			formData.append('image', $('form#form-main input[type=file]')[0].files[0]);
 
@@ -787,13 +819,11 @@
 
 			formData.append('grant-action-red', $('form#form-main input[type=checkbox][name=grant-action]').prop('checked'));
 
-			if(true){
-				formData.append('arc-type', $('form#form-main input[name=arc-type]:checked').val());
-				formData.append('dice-number', $('form#form-main input#dice-number').val());
-				formData.append('range-bonus', $('form#form-main input[type=checkbox][name=range-bonus]').prop('checked'));
-				formData.append('min-range', $('form#form-main input#min-range').val());
-				formData.append('max-range', $('form#form-main input#max-range').val());
-			}
+			formData.append('arc-type', $('form#form-main input[name=arc-type]:checked').val());
+			formData.append('dice-number', $('form#form-main input#dice-number').val());
+			formData.append('range-bonus', $('form#form-main input[type=checkbox][name=range-bonus]').prop('checked'));
+			formData.append('min-range', $('form#form-main input#min-range').val());
+			formData.append('max-range', $('form#form-main input#max-range').val());
 
 			formData.append('charge-number', $('form#form-main input[type=range]#charge-number').val());
 			formData.append('charge-regenerate', $('input[type=checkbox][name=charge-regenerate]').prop('checked'));
@@ -803,7 +833,6 @@
 			formData.append('shield-number', $('form#form-main input[type=range][name=shield-number]').val());
 
 			formData.append('card-text', $('form#form-main textarea[name=card-text]').val());
-			formData.append('italic-text', $('input[type=checkbox][name=italic-text]').prop('checked'))
 
 			formData.append('restrictions-text', $('form#form-main textarea[name=restrictions-text]').val());
 
@@ -819,22 +848,28 @@
 
 					output = data;
 
-					data = JSON.parse(data);
+					try {
+						jData = JSON.parse(data);					
 
-					cardgenOutput = data;
+						cardgenOutput = data;
 
-					data.log.forEach(function(element) {
-					  console.log(element);
-					});
+						jQuery.each(jData.log, function(i, val) {
+							console.log(i + ' : ' + val);
+						});
 
-					data.errors.forEach(function(element) {
-					  console.log('Error: ' + element);
-					});
+						jQuery.each(jData.errors, function(i, val) {
+							console.log('Error ' + i + ' : ' + val);
+						});
 
-					var dataUri = data.dataUri;
-					$("div#outputImageContainer img").attr('src', dataUri);
-					$("div#outputImageContainer a").attr('href', dataUri);
-					$("div#outputImageContainer a").attr('download', $('form#form-main input[name=card-name]').val().replace(/ /g,"_"));
+						var dataUri = jData.dataUri;
+
+						$("div#outputImageContainer img").attr('src', dataUri);
+						$("div#outputImageContainer a").attr('href', dataUri);
+						$("div#outputImageContainer a").attr('download', $('form#form-main input[name=card-name]').val().replace(/ /g,"_"));
+						console.log('success')
+					}catch(err) {
+						console.log(data);
+					}
 				},
 				cache: false,
 				contentType: false,

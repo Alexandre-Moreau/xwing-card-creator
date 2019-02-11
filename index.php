@@ -29,8 +29,14 @@
 			</div>
 		</div>
 		<div class="row">
-			<div class="col s12 m6 center">
+			<div class="col s12 center">
 				<h2>gallery</h2>
+				<a href="./gallery">
+					<img src="./img/card-example-upgrade-1.png">
+				</a>
+				<a href="./gallery">
+					<img src="./img/card-example-upgrade-2.png">
+				</a>
 			</div>
 		</div>
 

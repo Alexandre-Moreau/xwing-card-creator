@@ -15,6 +15,14 @@
 	background-color: var(--main-dark-color);
 }
 
+.page-footer img{
+	height: 1em;
+}
+
+.page-footer i{
+	font-size: inherit;
+}
+
 nav div#breadcrumb{
 	margin-left: 10px;
 }
