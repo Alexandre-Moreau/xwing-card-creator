@@ -32,7 +32,7 @@
 				['boo', ''],
 				['', '']
 			],
-			'shipAbility' => 'Autothrusters'
+			'shipAbility' => '** * Autothrusters * ** : After you perform an action, you may perform a red !bar or red !boo'
 		],
 		'tieadvanced' => [
 			'attack_front' => 2,
@@ -49,7 +49,7 @@
 				['', ''],
 				['', '']
 			],
-			'shipAbility' => 'Advanced targetting computer'
+			'shipAbility' => '** * Advanced Targeting Computer * ** : While you perform a primary attack against a defender you have locked, roll 1 additional attack die and change 1 !hit result to a !crh result.'
 		],
 		'xwing' => [
 			'attack_front' => 3,
@@ -100,7 +100,8 @@
 				['boo', 'foc'],
 				['', '']
 			],
-			'shipAbility' => 'Concordia Faceoff'
+			'shipAbility' => '** * Concordia Faceoff * ** : When you defend or perform an attack, if the attack range is 1, you may roll 1 additional die.'
+			
 		],
 		'firespray31' => [
 			'attack_front' => 3,

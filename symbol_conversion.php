@@ -32,6 +32,7 @@
 		'SLAM' => 's',
 		'ROTATE-ARC' => 'R',
 		'RELOAD' => '=',
+		'lnk' => '>',
 		'LINK' => '>',
 		/* manoeuvers */
 		'm01' => '8', /* */

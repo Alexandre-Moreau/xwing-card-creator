@@ -20,9 +20,12 @@
 
 	// ----------------------------------- 
 
+	$publish = isset($_POST['publish']) && $_POST['publish'] != '' && $_POST['publish'] != 'false'? true : false;
+	$userName = isset($_POST['userName']) && $_POST['userName'] != '' ? $_POST['userName'] : '';
+
 	$cardName = strtoupper((isset($_POST['card-name']) && $_POST['card-name'] != '' ? $_POST['card-name'] : ''));
 
-	$imgArt = (isset($_FILES['image']['tmp_name']) ? $_FILES['image']['tmp_name'] : ROOT_DIR.'img/blank-image.png');
+	$imgArt = (isset($_FILES['image']['tmp_name']) ? $_FILES['image']['tmp_name'] : getImDir().'blank-image.png');
 	$cardType = isset($_POST['card-type']) && $_POST['card-type'] != '' ? $_POST['card-type'] : 'ept';
 	$arcType = isset($_POST['arc-type']) && $_POST['arc-type'] != '' ? $_POST['arc-type'] : 'classic';
 
@@ -56,7 +59,6 @@
 	$shieldNumber = checkMinMax($shieldNumber, 0, 6);
 
 	$cardText = (isset($_POST['card-text']) && $_POST['card-text'] != '' ? $_POST['card-text'] : '');
-	$italicText = isset($_POST['italic-text']) && $_POST['italic-text'] != '' && $_POST['italic-text'] != 'false' ? true : false;
 
 	$restrictionsText = (isset($_POST['restrictions-text']) && $_POST['restrictions-text'] != '' ? $_POST['restrictions-text'] : '');
 
@@ -105,7 +107,7 @@
 	// ----------------------------------- Card name
 
 	$processedText = processTextSymbols($cardName, 10, $titleFont);
-	$offsets = writeTextBlockCenter($im, 167, 404, 138, 160, $processedText, $color_white);
+	$offsets = writeTextBlockCenter($im, 166, 403, 123, 144, $processedText, $color_white);
 
 	// ----------------------------------- Card art
 
@@ -145,86 +147,28 @@
 	imagecopyresampled($im, $imTextBackground, 0, 0, 0, 0, CARD_W, CARD_H, CARD_W, CARD_H);
 
 	$x_left = 180;
-	$x_right = $textSize == 'large' ? 390 : 329;
+	$x_right = $textSize == 'large' ? 390 : 328;
 
-	$y_line = 164;
-	$y_max = 284;
-	$y_newLine = 14;
+	$y_line = 151;
+	$y_max = 283;
 
 	$cardText_fontSize = 10;
 
-	$fontMainText = $italicText ? $italicFont : $mainFont;
-
-	$content = processTextSymbols($cardText, $cardText_fontSize, $fontMainText);
+	$content = processTextSymbols($cardText, $cardText_fontSize);
 	writeTextBlockCenter($im, $x_left, $x_right, $y_line, $y_max, $content, $color_black);
-
-	/*
-		writeTextBlockCenter($im, $x_left, $x_right, $y_line, $y_max, $content, $color_black);
-	*/
-
-	// while($cardTextArray != []){
-
-	// 	$x_current = $x_left;
-	// 	$lineTextProcessed = '';
-	// 	// [ [name, y], [name, y], [name, y] ]
-	// 	$symbols = [];
-
-	// 	// Tests if the text is too long
-	// 	if($y_line > $y_max){
-	// 		array_push($outPutData['errors'], 'The text is too long');
-	// 		break;
-	// 	}
-
-	// 	// First word is larger than the line
-	// 	if($x_left + imagettfbbox($cardText_fontSize, 0, $fontMainText, $cardTextArray[0])[2] > $x_right){
-	// 		array_push($outPutData['errors'], 'One of the words is larger than the line');
-	// 		break;
-	// 	}
-	// 	// Tests if text + next world will fit
-	// 	// If the word is a symbol ( /![^\s]{3}/ ), tests if the spaces will fit
-	// 	while($cardTextArray != [] && $x_left + imagettfbbox($cardText_fontSize, 0, $fontMainText, $lineTextProcessed.' '.preg_replace("/![^\s]{3}/", "     ", $cardTextArray[0]))[2] < $x_right){
-	// 		// Tests if line contains a symbol and store position
-	// 		$match;
-	// 		if(preg_match("/![^\s]{3}/", $cardTextArray[0], $match, PREG_OFFSET_CAPTURE)){
-	// 			$x_offset = $x_left + imagettfbbox($cardText_fontSize, 0, $fontMainText, $lineTextProcessed)[2] + 2;
-	// 			// $match[0][1] : number of characters before the symbol
-	// 			$x_offset += imagettfbbox( $cardText_fontSize, 0, $fontMainText, substr($cardTextArray[0], 0, $match[0][1]) )[2];
-				
-	// 			array_push($symbols, [$match[0][0], $x_offset]);
-	// 		}
-	// 		preg_match("/![^\s]{3}/", $cardTextArray[0], $a);
-	// 		$lineTextProcessed .= ' '.preg_replace("/![^\s]{3}/", '     ', array_shift($cardTextArray));
-	// 	}
-
-		
-	// 	$x_offsetCenter = ( $x_right - ($x_left + imagettfbbox($cardText_fontSize, 0, $fontMainText, $lineTextProcessed)[2] ) )/2;
-
-	// 	foreach($symbols as $s){
-	// 		$symbName = substr($s[0], 1);
-	// 		//$x_offsetCenter = ($x_right - ($x_left + $s[1]) ) / 2;
-	// 		//$x_offsetCenter = $s[1]-$x_left;
-
-	// 		imagettftext($im, $cardText_fontSize, 0, $s[1]+$x_offsetCenter+1, $y_line, $color_black, $symbolFont, $_symbolConversion[$symbName]);
-	// 	}
-
-
-	// 	// Write the largest line possible
-
-	// 	imagettftext($im, $cardText_fontSize, 0, $x_left+$x_offsetCenter, $y_line, $color_black, $fontMainText, $lineTextProcessed);
-	// 	$y_line += $y_newLine;
-	//}
-
-	// ----------------------------------- Granted actions
-
 	//340, 199
 
+	// ----------------------------------- Grant action
+
 	if($grantAction != 'none'){
+
 		imagecopyresampled($im, $imGrantAction, 338, 199, 0, 0, 67, 36, 67, 36);
+
+		$content = processTextSymbols($grantAction , 13, $fontMainText);
 		$color = $grantActionRed ? $color_red : $color_white;
 
-		/*
-			writeTextBlockCenter($im, 344, 407, 203, 230, 13, $color, $symbolFont, $_symbolConversion[strtoupper($grantAction)] );
-		*/
+		//writeTextBlockCenter($im, 344, 407, 216, 243, $content, $color);
+		writeTextBlockCenter($im, 348, 404, 202, 231, $content, $color);
 	}
 
 	// ----------------------------------- Charges
@@ -291,11 +235,17 @@
 	if($restrictionsText !=''){
 		imagecopyresampled($im, $imRestrictionsText, 17, 246, 0, 0, 129, 53, 129, 53);
 
-		$x_left = 25;
-		$x_right = 135;
+		// $x_left = 25;
+		// $x_right = 135;
 
-		$y_line = 262;
-		$y_max = 290;
+		// $y_line = 268;
+		// $y_max = 296;
+
+		$x_left = 22;
+		$x_right = 139;
+
+		$y_line = 251;
+		$y_max = 298;
 
 		$processedText = processTextSymbols($restrictionsText, 9, $italicFont);
 		writeTextBlockCenter($im, $x_left, $x_right, $y_line, $y_max, $processedText, $color_black);
@@ -305,16 +255,25 @@
 	// ----------------------------------- Output
 
 	imagecopyresampled($im, $imCardType, 30, 28, 0, 0, 102, 103, 102, 103);
-	
+		
 	ob_start();
-		imagejpeg($im);
+		imagepng($im);
 		$contents = ob_get_contents();
 	ob_end_clean();
 
-	$dataUri = "data:image/png;base64," . base64_encode($contents);
+	if($publish){
+		$cardName = str_replace('!LIM', '', $cardName);
+		$outPutData['imFullPath'] = saveImageOnDisk($cardName, $userName, $contents);
+		echo json_encode($outPutData);
+	}else{
 
-	$outPutData['dataUri'] = $dataUri;
+		$dataUri = "data:image/png;base64," . base64_encode($contents);
 
-	echo json_encode($outPutData);
+		$outPutData['dataUri'] = $dataUri;
+
+		echo json_encode($outPutData);
+	}
+	
+	
 
 ?>

@@ -23,10 +23,8 @@
 								<input type="text" name="card-name">
 							</div>
 							<div class="col s6">
-								<label for="limited">Limited</label>
-								<div class="switch">
-									<label>No<input type="checkbox" name="limited"><span class="lever"></span>Yes</label>
-								</div>
+								<label for="limited">Limited <span id="limited-visualizer" class="badge" title="Limited"></span></label>
+								<input type="range" id="limited" name="limited" min="1" max="4" value="4"/>
 							</div>
 						</div>
 						
@@ -60,6 +58,102 @@
 
 					<label for="initiative">Initiative <span id="initiative-visualizer" class="badge" title="Initiative"></span></label>
 					<input type="range" name="initiative" min="1" max="6" value="1"/>
+
+					<div>
+						<div class="col s12">
+							<label for="ability-select">Ability</label>
+							<ul id="ability-select" class="tabs">
+								<li class="tab col s3"><a class="active" href="#pilot-ability-div">Pilot</a></li>
+								<li class="tab col s3"><a href="#ship-ability-div">Ship</a></li>
+							</ul>
+						</div>
+						<div id="pilot-ability-div" class="col s12">
+							<label for="pilot-ability">Pilot ability</label>
+							<textarea rows="5" cols="50" name="pilot-ability"></textarea>
+						</div>
+						<div id="ship-ability-div" class="col s12">
+							<label for="ship-ability">Ship ability</label>
+							<textarea rows="5" cols="50" name="ship-ability"></textarea>
+						</div>
+
+						<p>** bold text **, * italic text *</p>
+						<div class="row" id="selectIcons">
+							<div class="col s12">
+								<div class="col s1" symbolText="cha"><i class="xwing-miniatures-font xwing-miniatures-font-charge" symbolText="cha"></i></div>
+								<div class="col s1" symbolText="for"><i class="xwing-miniatures-font xwing-miniatures-font-forcecharge" symbolText="for"></i></div>
+								<div class="col s1" symbolText="hit"><i class="xwing-miniatures-font xwing-miniatures-font-hit" symbolText="hit"></i></div>
+								<div class="col s1" symbolText="crh"><i class="xwing-miniatures-font xwing-miniatures-font-crit" symbolText="crh"></i></div>
+							</div>
+							<div class="col s12">
+								<div class="col s1" symbolText="foc"><i class="xwing-miniatures-font xwing-miniatures-font-focus" symbolText="foc"></i></div>							
+								<div class="col s1" symbolText="cal"><i class="xwing-miniatures-font xwing-miniatures-font-calculate" symbolText="cal"></i></div>
+								<div class="col s1" symbolText="tlk"><i class="xwing-miniatures-font xwing-miniatures-font-lock" symbolText="tlk"></i></div>
+								<div class="col s1" symbolText="boo"><i class="xwing-miniatures-font xwing-miniatures-font-boost" symbolText="boo"></i></div>
+								<div class="col s1" symbolText="bar"><i class="xwing-miniatures-font xwing-miniatures-font-barrelroll" symbolText="bar"></i></div>
+								<div class="col s1" symbolText="eva"><i class="xwing-miniatures-font xwing-miniatures-font-evade" symbolText="eva"></i></div>
+								<div class="col s1" symbolText="rei"><i class="xwing-miniatures-font xwing-miniatures-font-reinforce" symbolText="rei"></i></div>
+								<div class="col s1" symbolText="rel"><i class="xwing-miniatures-font xwing-miniatures-font-reload" symbolText="rel"></i></div>
+								<div class="col s1" symbolText="rot"><i class="xwing-miniatures-font xwing-miniatures-font-rotatearc" symbolText="rot"></i></div>
+								<div class="col s1" symbolText="jam"><i class="xwing-miniatures-font xwing-miniatures-font-jam" symbolText="jam"></i></div>
+								<div class="col s1" symbolText="clk"><i class="xwing-miniatures-font xwing-miniatures-font-cloak" symbolText="clk"></i></div>
+								<div class="col s1" symbolText="coo"><i class="xwing-miniatures-font xwing-miniatures-font-coordinate" symbolText="coo"></i></div>
+								<div class="col s1" symbolText="sla"><i class="xwing-miniatures-font xwing-miniatures-font-slam" symbolText="sla"></i></div>
+							</div>
+							<div class="col s12">
+								<div class="col s1" symbolText="m01"><i class="xwing-miniatures-font xwing-miniatures-font-straight" symbolText="m01"></i></div>
+								<div class="col s1" symbolText="m02"><i class="xwing-miniatures-font xwing-miniatures-font-bankleft" symbolText="m02"></i></div>
+								<div class="col s1" symbolText="m03"><i class="xwing-miniatures-font xwing-miniatures-font-bankright" symbolText="m03"></i></div>
+								<div class="col s1" symbolText="m04"><i class="xwing-miniatures-font xwing-miniatures-font-turnleft" symbolText="m04"></i></div>
+								<div class="col s1" symbolText="m05"><i class="xwing-miniatures-font xwing-miniatures-font-turnright" symbolText="m05"></i></div>
+								<div class="col s1" symbolText="m06"><i class="xwing-miniatures-font xwing-miniatures-font-kturn" symbolText="m06"></i></div>
+								<div class="col s1" symbolText="m07"><i class="xwing-miniatures-font xwing-miniatures-font-stop" symbolText="m07"></i></div>
+								<div class="col s1" symbolText="m08"><i class="xwing-miniatures-font xwing-miniatures-font-sloopleft" symbolText="m08"></i></div>
+								<div class="col s1" symbolText="m09"><i class="xwing-miniatures-font xwing-miniatures-font-sloopright" symbolText="m09"></i></div>
+								<div class="col s1" symbolText="m10"><i class="xwing-miniatures-font xwing-miniatures-font-dalan-bankleft" symbolText="m10"></i></div>
+								<div class="col s1" symbolText="m11"><i class="xwing-miniatures-font xwing-miniatures-font-dalan-bankright" symbolText="m11"></i></div>
+							</div>
+							<div class="col s12">
+								<div class="col s1" symbolText="m12"><i class="xwing-miniatures-font xwing-miniatures-font-trollleft" symbolText="m12"></i></div>
+								<div class="col s1" symbolText="m13"><i class="xwing-miniatures-font xwing-miniatures-font-trollright" symbolText="m13"></i></div>
+								<div class="col s1" symbolText="m14"><i class="xwing-miniatures-font xwing-miniatures-font-ig88d-sloopleft" symbolText="m14"></i></div>
+								<div class="col s1" symbolText="m15"><i class="xwing-miniatures-font xwing-miniatures-font-ig88d-sloopright" symbolText="m15"></i></div>
+								<div class="col s1" symbolText="m16"><i class="xwing-miniatures-font xwing-miniatures-font-reversestraight" symbolText="m16"></i></div>
+								<div class="col s1" symbolText="m17"><i class="xwing-miniatures-font xwing-miniatures-font-reversebankleft" symbolText="m17"></i></div>
+								<div class="col s1" symbolText="m18"><i class="xwing-miniatures-font xwing-miniatures-font-reversebankright" symbolText="m18"></i></div>
+							</div>
+							<div class="col s12">
+								<div class="col s1" symbolText="ept"><i class="xwing-miniatures-font xwing-miniatures-font-talent" symbolText="ept"></i></div>
+								<div class="col s1" symbolText="for"><i class="xwing-miniatures-font xwing-miniatures-font-forcepower" symbolText="for"></i></div>
+								<div class="col s1" symbolText="ast"><i class="xwing-miniatures-font xwing-miniatures-font-astromech" symbolText="ast"></i></div>
+								<div class="col s1" symbolText="tor"><i class="xwing-miniatures-font xwing-miniatures-font-torpedo" symbolText="tor"></i></div>
+								<div class="col s1" symbolText="mis"><i class="xwing-miniatures-font xwing-miniatures-font-missile" symbolText="mis"></i></div>
+								<div class="col s1" symbolText="can"><i class="xwing-miniatures-font xwing-miniatures-font-cannon" symbolText="can"></i></div>
+								<div class="col s1" symbolText="tur"><i class="xwing-miniatures-font xwing-miniatures-font-turret" symbolText="tur"></i></div>
+								<div class="col s1" symbolText="dev"><i class="xwing-miniatures-font xwing-miniatures-font-device" symbolText="dev"></i></div>
+								<div class="col s1" symbolText="cre"><i class="xwing-miniatures-font xwing-miniatures-font-crew" symbolText="cre"></i></div>
+								<div class="col s1" symbolText="gun"><i class="xwing-miniatures-font xwing-miniatures-font-gunner" symbolText="gun"></i></div>
+								<div class="col s1" symbolText="sen"><i class="xwing-miniatures-font xwing-miniatures-font-sensor" symbolText="sen"></i></div>
+								<div class="col s1" symbolText="ill"><i class="xwing-miniatures-font xwing-miniatures-font-illicit" symbolText="ill"></i></div>
+								<div class="col s1" symbolText="tit"><i class="xwing-miniatures-font xwing-miniatures-font-title" symbolText="tit"></i></div>
+								<div class="col s1" symbolText="mod"><i class="xwing-miniatures-font xwing-miniatures-font-modification" symbolText="mod"></i></div>
+								<div class="col s1" symbolText="con"><i class="xwing-miniatures-font xwing-miniatures-font-config" symbolText="con"></i></div>
+							</div>
+							<div class="col s12">
+								<div class="col s1" symbolText="a01"><i class="xwing-miniatures-font xwing-miniatures-font-frontarc" symbolText="a01"></i></div>
+								<div class="col s1" symbolText="a02"><i class="xwing-miniatures-font xwing-miniatures-font-reararc" symbolText="a02"></i></div>
+								<div class="col s1" symbolText="a03"><i class="xwing-miniatures-font xwing-miniatures-font-fullfrontarc" symbolText="a03"></i></div>
+								<div class="col s1" symbolText="a04"><i class="xwing-miniatures-font xwing-miniatures-font-fullreararc" symbolText="a04"></i></div>
+								<div class="col s1" symbolText="a05"><i class="xwing-miniatures-font xwing-miniatures-font-bullseyearc" symbolText="a05"></i></div>
+								<div class="col s1" symbolText="a06"><i class="xwing-miniatures-font xwing-miniatures-font-singleturretarc" symbolText="a06"></i></div>
+								<div class="col s1" symbolText="a07"><i class="xwing-miniatures-font xwing-miniatures-font-doubleturretarc" symbolText="a07"></i></div>
+								<div class="col s1" symbolText="a08"><i class="xwing-miniatures-font xwing-miniatures-font-leftarc" symbolText="a08"></i></div>
+								<div class="col s1" symbolText="a09"><i class="xwing-miniatures-font xwing-miniatures-font-rightarc" symbolText="a09"></i></div>
+								<div class="col s1" symbolText="a10"><i class="xwing-miniatures-font xwing-miniatures-font-rearbullseyearc" symbolText="a10"></i></div>
+							</div>
+						</div>
+					</div>
+
+					<br/>	
 
 					<label for="faction">Ship</label>
 					<div class="row col s12">
@@ -126,16 +220,24 @@
 							<br/>
 						</div>
 						<div class="center">
-							<div class="btn download" title="Download">
+							<div class="btn tooltipped" data-position="bottom" data-delay="35" data-tooltip="Download">
 								<a download="" href="" style="color: #ffffff;"><i class="material-icons">file_download</i></a>
 							</div>
 
-							<div class="btn reset" title="Clear">
+							<div class="btn reset tooltipped" data-position="bottom" data-delay="35" data-tooltip="Clear">
 								<i class="material-icons">clear</i>
 							</div>
 
-							<div class="btn publish" title="Publish">
+							<div class="btn askSubmit tooltipped" data-position="bottom" data-delay="35" data-tooltip="Publish">
 								<i class="material-icons">publish</i>
+							</div>
+						</div>
+						<div id="cardSubmitForm" class="col s8 offset-s2" style="display: none;">
+							<p>Enter your name to publish your card to the gallery</p>
+							<label for="user-name">User name</label>
+							<input type="text" name="user-name">
+							<div class="btn confirmSubmit tooltipped" data-position="bottom" data-delay="35" data-tooltip="Confirm">
+								<i class="material-icons">check</i>
 							</div>
 						</div>
 					</div>
@@ -146,8 +248,8 @@
 					<div class="col s12 actionSelectRow">
 						<div class="input-field col s5" id="actionSelect01">
 							<select>
-								<option value="foc" selected>f</option>
-								<option value="cal">a</option>
+								<option value="!foc" selected>f</option>
+								<option value="!cal">a</option>
 							</select>
 						</div>
 						<div class="col s2">
@@ -156,8 +258,8 @@
 						<div class="input-field col s5" id="red-actionSelect01">
 							<select>
 								<option value="none" selected></option>
-								<option value="foc">f</option>
-								<option value="cal">a</option>
+								<option value="!foc">f</option>
+								<option value="!cal">a</option>
 							</select>
 						</div>
 					</div>
@@ -165,19 +267,19 @@
 						<div class="input-field col s5" id="actionSelect02">
 							<select>
 								<option value="none" selected></option>
-								<option value="foc">f</option>
-								<option value="cal">a</option>
-								<option value="tlk">l</option>
-								<option value="boo">b</option>
-								<option value="bar">r</option>
-								<option value="eva">e</option>
-								<option value="rei">i</option>
-								<option value="rel">=</option>
-								<option value="rot">R</option>
-								<option value="jam">j</option>
-								<option value="clk">k</option>
-								<option value="coo">o</option>
-								<option value="sla">s</option>
+								<option value="!foc">f</option>
+								<option value="!cal">a</option>
+								<option value="!tlk">l</option>
+								<option value="!boo">b</option>
+								<option value="!bar">r</option>
+								<option value="!eva">e</option>
+								<option value="!rei">i</option>
+								<option value="!rel">=</option>
+								<option value="!rot">R</option>
+								<option value="!jam">j</option>
+								<option value="!clk">k</option>
+								<option value="!coo">o</option>
+								<option value="!sla">s</option>
 							</select>
 						</div>
 						<div class="col s2">
@@ -186,19 +288,19 @@
 						<div class="input-field col s5" id="red-actionSelect02">
 							<select>
 								<option value="none" selected></option>
-								<option value="foc">f</option>
-								<option value="cal">a</option>
-								<option value="tlk">l</option>
-								<option value="boo">b</option>
-								<option value="bar">r</option>
-								<option value="eva">e</option>
-								<option value="rei">i</option>
-								<option value="rel">=</option>
-								<option value="rot">R</option>
-								<option value="jam">j</option>
-								<option value="clk">k</option>
-								<option value="coo">o</option>
-								<option value="sla">s</option>
+								<option value="!foc">f</option>
+								<option value="!cal">a</option>
+								<option value="!tlk">l</option>
+								<option value="!boo">b</option>
+								<option value="!bar">r</option>
+								<option value="!eva">e</option>
+								<option value="!rei">i</option>
+								<option value="!rel">=</option>
+								<option value="!rot">R</option>
+								<option value="!jam">j</option>
+								<option value="!clk">k</option>
+								<option value="!coo">o</option>
+								<option value="!sla">s</option>
 							</select>
 						</div>
 					</div>
@@ -206,19 +308,19 @@
 						<div class="input-field col s5" id="actionSelect03">
 							<select>
 								<option value="none" selected></option>
-								<option value="foc">f</option>
-								<option value="cal">a</option>
-								<option value="tlk">l</option>
-								<option value="boo">b</option>
-								<option value="bar">r</option>
-								<option value="eva">e</option>
-								<option value="rei">i</option>
-								<option value="rel">=</option>
-								<option value="rot">R</option>
-								<option value="jam">j</option>
-								<option value="clk">k</option>
-								<option value="coo">o</option>
-								<option value="sla">s</option>
+								<option value="!foc">f</option>
+								<option value="!cal">a</option>
+								<option value="!tlk">l</option>
+								<option value="!boo">b</option>
+								<option value="!bar">r</option>
+								<option value="!eva">e</option>
+								<option value="!rei">i</option>
+								<option value="!rel">=</option>
+								<option value="!rot">R</option>
+								<option value="!jam">j</option>
+								<option value="!clk">k</option>
+								<option value="!coo">o</option>
+								<option value="!sla">s</option>
 							</select>
 						</div>
 						<div class="col s2">
@@ -227,19 +329,19 @@
 						<div class="input-field col s5" id="red-actionSelect03">
 							<select>
 								<option value="none" selected></option>
-								<option value="foc">f</option>
-								<option value="cal">a</option>
-								<option value="tlk">l</option>
-								<option value="boo">b</option>
-								<option value="bar">r</option>
-								<option value="eva">e</option>
-								<option value="rei">i</option>
-								<option value="rel">=</option>
-								<option value="rot">R</option>
-								<option value="jam">j</option>
-								<option value="clk">k</option>
-								<option value="coo">o</option>
-								<option value="sla">s</option>
+								<option value="!foc">f</option>
+								<option value="!cal">a</option>
+								<option value="!tlk">l</option>
+								<option value="!boo">b</option>
+								<option value="!bar">r</option>
+								<option value="!eva">e</option>
+								<option value="!rei">i</option>
+								<option value="!rel">=</option>
+								<option value="!rot">R</option>
+								<option value="!jam">j</option>
+								<option value="!clk">k</option>
+								<option value="!coo">o</option>
+								<option value="!sla">s</option>
 							</select>
 						</div>
 					</div>
@@ -247,19 +349,19 @@
 						<div class="input-field col s5" id="actionSelect04">
 							<select>
 								<option value="none" selected></option>
-								<option value="foc">f</option>
-								<option value="cal">a</option>
-								<option value="tlk">l</option>
-								<option value="boo">b</option>
-								<option value="bar">r</option>
-								<option value="eva">e</option>
-								<option value="rei">i</option>
-								<option value="rel">=</option>
-								<option value="rot">R</option>
-								<option value="jam">j</option>
-								<option value="clk">k</option>
-								<option value="coo">o</option>
-								<option value="sla">s</option>
+								<option value="!foc">f</option>
+								<option value="!cal">a</option>
+								<option value="!tlk">l</option>
+								<option value="!boo">b</option>
+								<option value="!bar">r</option>
+								<option value="!eva">e</option>
+								<option value="!rei">i</option>
+								<option value="!rel">=</option>
+								<option value="!rot">R</option>
+								<option value="!jam">j</option>
+								<option value="!clk">k</option>
+								<option value="!coo">o</option>
+								<option value="!sla">s</option>
 							</select>
 						</div>
 						<div class="col s2">
@@ -268,19 +370,19 @@
 						<div class="input-field col s5" id="red-actionSelect04">
 							<select>
 								<option value="none" selected></option>
-								<option value="foc">f</option>
-								<option value="cal">a</option>
-								<option value="tlk">l</option>
-								<option value="boo">b</option>
-								<option value="bar">r</option>
-								<option value="eva">e</option>
-								<option value="rei">i</option>
-								<option value="rel">=</option>
-								<option value="rot">R</option>
-								<option value="jam">j</option>
-								<option value="clk">k</option>
-								<option value="coo">o</option>
-								<option value="sla">s</option>
+								<option value="!foc">f</option>
+								<option value="!cal">a</option>
+								<option value="!tlk">l</option>
+								<option value="!boo">b</option>
+								<option value="!bar">r</option>
+								<option value="!eva">e</option>
+								<option value="!rei">i</option>
+								<option value="!rel">=</option>
+								<option value="!rot">R</option>
+								<option value="!jam">j</option>
+								<option value="!clk">k</option>
+								<option value="!coo">o</option>
+								<option value="!sla">s</option>
 							</select>
 						</div>
 					</div>
@@ -288,19 +390,19 @@
 						<div class="input-field col s5" id="actionSelect05">
 							<select>
 								<option value="none" selected></option>
-								<option value="foc">f</option>
-								<option value="cal">a</option>
-								<option value="tlk">l</option>
-								<option value="boo">b</option>
-								<option value="bar">r</option>
-								<option value="eva">e</option>
-								<option value="rei">i</option>
-								<option value="rel">=</option>
-								<option value="rot">R</option>
-								<option value="jam">j</option>
-								<option value="clk">k</option>
-								<option value="coo">o</option>
-								<option value="sla">s</option>
+								<option value="!foc">f</option>
+								<option value="!cal">a</option>
+								<option value="!tlk">l</option>
+								<option value="!boo">b</option>
+								<option value="!bar">r</option>
+								<option value="!eva">e</option>
+								<option value="!rei">i</option>
+								<option value="!rel">=</option>
+								<option value="!rot">R</option>
+								<option value="!jam">j</option>
+								<option value="!clk">k</option>
+								<option value="!coo">o</option>
+								<option value="!sla">s</option>
 							</select>
 						</div>
 						<div class="col s2">
@@ -309,19 +411,19 @@
 						<div class="input-field col s5" id="red-actionSelect05">
 							<select>
 								<option value="none" selected></option>
-								<option value="foc">f</option>
-								<option value="cal">a</option>
-								<option value="tlk">l</option>
-								<option value="boo">b</option>
-								<option value="bar">r</option>
-								<option value="eva">e</option>
-								<option value="rei">i</option>
-								<option value="rel">=</option>
-								<option value="rot">R</option>
-								<option value="jam">j</option>
-								<option value="clk">k</option>
-								<option value="coo">o</option>
-								<option value="sla">s</option>
+								<option value="!foc">f</option>
+								<option value="!cal">a</option>
+								<option value="!tlk">l</option>
+								<option value="!boo">b</option>
+								<option value="!bar">r</option>
+								<option value="!eva">e</option>
+								<option value="!rei">i</option>
+								<option value="!rel">=</option>
+								<option value="!rot">R</option>
+								<option value="!jam">j</option>
+								<option value="!clk">k</option>
+								<option value="!coo">o</option>
+								<option value="!sla">s</option>
 							</select>
 						</div>
 					</div>
@@ -375,6 +477,10 @@
 				</div>
 			</div>
 		</form>
+
+		<?php
+			include_once '../footer.php';
+		?>
 
 	</body>
 	<script>
@@ -452,18 +558,19 @@
 				$('input[type=range][name=agility]').val(stats.agility);
 				$('input[type=range][name=hull]').val(stats.hull);
 				$('input[type=range][name=shield]').val(stats.shield);
+				$('textarea[name=ship-ability]').val(stats.shipAbility);
 
 				for (var i = 0; i < 5; i++) {
 					actionRow = stats.actions[i];
 					$('#actionSelect0'+(i+1)+' option').attr('selected', false);
 					$('#red-actionSelect0'+(i+1)+' option').attr('selected', false);
 					if(actionRow[0]!=''){
-						$('#actionSelect0'+(i+1)+' option[value='+actionRow[0]+']').attr('selected', true);
+						$('#actionSelect0'+(i+1)+' option[value="!'+actionRow[0]+'"]').attr('selected', true);
 					}else{
 						$('#actionSelect0'+(i+1)+' option[value=none]').attr('selected', true);
 					}
 					if(actionRow[1]!=''){
-						$('#red-actionSelect0'+(i+1)+' option[value='+actionRow[1]+']').attr('selected', true);
+						$('#red-actionSelect0'+(i+1)+' option[value="!'+actionRow[1]+'"]').attr('selected', true);
 					}else{
 						$('#red-actionSelect0'+(i+1)+' option[value=none]').attr('selected', true);
 					}
@@ -475,7 +582,15 @@
 			});
 		}
 
-		// ----------------------------------- Visualisers
+		// ----------------------------------- Visualizers
+
+		$('input[type=range]#limited').change(function(e){
+			var limited = $('input[type=range]#limited').val();
+			if(limited > 3){
+				limited = 'no';
+			}
+			$('span#limited-visualizer').html( limited );
+		});
 
 		$('input[type=range][name=initiative]').change(function(e){
 			$('span#initiative-visualizer').html( $('input[type=range][name=initiative]').val() );
@@ -516,6 +631,7 @@
 		}
 
 		function reloadVisualisers(){
+			$('span#limited-visualizer').html('no');
 			autoSubmit = false;
 			$('input[type=range][name=initiative]').trigger('change');
 			$('input[type=range][name=attack-front]').trigger('change');
@@ -537,9 +653,24 @@
 
 			var formData = new FormData();
 
-			formData.append('card-name', $('form#form-main input[name=card-name]').val());
+			var cardName = '';
+			var i = 0;
+
+			if( $('form#form-main input#limited').val() < $('form#form-main input#limited').attr("max") ){
+				while (i < $('form#form-main input#limited').val()) {
+					cardName += '!lim ';
+					i++;
+				}
+			}
+
+			cardName += $('form#form-main input[name=card-name]').val();
+
+			formData.append('card-name', cardName);
 			formData.append('pilot-title', $('form#form-main input[name=pilot-title]').val());
 			formData.append('limited', $('input[type=checkbox][name=limited]').prop('checked'));
+
+			formData.append('pilot-ability', $('form#form-main textarea[name=pilot-ability]').val());
+			formData.append('ship-ability', $('form#form-main textarea[name=ship-ability]').val());
 
 			formData.append('image', $('form#form-main input[type=file]')[0].files[0]);
 
@@ -583,22 +714,46 @@
 						console.log(data);
 					}
 
-					data = JSON.parse(data);
+					output = data;
 
-					cardgenOutput = data;
+					try {
+						jData = JSON.parse(data);
+					}catch(err) {
+						//console.log('Trying to fix ');
+						console.log(data.slice(0, data.indexOf("{")));
+						data = data.slice(data.indexOf("{"), data.length);
+					}
 
-					data.log.forEach(function(element) {
-					  console.log(element);
-					});
+					try {
+						jData = JSON.parse(data);
 
-					data.errors.forEach(function(element) {
-					  console.log('Error: ' + element);
-					});
+						cardgenOutput = jData;
 
-					var dataUri = data.dataUri;
-					$("div#outputImageContainer img").attr('src', dataUri);
-					$("div#outputImageContainer a").attr('href', dataUri);
-					$("div#outputImageContainer a").attr('download', $('form#form-main input[name=card-name]').val().replace(/ /g,"_")+'-'+ship);
+						jQuery.each(jData.log, function(i, val) {
+							console.log(i + ' : ' + val);
+						});
+
+						jQuery.each(jData.errors, function(i, val) {
+							console.log('Error ' + i + ' : ' + val);
+						});
+
+						var dataUri = jData.dataUri;
+
+						$("div#outputImageContainer img").attr('src', dataUri);
+						$("div#outputImageContainer a").attr('href', dataUri);
+						$("div#outputImageContainer a").attr('download', $('form#form-main input[name=card-name]').val().replace(/ /g,"_"));
+
+						if(false){
+							var imFullPath =  jData.imFullPath;
+							console.log('Card saved to ' + imFullPath);
+							M.toast({html: 'Card published !'})
+						}
+
+						console.log('success');
+					}catch(err) {
+						//console.log(err);
+						console.log(data);
+					}
 				},
 				cache: false,
 				contentType: false,

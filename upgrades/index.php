@@ -175,22 +175,30 @@
 				</div>
 
 				<div class="col s12 l4">
-					<div id="outputImageContainer">
+					<div id="outputImageContainer" class="center">
 						<div class="center">
 							<img src="/img/card-example-upgrade-0.png" style="width: 100%; max-width: 418px;">
 							<br/>
 						</div>
 						<div class="center">
-							<div class="btn" title="Download">
+							<div class="btn tooltipped" data-position="bottom" data-delay="35" data-tooltip="Download">
 								<a download="" href="" style="color: #ffffff;"><i class="material-icons">file_download</i></a>
 							</div>
 
-							<div class="btn reset" title="Clear">
+							<div class="btn reset tooltipped" data-position="bottom" data-delay="35" data-tooltip="Clear">
 								<i class="material-icons">clear</i>
 							</div>
 
-							<div class="btn publish" title="Publish">
+							<div class="btn askSubmit tooltipped" data-position="bottom" data-delay="35" data-tooltip="Publish">
 								<i class="material-icons">publish</i>
+							</div>
+						</div>
+						<div id="cardSubmitForm" class="col s8 offset-s2" style="display: none;">
+							<p>Enter your name to publish your card to the gallery</p>
+							<label for="user-name">User name</label>
+							<input type="text" name="user-name">
+							<div class="btn confirmSubmit tooltipped" data-position="bottom" data-delay="35" data-tooltip="Confirm">
+								<i class="material-icons">check</i>
 							</div>
 						</div>
 					</div>
@@ -199,7 +207,7 @@
 				<div class="col s12 l4">
 
 					<div>
-						<label for="limited">Grant attack</label>
+						<label for="grant-attack">Grant attack</label>
 						<div class="switch">
 							<label>No<input type="checkbox" name="grant-attack"><span class="lever"></span>Yes</label>
 						</div>
@@ -258,79 +266,79 @@
 							<div class="row">
 								<div class="col s2 m3">
 									<label>
-										<input value="focus" name="grant-action" type="radio"/>
+										<input value="!foc" name="grant-action" type="radio"/>
 										<span><span><i class="xwing-miniatures-font xwing-miniatures-font-focus"></i></span>
 									</label>
 								</div>
 								<div class="col s2 m3">
 									<label>
-										<input value="calculate" name="grant-action" type="radio"/>
+										<input value="!cal" name="grant-action" type="radio"/>
 										<span><span><i class="xwing-miniatures-font xwing-miniatures-font-calculate"></i></span>
 									</label>
 								</div>
 								<div class="col s2 m3">
 									<label>
-										<input value="target-lock" name="grant-action" type="radio"/>
+										<input value="!tlk" name="grant-action" type="radio"/>
 										<span><span><i class="xwing-miniatures-font xwing-miniatures-font-lock"></i></span>
 									</label>
 								</div>
 								<div class="col s2 m3">
 									<label>
-										<input value="boost" name="grant-action" type="radio"/>
+										<input value="!boo" name="grant-action" type="radio"/>
 										<span><span><i class="xwing-miniatures-font xwing-miniatures-font-boost"></i></span>
 									</label>
 								</div>
 								<div class="col s2 m3">
 									<label>
-										<input value="evade" name="grant-action" type="radio"/>
+										<input value="!eva" name="grant-action" type="radio"/>
 										<span><span><i class="xwing-miniatures-font xwing-miniatures-font-evade"></i></span>
 									</label>
 								</div>
 								<div class="col s2 m3">
 									<label>
-										<input value="barrel-roll" name="grant-action" type="radio"/>
+										<input value="!bar" name="grant-action" type="radio"/>
 										<span><span><i class="xwing-miniatures-font xwing-miniatures-font-barrelroll"></i></span>
 									</label>
 								</div>
 								<div class="col s2 m3">
 									<label>
-										<input value="reinforce" name="grant-action" type="radio"/>
+										<input value="!rei" name="grant-action" type="radio"/>
 										<span><span><i class="xwing-miniatures-font xwing-miniatures-font-reinforce"></i></span>
 									</label>
 								</div>
 								<div class="col s2 m3">
 									<label>
-										<input value="reload" name="grant-action" type="radio"/>
+										<input value="!rel" name="grant-action" type="radio"/>
 										<span><span><i class="xwing-miniatures-font xwing-miniatures-font-reload"></i></span>
 									</label>
 								</div>
 								<div class="col s2 m3">
 									<label>
-										<input value="rotate-arc" name="grant-action" type="radio"/>
+										<input value="!rot" name="grant-action" type="radio"/>
 										<span><span><i class="xwing-miniatures-font xwing-miniatures-font-rotatearc"></i></span>
 									</label>
 								</div>
 								<div class="col s2 m3">
 									<label>
-										<input value="jam" name="grant-action" type="radio"/>
+										<input value="!jam" name="grant-action" type="radio"/>
 										<span><span><i class="xwing-miniatures-font xwing-miniatures-font-jam"></i></span>
 									</label>
 								</div>
 								<div class="col s2 m3">
 									<label>
-										<input value="cloak" name="grant-action" type="radio"/>
+										<input value="!clk" name="grant-action" type="radio"/>
 										<span><span><i class="xwing-miniatures-font xwing-miniatures-font-cloak"></i></span>
 									</label>
 								</div>
 								<div class="col s2 m3">
 									<label>
-										<input value="coordinate" name="grant-action" type="radio"/>
+										<input value="!coo" name="grant-action" type="radio"/>
 										<span><span><i class="xwing-miniatures-font xwing-miniatures-font-coordinate"></i></span>
 									</label>
 								</div>
 								<div class="col s2 m3">
 									<label>
-										<input value="slam" name="grant-action" type="radio"/>
+										<input value="!sla" name="grant-action" type="radio"/>
 										<span><span><i class="xwing-miniatures-font xwing-miniatures-font-slam"></i></span>
 									</label>
 								</div>
@@ -365,7 +373,7 @@
 						<div id="restrictionsInput">
 							<label for="restrictions-faction">Faction</label>
 							<div class="inputContainer">
-								<label><input type="checkbox" name="restrictions-faction" value="empire" class="filled-in"><span><i class="xwing-miniatures-font xwing-miniatures-font-empire"></i></span></label>
+								<label><input type="checkbox" name="restrictions-faction" value="imperial" class="filled-in"><span><i class="xwing-miniatures-font xwing-miniatures-font-empire"></i></span></label>
 								<label><input type="checkbox" name="restrictions-faction" value="rebel" class="filled-in"><span><i class="xwing-miniatures-font xwing-miniatures-font-rebel"></i></span></label></i>
 								<label><input type="checkbox" name="restrictions-faction" value="scum" class="filled-in"><span><i class="xwing-miniatures-font xwing-miniatures-font-scum"></i></span></label>
 								<label><input type="checkbox" name="restrictions-faction" value="first order" class="filled-in"><span><i class="xwing-miniatures-font xwing-miniatures-font-firstorder"></i></span></label>
@@ -490,25 +498,43 @@
 		var selectedcardType = 'ept';
 
 		$(document).ready(function(){
+
+			// Materialiez loaders
+			$('.tooltipped').tooltip();
+
 			//$('select').formSelect();
 			reloadVisualisers();
 			autoSubmit = true;
-			form.submit();
+			formSubmit(false);
+
+		});
+
+		$('div.btn.confirmSubmit').click(function(e){
+			formSubmit(true);
+			$('#cardSubmitForm').hide();
+		});
+
+		$('div.btn.askSubmit').click(function(e){
+			if($("#cardSubmitForm").is(":visible")){
+				$('#cardSubmitForm').hide();
+			}else{
+				$('#cardSubmitForm').show();
+			}
 		});
 
 		$('div.btn.create').click(function(e){
-			form.submit();
+			formSubmit(false);
 		});
 
 		$('div.btn.reset').click(function(e){
 			form.trigger('reset');
-			form.submit();
+			formSubmit(false);
 			reloadVisualisers();
 		});
 
 		form.change(function(e){
 			if(autoSubmit){
-				form.submit();
+				formSubmit(false);
 			}
 		});
 
@@ -771,7 +797,7 @@
 			$('span#shield-number-visualizer').html( $('input[type=range][name=shield-number]').val() );
 		});
 
-		function reloadVisualisers(){			
+		function reloadVisualisers(){
 			$('span#limited-visualizer').html('no');
 			$('span#dice-number-visualizer').html( $('input[type=range]#dice-number').val() );
 			$('span#min-range-visualizer').html( $('input[type=range]#min-range').val() );
@@ -792,20 +818,24 @@
 
 		// ----------------------------------- Form submit
 
-		form.submit(function(e){
-			e.preventDefault();
+		function formSubmit(publish){
 
 			var formData = new FormData();
 
 			var cardName = '';
 			var i = 0;
+
 			if( $('form#form-main input#limited').val() < $('form#form-main input#limited').attr("max") ){
 				while (i < $('form#form-main input#limited').val()) {
 					cardName += '!lim ';
 					i++;
 				}
 			}
+
 			cardName += $('form#form-main input[name=card-name]').val();
+
+			formData.append('publish', publish);
+			formData.append('userName', $('form#form-main input[name=user-name]').val())
 
 			formData.append('card-name', cardName);
 
@@ -849,6 +879,13 @@
 					output = data;
 
 					try {
+						jData = JSON.parse(data);
+					}catch(err) {
+						//console.log('Trying to fix ');
+						data = data.slice(data.indexOf("{"), data.length);
+					}
+
+					try {
 						jData = JSON.parse(data);					
 
 						cardgenOutput = data;
@@ -866,7 +903,14 @@
 						$("div#outputImageContainer img").attr('src', dataUri);
 						$("div#outputImageContainer a").attr('href', dataUri);
 						$("div#outputImageContainer a").attr('download', $('form#form-main input[name=card-name]').val().replace(/ /g,"_"));
-						console.log('success')
+
+						if(publish){
+							var imFullPath =  jData.imFullPath;
+							console.log('Card saved to ' + imFullPath);
+							M.toast({html: 'Card published !'})
+						}
+
+						console.log('success');
 					}catch(err) {
 						console.log(data);
 					}
@@ -875,6 +919,6 @@
 				contentType: false,
 				processData: false
 			});	
-		});
+		}
 		</script>
 </html>

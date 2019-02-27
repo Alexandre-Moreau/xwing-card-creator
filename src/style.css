@@ -19,8 +19,20 @@
 	height: 1em;
 }
 
+.gallery div{
+	margin-top: 1%;
+}
+
+img{
+	max-width: 100%;
+}
+
 .page-footer i{
 	font-size: inherit;
+}
+
+.page-footer a{
+	color: #1a237e;
 }
 
 nav div#breadcrumb{

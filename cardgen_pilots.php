@@ -1,25 +1,33 @@
 <?php
 
+	define('CARD_W', 298);
+	define('CARD_H', 417);
+	define('CARD_ART_W', -1);
+	define('CARD_ART_H', -1);
+	
 	include_once 'cardgen_functions.php';
 
-	$outPutData;
+	global $outPutData;
 	$outPutData['errors'] = [];
 	$outPutData['post'] = $_POST;
 	$outPutData['log'] = [];
 
-	$mainFont = ROOT_DIR.'src/arial.ttf';
-	$titleFont = ROOT_DIR.'src/Orbitron-Bold.ttf';
-	$boldFont = ROOT_DIR.'src/arialbd.ttf';
-	$italicFont = ROOT_DIR.'src/ariali.ttf';
-	$symbolFont1 = ROOT_DIR.'src/xwing-miniatures-modified.ttf';
-	$shipFont = ROOT_DIR.'src/xwing-miniatures-ships.ttf';
+	$mainFont = loadRessource('arial.ttf');
+	$titleFont = loadRessource('Orbitron-Bold.ttf');
+	$boldFont = loadRessource('arialbd.ttf');
+	$italicFont = loadRessource('ariali.ttf');
+	$symbolFont = loadRessource('xwing-miniatures-modified.ttf');
+	$shipFont = loadRessource('xwing-miniatures-ships.ttf');
 
 	// ----------------------------------- 
 
 	$cardName = strtoupper((isset($_POST['card-name']) && $_POST['card-name'] != '' ? $_POST['card-name'] : ''));
 	$pilotTitle = isset($_POST['pilot-title']) && $_POST['pilot-title'] != '' ? $_POST['pilot-title'] : '';
-	$limited = isset($_POST['limited']) && $_POST['limited'] != '' && $_POST['limited'] != 'false' ? true : false;
-	$faction = isset($_POST['faction']) && $_POST['faction'] != '' ? $_POST['faction'] : '';
+
+	$pilotAbility = (isset($_POST['pilot-ability']) && $_POST['pilot-ability'] != '' ? $_POST['pilot-ability'] : '');
+	$shipAbility = (isset($_POST['ship-ability']) && $_POST['ship-ability'] != '' ? $_POST['ship-ability'] : '');
+
+	$faction = isset($_POST['faction']) && $_POST['faction'] != '' ? $_POST['faction'] : 'empire';
 	$ship = isset($_POST['ship']) && $_POST['ship'] != '' ? $_POST['ship'] : '';
 
 	$stats = [];
@@ -54,22 +62,21 @@
 
 	$imgArt = (isset($_FILES['image']['tmp_name']) ? $_FILES['image']['tmp_name'] : IM_DIR.'blank-image.png');
 
-
 	// ----------------------------------- Image loading
 
-	$im = @imagecreatefrompng(IM_DIR.'base-pilots-'.$faction.'.png') or usr_error('Error base image '.$faction);
-	$imSeparator = @imagecreatefrompng(IM_DIR.'pilot-action-separator-'.$faction.'.png') or usr_error('Error separator image '.$faction);
-	$imBaseLinkedActions = @imagecreatefrompng(IM_DIR.'base-linked-actions-'.$faction.'.png') or usr_error('Error baseLinkedActions image '.$faction);
+	$im = loadImagePng('base-pilots-'.$faction.'.png');
+	$imSeparator = loadImagePng('pilot-action-separator-'.$faction.'.png');
+	$imBaseLinkedActions = loadImagePng('base-linked-actions-'.$faction.'.png');
 
-	$im_attackFront = @imagecreatefrompng(IM_DIR.'s_frontArc.png') or usr_error('Error frontArc image');
-	$im_attackRear = @imagecreatefrompng(IM_DIR.'s_rearArc.png') or usr_error('Error rearArc image');
-	$im_attackSingleMobile = @imagecreatefrompng(IM_DIR.'s_mobileArc.png') or usr_error('Error singleMobileArc image');
-	$im_attackDoubleMobile = @imagecreatefrompng(IM_DIR.'s_dualMobileArc.png') or usr_error('Error doubleMobileARc image');
-	$im_agility = @imagecreatefrompng(IM_DIR.'s_agility.png') or usr_error('Error agility image');
-	$im_hull = @imagecreatefrompng(IM_DIR.'s_hull.png') or usr_error('Error hull image');
-	$im_shield = @imagecreatefrompng(IM_DIR.'s_shield.png') or usr_error('Error shield image');
-	$im_force = @imagecreatefrompng(IM_DIR.'s_force.png') or usr_error('Error force image');
-	$im_charges = @imagecreatefrompng(IM_DIR.'s_charge.png') or usr_error('Error charge image');
+	$im_attackFront = loadImagePng('s_frontArc.png');
+	$im_attackRear = loadImagePng('s_rearArc.png');
+	$im_attackSingleMobile = loadImagePng('s_mobileArc.png');
+	$im_attackDoubleMobile = loadImagePng('s_dualMobileArc.png');
+	$im_agility = loadImagePng('s_agility.png');
+	$im_hull = loadImagePng('s_hull.png');;
+	$im_shield = loadImagePng('s_shield.png');
+	$im_force = loadImagePng('s_force.png');
+	$im_charges = loadImagePng('s_charge.png');
 
 	// ----------------------------------- Color creation
 
@@ -86,24 +93,22 @@
 	$color_hull = imagecolorallocate($im, 247, 236, 20);
 	$color_shield = imagecolorallocate($im, 125, 208, 226);
 
-	// ----------------------------------- Card name
+	// ----------------------------------- Card name and pilot title
+	$processedText = processTextSymbols($cardName, 10, $titleFont);
+	writeTextBlockCenter($im, 57, 240, 131, 158, $processedText, $color_white);
 
-	$offsets = writeTextCenter($im, 57, 240, 131, 158, 10, $color_white, $titleFont, $cardName);
-	if($limited){
-		writeTextCenter($im, 57+$offsets[0]-10, 57+$offsets[0], 133, 160, 12, $color_white, $symbolFont1, $_symbolConversion[ 'LIMITED' ]);
-	}
-	writeTextCenter($im, 79, 219, 161, 178, 8, $color_white, $italicFont, $pilotTitle);
+	$processedText = processTextSymbols($pilotTitle, 8, $italicFont);
+	writeTextBlockCenter($im, 79, 219, 161, 178, $processedText, $color_white);
 
 	// ----------------------------------- Initiative
 
-	writeTextCenter($im, 8, 35, 133, 167, 18, $color_orange, $titleFont, $initiative);
+	$processedText = processTextSymbols($initiative, 18, $titleFont);
+	writeTextBlockCenter($im, 8, 35, 133, 167, $processedText, $color_orange);
 
 	// ----------------------------------- Ship image and name
 
-	writeTextCenter($im, 57, 243, 390, 406, 7, $color_white, $titleFont, strtoupper($_shipNames[ $ship ]));
-	writeTextCenter($im, 8, 37, 388, 413, 19, $color_white, $shipFont, $_shipSymbols[ $ship ]);
-
-
+	//writeTextCenter($im, 57, 243, 390, 406, 7, $color_white, $titleFont, strtoupper($_shipNames[ $ship ]));
+	//writeTextCenter($im, 8, 37, 388, 413, 19, $color_white, $shipFont, $_shipSymbols[ $ship ]);
 
 	// ----------------------------------- Actions
 
@@ -142,23 +147,45 @@
 
 		if ($actions[$i] != 'none' && $actionsRed[$i] == 'none'){
 
-			writeTextCenter($im, $x_left, 300, $y, $y + ($y_bottom-$y_top)/$actionsRow, 14, $color_white, $symbolFont1, $_symbolConversion[ $actions[$i] ]);
+			$processedText = processTextSymbols($actions[$i], 14);
+			writeTextBlockCenter($im, $x_left, 300, $y, $y + ($y_bottom-$y_top)/$actionsRow, $processedText, $color_white);
+
 			$j ++;
 
 		}else if ($actions[$i] == 'none' && $actionsRed[$i] != 'none'){
 
-			writeTextCenter($im, $x_left, 300, $y, $y + ($y_bottom-$y_top)/$actionsRow, 14, $color_attack, $symbolFont1, $_symbolConversion[ $actionsRed[$i] ]);
+			$processedText = processTextSymbols($actionsRed[$i], 14);
+			writeTextBlockCenter($im, $x_left, 300, $y, $y + ($y_bottom-$y_top)/$actionsRow, $processedText, $color_attack);
+
 			$j ++;
 
 		}else if($actions[$i] != 'none' && $actionsRed[$i] != 'none'){
 
 			$x_mid = (300+$x_left)/2;
-			writeTextCenter($im, $x_left, $x_mid, $y, $y + ($y_bottom-$y_top)/$actionsRow, 13, $color_white, $symbolFont1, $_symbolConversion[ $actions[$i] ]);
-			writeTextCenter($im, $x_left, 300, $y, $y + ($y_bottom-$y_top)/$actionsRow, 11, $color_white, $symbolFont1, $_symbolConversion[ 'LINK' ]);
-			writeTextCenter($im, $x_mid, 300, $y, $y + ($y_bottom-$y_top)/$actionsRow, 13, $color_attack, $symbolFont1, $_symbolConversion[ $actionsRed[$i] ]);
+
+			$y_bottom_row = $y + ($y_bottom-$y_top)/$actionsRow;
+
+			$processedText = processTextSymbols($actions[$i], 13);
+			writeTextBlockCenter($im, $x_left, $x_mid, $y, $y_bottom_row, $processedText, $color_white);
+
+			$processedText = processTextSymbols('!lnk', 11);
+			writeTextBlockCenter($im, $x_left, 300, $y, $y_bottom_row, $processedText, $color_white);
+
+			$processedText = processTextSymbols($actionsRed[$i], 13);
+			writeTextBlockCenter($im, $x_mid, 300, $y, $y_bottom_row, $processedText, $color_attack);
+
 			$j ++;
 		}
 	}
+
+	// ----------------------------------- Abilities
+
+	$x_left = $linkedActions ? 200 : 400;
+
+	$processedText = processTextSymbols($pilotAbility, 10);
+	//writeTextBlockCenter($im, 15, $x_left, 315, 415, $processedText, $color_shield);
+	$processedText = processTextSymbols($shipAbility, 12);
+	//writeTextBlockCenter($im, 15, $x_left, 415, 530, $processedText, $color_black);
 
 	// ----------------------------------- Stats
 
@@ -191,7 +218,10 @@
 			}
 
 			drawImageCenter($im, $x_left+$offset, $x_left+$offset+(1*$width), 325, 380, 32, 32, $$imageName);
-			writeTextCenter($im, $x_left+$offset, $x_left+$offset+(1*$width), 338, 393, 16, $$color, $titleFont, $stats[$key]);
+
+			$processedText = processTextSymbols($stats[$key], 16, $titleFont);
+			writeTextBlockCenter($im, $x_left+$offset, $x_left+$offset+(1*$width), 338, 393, $processedText, $$color);
+
 			$i++;
 		}
 	}

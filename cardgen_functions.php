@@ -2,9 +2,15 @@
 
 	define('ROOT_DIR', $_SERVER['DOCUMENT_ROOT'].'/');
 	define('IM_DIR', ROOT_DIR.'img/');
+	define('PUBIM_DIR', IM_DIR.'published/');
 	define('MISC_DIR', ROOT_DIR.'src/');
+	define('FONT_DIR', MISC_DIR.'fonts/');
 
 	include_once 'symbol_conversion.php';
+
+	function getImDir(){
+		return IM_DIR;
+	}
 
 	function usr_log($log){
 		global $outPutData;
@@ -74,7 +80,6 @@
 							$currentWord = ['text' => $word, 'font' => $mainFont, 'fontSize' => $fontSize];
 						}
 					}else{
-						usr_log('custom');
 						$currentWord = ['text' => $word, 'font' => $baseFont, 'fontSize' => $fontSize];
 					}
 				}
@@ -84,7 +89,6 @@
 					- after LIMITED, half space
 				*/
 				if($word == '[' && $i+1<sizeof($cardTextArray) && preg_match("/![^\s]{3}$/", $cardTextArray[$i+1]) ){
-					usr_log($word.' x');
 					$currentWord['spaceAfter'] = 0;
 				}else if(preg_match("/![^\s]{3}$/", $word) && $i+1<sizeof($cardTextArray) && in_array($cardTextArray[$i+1], [']', ']:', '.', ','])){
 					$currentWord['spaceAfter'] = 0;
@@ -113,7 +117,7 @@
 	function writeTextBlockCenter($backGroundImage, $areaLeftLimit, $areaRightLimit, $areaTopLimit, $areaBottomLimit, $content, $color){
 		
 		$y_newLine = 14;
-		$x_space = 8;
+		$x_space = 6;
 
 		$lines = [];
 
@@ -145,7 +149,7 @@
 
 		// ----------------------------------- Calculating the top offset for vertical alignment
 
-		$topOffset = ($areaBottomLimit - $areaTopLimit-sizeof($lines)*$y_newLine)/2;
+		$topOffset = ($areaBottomLimit - $areaTopLimit-sizeof($lines)*$y_newLine)/2+$y_newLine;
 
 		// ----------------------------------- Writing text line by line
 
@@ -159,7 +163,7 @@
 
 	function writeLignCenter($backGroundImage, $areaLeftLimit, $areaRightLimit, $areaTopLimit, $areaBottomLimit, $line, $color){
 
-		$x_space = 8;
+		$x_space = 6;
 		
 		// ----------------------------------- Left offset calculation
 
@@ -219,11 +223,57 @@
 	}
 
 	function loadRessource($name){
-		if(file_exists(MISC_DIR.$name)){
-			return MISC_DIR.$name;
-		}else{
-			usr_error('Ressource "'.MISC_DIR.$name.'" not found');
+		switch (explode('.', $name)[1]) {
+			case 'ttf':
+				$dir = FONT_DIR;
+				break;
+			default:
+				$dir = MISC_DIR;
+				break;
 		}
+		if(file_exists($dir.$name)){
+			return $dir.$name;
+		}else{
+			usr_error('Ressource "'.$dir.$name.'" not found');
+		}
+	}
+
+	function getCardMaxIndex(){
+		$files = glob(PUBIM_DIR.'*.{png}', GLOB_BRACE);
+		$index = 0;
+		foreach ($files as $file) {
+			$temp = explode('/', $file);
+			$cardName = array_pop($temp);
+			$cardName = explode('.', $cardName)[0];
+			$currentIndex = explode('_', $cardName)[2];
+			if($currentIndex > $index){
+				$index = $currentIndex;
+			}
+		}
+		return $index+1;
+	}
+
+	function saveImageOnDisk($cardName, $user, $content){
+		// cardName_user_index.png
+		$index = getCardMaxIndex();
+		$fullName = PUBIM_DIR.$cardName.'_'.$user.'_'.$index.'.png';
+		file_put_contents($fullName, $content);
+		return $fullName;
+	}
+
+	function getPublishedCardsPath(){
+		$files = glob(PUBIM_DIR.'*.{png}', GLOB_BRACE);
+		$relPath = [];
+		foreach ($files as $file) {
+			$temp = explode('/', $file);
+			$cardName = array_pop($temp);
+			array_push($relPath, $cardName);
+		}
+		return $relPath;
+	}
+
+	function maintainNumberOfImages(){
+
 	}
 	
 ?>

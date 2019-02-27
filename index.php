@@ -3,7 +3,7 @@
 	<head>
 		<?php
 			include_once './header.php';
-			create_header('Card creator');
+			create_header('X-Wing 2.0 Upgrade/Pilot Card Creator');
 		?>
 	</head>
 	<body>
