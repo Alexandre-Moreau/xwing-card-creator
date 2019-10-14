@@ -256,7 +256,7 @@
 	function saveImageOnDisk($cardName, $user, $content){
 		// cardName_user_index.png
 		$index = getCardMaxIndex();
-		$fullName = PUBIM_DIR.$cardName.'_'.$user.'_'.$index.'.png';
+		$fullName = str_replace('"', '\'', PUBIM_DIR.$cardName.'_'.$user.'_'.$index.'.png');
 		file_put_contents($fullName, $content);
 		return $fullName;
 	}
